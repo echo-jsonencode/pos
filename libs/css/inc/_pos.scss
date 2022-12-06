@@ -1,0 +1,43 @@
+.pos {
+    padding: 2rem 0;
+    &__head {
+        padding: 1.5rem 2rem;
+        font-weight: 500;
+        background-color: $main-gray;
+        display: flex;
+        justify-content: space-between;
+        &__amount {
+            font-weight: 700;
+            color: $main-dark;
+        }
+    }
+    &__body {
+        padding: 1.5rem 1.5rem .5rem 1.5rem;
+        border-bottom: 1px solid $main-gray;
+        &__form {
+            padding: 1rem;
+            display: flex;
+            input {
+                outline: none;
+                border: 2px solid $main-gray;
+                padding: 2px 5px;
+                margin-right: 5px;
+                flex-grow: 1;
+            }
+            select {
+                outline: none;
+                border: 2px solid $main-gray;
+                padding: 2px 5px;
+                margin-right: 5px;
+                flex-grow: 1;
+            }
+            button {
+                outline: none;
+                border: 2px solid $main-gray;
+                padding: 2px 5px;
+                margin-right: 5px;
+                flex-grow: 1;
+            }
+        }
+    }
+}
