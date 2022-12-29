@@ -24,7 +24,7 @@ const Category = (() => {
             url: categoryUrl + '?action=getTableData',
             dataType: "json",
             success: function (response) {
-
+                $('.table').DataTable().destroy();
                 $('#tbody_category').html(response);
 
                 $('.table').DataTable();
@@ -62,23 +62,33 @@ const Category = (() => {
     thisCategory.save = () => {
         const category_name = $('#txt_category_name').val();
 
-        $.ajax({
-            type: "POST",
-            url: categoryUrl + '?action=save',
-            dataType: "json",
-            data:{
-                category_name: category_name
-            },
-            success: function (response) 
-            {
-                $('#txt_category_name').val("")
-                thisCategory.loadTableData();
-                thisCategory.loadSelectData();
-            },
-            error: function () {
-
-            }
-        });
+        if(category_name == "") {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Category Field should have value',
+                showConfirmButton: true,
+            })
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: categoryUrl + '?action=save',
+                dataType: "json",
+                data:{
+                    category_name: category_name
+                },
+                success: function (response) 
+                {
+                    $('#txt_category_name').val("")
+                    thisCategory.loadTableData();
+                    thisCategory.loadSelectData();
+                },
+                error: function () {
+    
+                }
+            });
+        }        
     }
 
     thisCategory.clickUpdate = (id) => {
@@ -144,7 +154,19 @@ const Category = (() => {
     thisCategory.clickDelete = (id) => {
         category_id = id
 
-        thisCategory.delete();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                thisCategory.delete();
+            }
+        })
     }
 
     thisCategory.delete = () => {
@@ -185,7 +207,7 @@ const Product = (() => {
             url: productUrl + '?action=getTableDataRegister',
             dataType: "json",
             success: function (response) {
-                
+                $('.table').DataTable().destroy();
                 $('#tbody_product').html(response);
 
                 $('.table').DataTable();
@@ -198,7 +220,9 @@ const Product = (() => {
 
 
     thisProduct.clickSaveButton= () => {
+        console.log('test');
         if(!toUpdate) {
+            console.log('test2');
             thisProduct.save()
         }
         else {
@@ -215,30 +239,49 @@ const Product = (() => {
         const expiraton_date = $('#txt_expiraton_date').val();
         const status = $('#slc_status').val();
         const quantity = $('#txt_quantity').val();
+        const type = $('#slc_type').val();
 
-        $.ajax({
-            type: "POST",
-            url: productUrl + '?action=save',
-            dataType: "json",
-            data:{
-                product_barcode: product_barcode,
-                product_name: product_name,
-                product_category: product_category,
-                buying_price: buying_price,
-                selling_price: selling_price,
-                expiraton_date: expiraton_date,
-                status: status,
-                quantity: quantity,
-            },
-            success: function (response) 
-            {
-                thisProduct.loadTableData();
-                thisProduct.resetFields();
-            },
-            error: function () {
 
-            }
-        });
+        if(product_barcode == "" 
+        || product_name == ""
+        || product_category == ""
+        || buying_price == ""
+        || selling_price == ""
+        || quantity == ""
+        || status == null) {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Please fillup all fields',
+                showConfirmButton: true,
+            })
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: productUrl + '?action=save',
+                dataType: "json",
+                data:{
+                    product_barcode: product_barcode,
+                    product_name: product_name,
+                    product_category: product_category,
+                    buying_price: buying_price,
+                    selling_price: selling_price,
+                    expiraton_date: expiraton_date,
+                    status: status,
+                    quantity: quantity,
+                    type: type,
+                },
+                success: function (response) 
+                {
+                    thisProduct.loadTableData();
+                    thisProduct.resetFields();
+                },
+                error: function () {
+
+                }
+            });
+        }
     }
 
     thisProduct.clickUpdate = (id, product_table_id) => {
@@ -267,6 +310,8 @@ const Product = (() => {
                 $('#slc_status').val(response.status);
                 $('#slc_status').prop( "disabled", true );
                 $('#txt_quantity').val(response.quantity);
+                $('#slc_type').val(response.type);
+                $('#slc_type').prop( "disabled", true );
 
                 toUpdate = true;
 
@@ -282,27 +327,40 @@ const Product = (() => {
         const buying_price = $('#txt_buying_price').val();
         const expiration_date = $('#txt_expiraton_date').val();
         const quantity = $('#txt_quantity').val();
-        
-        $.ajax({
-            type: "POST",
-            url: productUrl + '?action=updateProductDetails',
-            dataType: "json",
-            data:{
-                product_id: product_id,
-                product_details_id: product_details_id,
-                buying_price: buying_price,
-                expiration_date: expiration_date,
-                quantity: quantity,
-            },
-            success: function (response) 
-            {
-                thisProduct.loadTableData();
-                thisProduct.resetFields();
-            },
-            error: function () {
 
-            }
-        });
+        if(buying_price == "" 
+        || expiration_date == ""
+        || quantity == "") {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Please fillup all fields',
+                showConfirmButton: true,
+            })
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: productUrl + '?action=updateProductDetails',
+                dataType: "json",
+                data:{
+                    product_id: product_id,
+                    product_details_id: product_details_id,
+                    buying_price: buying_price,
+                    expiration_date: expiration_date,
+                    quantity: quantity,
+                },
+                success: function (response) 
+                {
+                    thisProduct.loadTableData();
+                    thisProduct.resetFields();
+                },
+                error: function () {
+    
+                }
+            });
+        }
+        
     }
 
     thisProduct.resetFields = () => {
@@ -316,10 +374,48 @@ const Product = (() => {
         $('#txt_expiraton_date').val("");
         $('#slc_status').val("");
         $('#txt_quantity').val("");
+        $('#slc_type').val("");
 
         $('.form-control').prop("disabled", false);
 
         $('#btn_save_product').html('Register Product');
+    }
+
+    thisProduct.onChangeBarcode = () => {
+        const product_barcode = $('#txt_product_barcode').val();
+        $.ajax({
+            type:'GET',
+            url: PRODUCT_CONTROLLER + `?action=getAvailableProductByBarcode&barcode=${product_barcode}`,
+            dataType: 'json',
+            cache:false,
+            success: (response) => {               
+                if(response.length > 0){
+                    
+                    $('#txt_product_name').val(response[0].product_name);
+                    $('#txt_product_name').prop( "disabled", true );
+                    $('#slc_product_category').val(response[0].category_id);
+                    $('#slc_product_category').prop( "disabled", true );
+                    $('#txt_buying_price').val(response[0].buy_price);
+                    $('#txt_selling_price').val(response[0].sale_price);
+                    $('#slc_status').val(response[0].status);
+                    $('#slc_status').prop( "disabled", true );
+                    $('#slc_type').val(response[0].type);
+                    $('#slc_type').prop( "disabled", true );
+                }
+                else{
+                    $('#txt_product_name').val("");
+                    $('#slc_product_category').val("");
+                    $('#txt_buying_price').val("");
+                    $('#txt_selling_price').val("");
+                    $('#txt_expiraton_date').val("");
+                    $('#slc_status').val("");
+                    $('#txt_quantity').val("");
+                    $('#slc_type').val("");
+
+                    $('.form-control').prop("disabled", false);
+                }
+            }
+        })
     }
 
 

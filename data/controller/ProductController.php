@@ -10,6 +10,10 @@ $Category = new Category($conn);
 $Product = new Product($conn);
 $ProductDetails = new ProductDetails($conn);
 
+if(isset($_GET['barcode'])){
+    $barcode = $_GET['barcode'];
+}
+
 if ($action == 'getTableDataRegister') 
 {
     $result = $ProductDetails->getAll();
@@ -50,6 +54,7 @@ else if ($action == 'getProductTable')
         $table_data .= '<td>' . $counter . '</td>';
         $table_data .= '<td>' . $product['product_name'] . '</td>';
         $table_data .= '<td><span class="category">' . $product['category_name'] . '</span></td>';
+        $table_data .= '<td>' . $product['type'] . '</td>';
         $table_data .= '<td>' . $product['barcode'] . '</td>';
         $table_data .= '<td>' . $product['total_quantity'] . '</td>';
         $table_data .= '<td>' . $product['max_stock'] . '</td>';
@@ -59,8 +64,10 @@ else if ($action == 'getProductTable')
         $table_data .= '<td class="col-actions">';
         $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
         $table_data .= '<button type="button" onclick="Product.clickView('. $product['product_id'] .','. $product_name .')" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> View </button>';
-        $table_data .= '<button type="button" onclick="Product.clickUpdate('. $product['product_id'] .','. $product_name .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
+        if($_SESSION['user']['role'] != 3) {
+            $table_data .= '<button type="button" onclick="Product.clickUpdate('. $product['product_id'] .','. $product_name .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
         // $table_data .= '<button type="button" onclick="Product.clickDelete('. $product['product_details_id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
+        }
         $table_data .= '</div>';
         $table_data .= '</td>';
         $table_data .= '</tr>';
@@ -90,7 +97,9 @@ else if ($action == 'getProductDetailsTableModal')
         $table_data .= '<td class="col-actions">';
         $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
         // $table_data .= '<button type="button" onclick="Product.clickUpdate('. $productDetails['product_details_id'] .','. $productDetails['product_id'] .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
+        if($_SESSION['user']['role'] == 1) {
         $table_data .= '<button type="button" onclick="Product.clickDelete('. $productDetails['product_details_id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
+        }
         $table_data .= '</div>';
         $table_data .= '</td>';
         $table_data .= '</tr>';
@@ -131,6 +140,7 @@ else if ($action == 'save')
     $expiraton_date = $_POST['expiraton_date'];
     $status = $_POST['status'];
     $quantity = $_POST['quantity'];
+    $type = $_POST['type'];
 
 
     $request = [
@@ -142,6 +152,7 @@ else if ($action == 'save')
         'expiraton_date' => $expiraton_date,
         'status' => $status,
         'quantity' => $quantity,
+        'type' => $type,
     ];
 
     
@@ -205,6 +216,7 @@ else if ($action == 'updateProduct')
     $status = $_POST['status'];
     $max_stock = $_POST['max_stock'];
     $min_stock = $_POST['min_stock'];
+    $type = $_POST['type'];
 
     $request = [
         'product_id' => $product_id,
@@ -215,10 +227,23 @@ else if ($action == 'updateProduct')
         'status' => $status,
         'max_stock' => $max_stock,
         'min_stock' => $min_stock,
+        'type' => $type,
     ];
 
     $result = $Product->update($request);
 
+    echo json_encode($result);
+
+}
+
+else if($action === 'getAvailableProductByBarcode'){
+    $result = $Product->getAvailableProductByBarcode($barcode);
+    echo json_encode($result);
+}
+
+else if($action === 'getTotalProduct')
+{
+    $result = $Product->getTotalProduct();
     echo json_encode($result);
 }
 

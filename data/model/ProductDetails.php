@@ -8,7 +8,7 @@ class ProductDetails
 
     private $getAllquery = "SELECT p.id AS product_id, category_id, barcode, p.name AS product_name, sale_price, status, max_stock, min_stock,
     c.name AS category_name, 
-    pd.id AS product_details_id, quantity, buy_price, date_added, expiration_date, batch, expired_status
+    pd.id AS product_details_id, quantity, buy_price, date_added, expiration_date, batch, expired_status, type
     FROM products p
     INNER JOIN categories as c
     ON p.category_id = c.id
@@ -24,7 +24,7 @@ class ProductDetails
 
     public function getAll()
     {
-        $sql = $this->getAllquery . ' WHERE expired_status = 0 ' . $this->orderBy;
+        $sql = $this->getAllquery . ' WHERE expired_status = 0 and quantity != 0' . $this->orderBy;
 
         $result = $this->conn->query($sql);
         
@@ -52,6 +52,18 @@ class ProductDetails
 
         $this->conn->close();
         return $result->fetch_assoc();
+    }
+
+    public function getAllAlertExpired()
+    {
+        $sql = $this->getAllquery . ' where (DATE(expiration_date) < ADDDATE(DATE(NOW()), +7) ) ' . $this->orderBy;
+
+        $result = $this->conn->query($sql);
+        
+        $this->conn->close();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+
     }
 
     public function save($request)

@@ -89,4 +89,25 @@ class Category
 
 
     }
+
+    public function getReportLastSixMonths()
+    {
+        $month = date("Y-m", strtotime("-5 months"));
+        $date = $month . '-' . '01';
+    
+        $sql = "SELECT c.name AS category_name,  SUBSTRING(s.date_purchased,1,7) as month, sum(s.qty) as total
+        FROM categories c 
+        INNER JOIN products p 
+        ON c.id = p.category_id 
+        INNER JOIN sales s 
+        ON p.id = s.product_id
+        WHERE s.date_purchased >= $date and s.void is null
+        GROUP BY c.name,  SUBSTRING(s.date_purchased,1,7)
+        ORDER BY SUBSTRING(s.date_purchased,1,7), c.name, sum(s.qty)";
+
+        $result = $this->conn->query($sql);
+
+        $this->conn->close();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

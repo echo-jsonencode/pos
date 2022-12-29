@@ -3,6 +3,12 @@
 
 <?php include '../layouts/head.php' ?>
 
+<?php 
+if(!$_SESSION['user']) {
+    header("Location: login.php"); 
+}
+?>
+
 <body>
     <?php include '../layouts/nav.php'; ?>
 
@@ -12,7 +18,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">Product Table</h2>
+                        <h2 class="section__sub-title">Expiration Status</h2>
 
                         <div class="table-wrapper">
                             <table class="table table-bordered">
@@ -20,61 +26,38 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Message</th>
+                                        <th>Batch</th>
+                                        <th>Expiration Date</th>
                                         <th>Product Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_expiration_status">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 ">
+                    <div class="user__table-wrapper">
+                        <h2 class="section__sub-title">Stock Status</h2>
+
+                        <div class="table-wrapper">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Total Stock</th>
+                                        <th>Max Stock</th>
+                                        <th>Min Stock</th>
                                         <th>Stock Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                    for ($i = 1; $i <= 50; $i++) {
-
-                                        $rand1 = rand(1, 3);
-
-                                        if ($rand1 === 1) {
-                                            $productStatus = 'Expired';
-                                            $category = 'category--red';
-                                        }
-
-                                        if ($rand1 === 2) {
-                                            $productStatus = 'Near Expiration Date';
-                                            $category = 'category--orange';
-                                        }
-
-                                        if ($rand1 == 3) {
-                                            $productStatus = 'Good Condition';
-                                            $category = 'category--green';
-                                        }
-
-                                        $rand2 = rand(1, 3);
-                                        if ($rand2 === 1) {
-                                            $stockStatus = 'Insufficient';
-                                            $category2 = 'category--red';
-                                        }
-
-                                        if ($rand2 === 2) {
-                                            $stockStatus = 'Oversupply';
-                                            $category2 = 'category--orange';
-                                        }
-
-                                        if ($rand2 == 3) {
-                                            $stockStatus = 'Normal';
-                                            $category2 = 'category--green';
-                                        }
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $i ?></td>
-                                            <td>Century Tuna</td>
-                                            <td>Item Added</td>
-                                            <td><span class="category <?php echo $category ?>"><?php echo $productStatus ?></span></td>
-                                            <td><span class="category <?php echo $category2 ?>"><?php echo $stockStatus ?></span></td>
-
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                    <!-- INACTIVE -->
-
-
+                                <tbody id="tbody_stock_status">
                                 </tbody>
                             </table>
                         </div>
@@ -89,5 +72,6 @@
     </section>
     <?php include '../layouts/scripts.php' ?>
 </body>
+<script src="../../libs/scripts/master-page/alerts.js" ></script>
 
 </html>

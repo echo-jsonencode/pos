@@ -3,6 +3,12 @@
 
 <?php include '../layouts/head.php' ?>
 
+<?php 
+if(!$_SESSION['user']) {
+    header("Location: login.php"); 
+}
+?>
+
 <body>
     <?php include '../layouts/nav.php'; ?>
 
@@ -21,6 +27,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Category</th>
+                                        <th>Type</th>
                                         <th>Barcode</th>
                                         <th>Stock</th>
                                         <th>Max Stock</th>
@@ -141,6 +148,17 @@
                                         <option value="" selected="true" disabled>Select Status</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Type:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><i class="bi bi-file-check"></i></span>
+                                    <select name="" id="slc_type" class="form-control">
+                                        <option value="" selected="true">Select Type</option>
+                                        <option value="branded">Branded</option>
+                                        <option value="generic">Generic</option>
                                     </select>
                                 </div>
                             </div>

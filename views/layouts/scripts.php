@@ -7,7 +7,27 @@
 <script src="../../libs/plugins/select2/js/select2.full.min.js"></script>
 <script src="../../libs/plugins/sweetalert/sweetalert2.all.min.js"></script>
 
+<script src="../../config/system_name.js"></script>
+<script src="../../libs/scripts/vars.js"></script>
+
 
 <script>
     $('.table').DataTable();
+
+
+    const logout = () => {
+
+        $.ajax({
+            type: "GET",
+            url: LOGIN_CONTROLLER + '?action=logout',
+            dataType: "json",
+            success: function (response) 
+            {
+                window.location.href = "../../views/master-page/login.php";
+            },
+            error: function () {
+
+            }
+        }); 
+    }
 </script>

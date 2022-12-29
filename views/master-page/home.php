@@ -3,6 +3,13 @@
 
 <?php include '../layouts/head.php' ?>
 
+<?php 
+if(!$_SESSION['user']) {
+    header("Location: login.php"); 
+}
+
+?>
+
 <style>
 
 </style>
@@ -31,45 +38,25 @@
                 <td class="homebox">
                     <div class="box-wrapper">
                         <div class="box">
-                            <h1>9</h1>
-                            <h2>Products</h2>
+                            <h1 id="lbl_total_product"></h1>
+                            <h2>Total Products</h2>
                         </div>
                     </div>
                 </td>
                 <td class="homebox">
                     <div class="box-wrapper">
                         <div class="box">
-                            <h1>9</h1>
-                            <h2>Sales</h2>
+                            <h1 id="lbl_sales_today"></h1>
+                            <h2>Total Sales Today</h2>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="homebox" colspan="2">
-                    <div class="tableholder">
-                        <table class=" table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Product Name</th>
-                                    <th>Date</th>
-                                    <th>Total Sale</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php for ($i = 1; $i <= 5; $i++) { ?>
-                                    <tr>
-                                        <td><?php echo $i; ?></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                    <div class="box-wrapper">
+                        <h5>Purchased Category per Month(6 Months)</h5>
+                        <canvas id="home_canvas"></canvas>
                     </div>
                 </td>
             </tr>
@@ -80,5 +67,6 @@
 
         <?php include '../layouts/scripts.php' ?>
 </body>
+<script src="../../libs/scripts/master-page/home.js" ></script>
 
 </html>

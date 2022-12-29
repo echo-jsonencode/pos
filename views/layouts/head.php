@@ -1,8 +1,12 @@
+<?php
+session_start();
+?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link rel="shortcut icon" href="#">
+    <title>IronMed</title>
+    <link rel="icon" type="image/x-icon" href="../../libs/images/IronMedLogo.ico">
 
     <!-- Plugins -->
     <link rel="stylesheet" href="../../libs/plugins/bootstrap/bootstrap-icons.css" />
@@ -13,4 +17,8 @@
     <!-- End Plugins -->
 
     <link rel="stylesheet" href="../../libs/css/index.css" />
+
+    <?php if($_SESSION['user']) { ?>
+        <input type="text" id="SessionRole" value="<?php echo $_SESSION['user']['role'] ?>" hidden></input>
+    <?php } ?>
 </head>

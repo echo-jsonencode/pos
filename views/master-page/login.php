@@ -15,8 +15,8 @@
                 <img src="../../libs/images/IronMedLogo.png" alt="">
             </div>
             <form class="login__form" action="">
-                <input type="text" placeholder="Username">
-                <input type="password" placeholder="Password">
+                <input type="text" id="txt_username" placeholder="Username">
+                <input type="password" id="txt_password" placeholder="Password">
                 <button class="btn" onclick="Login.submit()" type="submit">Login</button>
             </form>
         </div>

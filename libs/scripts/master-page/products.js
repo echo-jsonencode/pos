@@ -23,7 +23,7 @@ const Product = (() => {
             url: productUrl + '?action=getProductTable',
             dataType: "json",
             success: function (response) {
-
+                $('.table').DataTable().destroy();
                 $('#tbody_product').html(response);
 
                 $('.table').DataTable();
@@ -85,8 +85,9 @@ const Product = (() => {
                 $('#slc_product_category').val(response.category_id);
                 $('#txt_selling_price').val(response.sale_price);
                 $('#slc_status').val(response.status);
-                $('#txt_max_stock').val(response.max_status);
-                $('#txt_min_stock').val(response.min_status);
+                $('#txt_max_stock').val(response.max_stock);
+                $('#txt_min_stock').val(response.min_stock);
+                $('#slc_type').val(response.type);
 
                 $('#modal_update_details').modal('show')
                 $('#modal_update_details_header').html('Update ' + product_name)
@@ -107,6 +108,7 @@ const Product = (() => {
         const status = $('#slc_status').val();
         const max_stock = $('#txt_max_stock').val();
         const min_stock = $('#txt_min_stock').val();
+        const type = $('#slc_type').val();
 
         $.ajax({
             type: "POST",
@@ -121,6 +123,7 @@ const Product = (() => {
                 status: status,
                 max_stock: max_stock,
                 min_stock: min_stock,
+                type: type,
             },
             success: function (response) 
             {

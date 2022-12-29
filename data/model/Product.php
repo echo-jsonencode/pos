@@ -1,10 +1,14 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+
+// mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 class Product
 {
     private $conn;
 
-    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock,
+    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock, type,
     c.id AS category_id, c.name AS category_name,
     SUM(pd.quantity) AS total_quantity
     FROM products p 
@@ -29,6 +33,14 @@ class Product
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getAllByStockStatus()
+    {
+        $sql = $this->commonSql . ' WHERE expired_status = 0 ' . $this->groupBySql . ' HAVING sum(pd.quantity) NOT BETWEEN min_stock and max_stock' ;
+        $result = $this->conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getByBarcode($barcode)
     {
         $sql = "SELECT id, name from products where barcode = '$barcode'";
@@ -39,7 +51,7 @@ class Product
 
     public function getById($product_id)
     {
-        $sql = "SELECT id, category_id, barcode, name, sale_price, status, max_stock, min_stock from products where id = '$product_id'";
+        $sql = "SELECT id, category_id, barcode, name, sale_price, status, max_stock, min_stock, type from products where id = '$product_id'";
         $result = $this->conn->query($sql);
 
         return $result->fetch_assoc();
@@ -52,11 +64,12 @@ class Product
         $product_category = $request['product_category'];
         $selling_price = $request['selling_price'];
         $status = $request['status'];
+        $type = ($request['type'] != "" ? $request['type'] : null);
 
-        $sql = "INSERT INTO products (category_id,barcode,name,sale_price,status) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO products (category_id,barcode,name,sale_price,status,type) VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("issdi",$product_category, $product_barcode, $product_name, $selling_price, $status);
+        $stmt->bind_param("issdis",$product_category, $product_barcode, $product_name, $selling_price, $status, $type);
         
         $result = '';
         if ($stmt->execute() === TRUE) {
@@ -78,13 +91,13 @@ class Product
         $status = $request['status'];
         $max_stock = $request['max_stock'];
         $min_stock = $request['min_stock'];
-
+        $type = ($request['type'] != "" ? $request['type'] : null);
+        
         $sql = "UPDATE products 
-        SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?
+        SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?, type=?
         WHERE id= ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("issdiiii",$product_category, $product_barcode, $product_name, $selling_price, $status, $max_stock, $min_stock, $product_id);
-        
+        $stmt->bind_param("issdiiisi",$product_category, $product_barcode, $product_name, $selling_price, $status, $max_stock, $min_stock, $type, $product_id);
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Update";
@@ -131,5 +144,33 @@ class Product
         return $result;
 
 
+    }
+
+    public function getAvailableProductByBarcode($barcode){
+        $sql = "SELECT
+        p.id, p.barcode, p.name AS product_name, p.sale_price, p.type, p.status, p.category_id,
+        pd.id, pd.product_id, pd.expired_status, pd.quantity, pd.batch, pd.expiration_date,
+        c.id, c.name AS category_name
+        FROM products p 
+        INNER JOIN product_details pd ON pd.product_id = p.id
+        INNER JOIN categories c ON c.id = p.category_id
+        WHERE expired_status = 0
+        AND barcode = $barcode
+        AND pd.quantity != 0
+        ORDER BY batch ASC";
+        $result = $this->conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+
+    }
+
+    public function getTotalProduct()
+    {
+        $sql = "SELECT count(*) as total_product from products where status = 1";
+
+        $result = $this->conn->query($sql);
+
+        $this->conn->close();
+        return $result->fetch_assoc();
     }
 }

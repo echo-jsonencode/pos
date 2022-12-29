@@ -3,6 +3,16 @@
 
 <?php include '../layouts/head.php' ?>
 
+<?php 
+if(!$_SESSION['user']) {
+    header("Location: login.php"); 
+}
+
+else if($_SESSION['user']['role'] === 3) {
+    header("Location: home.php"); 
+}
+?>
+
 <body>
     <?php include '../layouts/nav.php'; ?>
 
@@ -20,7 +30,7 @@
                                     <label for="txt_product_barcode" class="form-label">Product Barcode</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-upc-scan"></i></span>
-                                        <input type="text" class="form-control" id="txt_product_barcode">
+                                        <input type="number" class="form-control" id="txt_product_barcode" onchange="Product.onChangeBarcode()">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -47,38 +57,49 @@
                                     <label for="txt_quantity" class="form-label">Quantity</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-box"></i></span>
-                                        <input type="text" class="form-control" id="txt_quantity">
+                                        <input type="number" class="form-control" id="txt_quantity">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="txt_buying_price" class="form-label">Buying Price</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3">₱</span>
-                                        <input type="text" class="form-control" id="txt_buying_price">
+                                        <input type="number" class="form-control" id="txt_buying_price">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="txt_selling_price" class="form-label">Selling Price</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3">₱</span>
-                                        <input type="text" class="form-control" id="txt_selling_price">
+                                        <input type="number" class="form-control" id="txt_selling_price">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="txt_expiraton_date" class="form-label">Expiration Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-calendar-x"></i></span>
                                         <input type="date" class="form-control" id="txt_expiraton_date">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="slc_status" class="form-label">Status</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-file-check"></i></span>
                                         <select name="" id="slc_status" class="form-control">
-                                            <option value="" selected="true" disabled>Select Status</option>
-                                            <option value="1">Active</option>
+                                            <option value="" disabled>Select Status</option>
+                                            <option value="1" selected="true" >Active</option>
                                             <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="slc_type" class="form-label">Type</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon3"><i class="bi bi-tags"></i></span>
+                                        <select name="" id="slc_type" class="form-control">
+                                            <option value="" selected="true">Select Type</option>
+                                            <option value="branded">Branded</option>
+                                            <option value="generic">Generic</option>
                                         </select>
                                     </div>
                                 </div>
