@@ -3,8 +3,11 @@ $(document).ready(() => {
 });
 const pos_sales_today = document.querySelector('.pos__head__amount');
 const inpCustomerError = document.querySelector('.pos__body__customer__error');
+const inpPaymentError = document.querySelector('.pos__insufficient__error');
 const inpCustomer = document.querySelector('.pos__body__customer__input');
+const inpCustomerNumber = document.querySelector('.pos__body__customer__number');
 const posCustomer = document.querySelector('.pos__body__customer');
+const posCustomerNumber = document.querySelector('.pos__body__customer_number');
 const posForm = document.querySelector('.pos__form');
 const inpBarcode = document.querySelector('.pos__form__barcode');
 const inpProduct = document.querySelector('.pos__form__product');
@@ -16,6 +19,12 @@ const btnClose = document.querySelector('pos__close');
 const posTable = document.querySelector('pos__table');
 const posQuantity = document.querySelector('.pos__form__quantity');
 let productCart = [];
+let grandTotal = 0;
+
+const printReceipt = (invoiceId) => {
+    // window.location.href = 
+    window.open(`${HOST}views/pos/receipt.php?invoice_id=${invoiceId}`);
+}
 
 const checkSalesToday = () => {
     $.ajax({
@@ -72,9 +81,11 @@ const checkDiscount = () => {
             let amountValue = +price.innerHTML * +quantity.innerHTML;
             
             posCustomer.classList.remove('show');
+            posCustomerNumber.classList.remove('show');
             if(inpDiscount.checked){
                 console.log('wew');
                 posCustomer.classList.add('show');
+                posCustomerNumber.classList.add('show');
                 amountValue = calculateDiscount(amountValue, type.innerHTML);
             }
             amount.innerHTML = amountValue;
@@ -82,6 +93,7 @@ const checkDiscount = () => {
     }
     else{
         posCustomer.classList.toggle('show');
+        posCustomerNumber.classList.toggle('show');
     }
 }
 
@@ -120,7 +132,7 @@ inpBarcode.addEventListener('blur', (e)=>{
 
 btnCheckout.addEventListener('click', (e)=>{
     e.preventDefault();
-    let grandTotal = 0;
+    grandTotal = 0;
     console.log(productCart);
     let list = productCart.map(item =>{
         let totalItemPrice = parseInt(item.quantity) * parseInt(item.price);
@@ -132,20 +144,37 @@ btnCheckout.addEventListener('click', (e)=>{
         
         
         return `<li class="pos__list__item">
-        <div class="pos__list__item__details">
-        <span class="pos__list__item__quantity">${item.quantity}</span>
-        <p class="pos__list__item__name"> ${item.name}</p>
-        </div>
-        <span class="pos__list__item__price">₱ ${totalItemPrice}</span>
-    </li>`;
+            <div class="pos__list__item__details">
+            <span class="pos__list__item__quantity">${item.quantity}</span>
+            <p class="pos__list__item__name"> ${item.name}</p>
+            </div>
+            <span class="pos__list__item__price">₱ ${totalItemPrice}</span>
+        </li>`;
     }).join('');
     list+=`<li class="pos__list__item total">
-    <div class="pos__list__item__details">
-    <span class="pos__list__item__quantity"></span>
-    <p class="pos__list__item__name dark">Grand Total</p>
-    </div>
-    <span class="pos__list__item__price">₱ ${grandTotal}</span>
-</li>`
+        <div class="pos__list__item__details">
+        <span class="pos__list__item__quantity"></span>
+        <p class="pos__list__item__name dark">Grand Total</p>
+        </div>
+        <span class="pos__list__item__price">₱ ${grandTotal}</span>
+    </li>`
+
+    list+=`<li class="pos__list__item total">
+        <div class="pos__list__item__details">
+        <span class="pos__list__item__quantity"></span>
+        <p class="pos__list__item__name dark">Payment</p>
+        </div>
+        <input class="pos__body__payment" oninput="calculateChange()" type="text"></input>
+    </li>`
+
+    list+=`<li class="pos__list__item total">
+        <div class="pos__list__item__details">
+        <span class="pos__list__item__quantity"></span>
+        <p class="pos__list__item__name dark">Change</p>
+        </div>
+        <span class="pos__list__item__change">₱ 0</span>
+    </li>`
+
     $('.pos__list').html(list);
 
     $('#myModal').modal('show');
@@ -254,18 +283,29 @@ inpCustomer.addEventListener('click',()=>{
     inpCustomerError.classList.remove('show');
 });
 
+inpCustomerNumber.addEventListener('click',()=>{
+    inpCustomerError.classList.remove('show');
+});
+
 btnConfirm.addEventListener('click',()=>{
     
     let discount = ''
     let customerName = '';
+    let customerNumber = '';
+    let cashPayment = $('.pos__body__payment').val();
     let process = 1;
     if(inpDiscount.checked){
         discount = 'discounted';
         customerName = inpCustomer.value;
+        customerNumber = inpCustomerNumber.value;
 
-        if(customerName == ''){
+        if(customerName == '' || customerNumber == ''){
             process = 0;
         }
+    }
+
+    if(cashPayment < grandTotal) {
+        process = 2;
     }
     
     if(process == 1){
@@ -274,13 +314,16 @@ btnConfirm.addEventListener('click',()=>{
             url: INVOICE_CONTROLLER + `?action=confirmedCheckout`,
             dataType: "json",
             data:{
+                osca_number: customerNumber, 
                 customerName: customerName, 
+                cashPayment: cashPayment, 
                 data: productCart,
                 discounted: discount
             },
-            success: function (response) 
+            success: function (last_invoice_id) 
             {
                 console.log('success');
+                printReceipt(last_invoice_id);
                 window.location.href = HOST_2 + '/views/pos/index.php';
             },
             error: function () {
@@ -288,9 +331,29 @@ btnConfirm.addEventListener('click',()=>{
             }
         });
     }
+    else if(process == 2){
+        inpPaymentError.classList.add('show');
+    }
     else{
         $('#myModal').modal('hide');
         inpCustomerError.classList.add('show');
     }
 
 });
+
+
+function calculateChange () {
+    let payment = $('.pos__body__payment').val();
+    
+    let change = payment - grandTotal;
+
+    if(payment >= grandTotal) {
+        inpPaymentError.classList.remove('show');
+    }
+
+    if(payment == ""){
+        change = 0;
+    }
+
+    $('.pos__list__item__change').html(`₱ ${change}`);
+}

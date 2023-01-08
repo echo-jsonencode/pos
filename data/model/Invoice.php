@@ -2,6 +2,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+
 class Invoice
 {
     private $conn;
@@ -11,7 +14,7 @@ class Invoice
         $this->conn = $connection;
     }
 
-    public function save($data, $discounted, $customerName)
+    public function save($data, $discounted, $customerName, $osca_number, $cashPayment)
     {
 
         $this->conn->begin_transaction();
@@ -105,16 +108,21 @@ class Invoice
                 'total_purchase' => $totalPrice
             ];
 
-            $sql_invoice = "INSERT INTO invoices (number, user_id, date_transact, total_items, total_purchase, costumer_name) VALUES (?, ?, ?, ?, ?, ?)";
+            $discountCounter = ($discounted === "discounted") ? 1 : 0;
+
+            $sql_invoice = "INSERT INTO invoices (number, user_id, date_transact, total_items, total_purchase, costumer_name, osca_number, cash_payment, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt_invoice = $this->conn->prepare($sql_invoice);
             $stmt_invoice->bind_param(
-                "sisids",
+                "sisidssdi",
                 $invoice_data['number'],
                 $invoice_data['user_id'],
                 $invoice_data['date_transact'],
                 $invoice_data['total_items'],
                 $invoice_data['total_purchase'],
-                $customerName
+                $customerName,
+                $osca_number,
+                $cashPayment,
+                $discountCounter
             );
             $stmt_invoice->execute();
             $last_invoice_id = $this->conn->insert_id;
@@ -141,7 +149,7 @@ class Invoice
 
 
             $this->conn->commit();
-            return 'Success';
+            return $last_invoice_id;
         } catch (mysqli_sql_exception $exception) {
             $this->conn->rollback();
 
@@ -290,5 +298,43 @@ class Invoice
         $sql_pd = $this->conn->prepare($sql_pd);
         $sql_pd->bind_param("iii", $invoice_total_items, $invoice_new_total_purchase, $invoice_id);
         $sql_pd->execute();
+    }
+
+    public function getReceipt($invoice_id)
+    {
+        $sql = "SELECT * 
+        FROM invoices i
+        INNER JOIN users u 
+        ON i.user_id = u.id
+        WHERE i.id = $invoice_id";
+
+        $result = $this->conn->query($sql);
+        $details = $result->fetch_assoc();
+
+        $sql = "SELECT 
+		i.id AS invoice_id,
+        p.barcode,
+        p.name,
+        p.id AS product_id,
+        SUM(price) AS price,
+        SUM(qty) AS qty,
+        p.sale_price
+        FROM `sales` 
+        INNER JOIN `invoices` i ON i.id = sales.invoice_id
+        INNER JOIN `products` p ON p.id =sales.product_id
+        INNER JOIN `product_details` pd ON pd.id = sales.product_detail_id
+        WHERE invoice_id = $invoice_id
+        AND sales.void IS NULL
+        GROUP BY p.id";
+        $result = $this->conn->query($sql);
+
+        $this->conn->close();
+        $sales = $result->fetch_all(MYSQLI_ASSOC);
+
+        return [
+            'details' => $details,
+            'sales' => $sales
+        ];
+
     }
 }

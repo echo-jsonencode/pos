@@ -12,15 +12,13 @@ $(document).ready(function () {
 
 const Product = (() => {
     const thisProduct = {};
-    const productUrl = '../../data/controller/ProductController.php';
-    const categoryUrl = '../../data/controller/CategoryController.php';
 
     let product_id;
 
     thisProduct.loadTableData = () => {
         $.ajax({
             type: "GET",
-            url: productUrl + '?action=getProductTable',
+            url: PRODUCT_CONTROLLER + '?action=getProductTable',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();
@@ -37,7 +35,7 @@ const Product = (() => {
     thisProduct.loadSelectData = () => {
         $.ajax({
             type: "GET",
-            url: categoryUrl + '?action=getSelectData',
+            url: CATEGORY_CONTROLLER + '?action=getSelectData',
             dataType: "json",
             success: function (response) {
 
@@ -52,7 +50,7 @@ const Product = (() => {
     thisProduct.clickView = (id, proudct_name) => {
         $.ajax({
             type: "POST",
-            url: productUrl + '?action=getProductDetailsTableModal',
+            url: PRODUCT_CONTROLLER + '?action=getProductDetailsTableModal',
             dataType: "json",
             data:{
                 product_id: id
@@ -74,7 +72,7 @@ const Product = (() => {
 
         $.ajax({
             type: "POST",
-            url: productUrl + '?action=getProductForUpdate',
+            url: PRODUCT_CONTROLLER + '?action=getProductForUpdate',
             dataType: "json",
             data:{
                 product_id: id
@@ -112,7 +110,7 @@ const Product = (() => {
 
         $.ajax({
             type: "POST",
-            url: productUrl + '?action=updateProduct',
+            url: PRODUCT_CONTROLLER + '?action=updateProduct',
             dataType: "json",
             data:{
                 product_id: product_id,

@@ -16,7 +16,7 @@ const Login = (() => {
 
         $.ajax({
             type: "POST",
-            url: loginUrl + '?action=verify_login',
+            url: LOGIN_CONTROLLER + '?action=verify_login',
             dataType: "json",
             data:{
                 username: username,
@@ -31,9 +31,9 @@ const Login = (() => {
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
-                        title: 'Invalid Username or password',
+                        title: response,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 5000
                     })
                 }
                 

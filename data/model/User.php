@@ -4,9 +4,7 @@
 
 // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if(!$_SESSION['user']){
-    session_start();
-}
+
 class User
 {
     private $conn;
@@ -132,7 +130,41 @@ class User
             $result = "Error updating record: " . $this->conn->error;
         }
 
-        $this->conn->close();
+        return $result;
+    }
+
+    public function update_login_attempt($user_id, $login_attempt)
+    {
+
+        $sql = "UPDATE users SET login_attempt=? WHERE id=?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $login_attempt, $user_id);
+
+        $result = '';
+        if ($stmt->execute() === TRUE) {
+            $result = "Updated Successfully";
+        } else {
+            $result = "Error updating record: " . $this->conn->error;
+        }
+
+        return $result;
+    }
+
+    public function update_status($user_id, $status)
+    {
+
+        $sql = "UPDATE users SET status=? WHERE id=?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $status, $user_id);
+
+        $result = '';
+        if ($stmt->execute() === TRUE) {
+            $result = "Updated Successfully";
+        } else {
+            $result = "Error updating record: " . $this->conn->error;
+        }
 
         return $result;
     }
@@ -142,7 +174,7 @@ class User
         $username = $request['username'];
         $password = $request['password'];
         
-        $sql = "SELECT id, password, first_name, last_name, role FROM users where username = ?";
+        $sql = "SELECT id, password, first_name, last_name, role, login_attempt, status FROM users where username = ?";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s",$username);
@@ -154,12 +186,16 @@ class User
         $first_name="";
         $last_name="";
         $role="";
-        $stmt->bind_result($id, $db_password, $first_name, $last_name, $role);
+        $login_attempt="";
+        $status="";
+        $stmt->bind_result($id, $db_password, $first_name, $last_name, $role, $login_attempt, $status);
         $stmt->fetch();
 
 
-
-        if (password_verify($password, $db_password)) {
+        if($status == 0) {
+            return "Your Account is InActive. Please contact System Admin.";
+        }
+        else if (password_verify($password, $db_password)) {
             $stmt->free_result();
             
             $_SESSION['user'] = [
@@ -167,9 +203,20 @@ class User
                 'fullname' => $first_name . ' ' . $last_name, 
                 'role' => $role
             ];
+            $this->update_login_attempt($id, 0);
             $this->udpate_login_details($id);
             return "Validated";
         } else {
+            $stmt->free_result();
+
+            $login_attempt += 1;
+
+            $this->update_login_attempt($id, $login_attempt);
+
+            if($login_attempt == 3) {
+                $this->update_status($id, 0);
+                return "Your Account has been lock due to many attempts. Please contact Admin.";
+            }
             return "Invalid Username or Password";
         }
     }

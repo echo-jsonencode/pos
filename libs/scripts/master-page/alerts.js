@@ -7,12 +7,10 @@ $(document).ready(function () {
 const Alerts = (() => {
     const thisAlerts = {};
 
-    const alertUrl = '../../data/controller/AlertsController.php';
-
     thisAlerts.loadTableDataExpiredStatus = () => {
         $.ajax({
             type: "GET",
-            url: alertUrl + '?action=getTableDataExpirationStatus',
+            url: ALERT_CONTROLLER + '?action=getTableDataExpirationStatus',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();
@@ -29,7 +27,7 @@ const Alerts = (() => {
     thisAlerts.loadTableDataStockStatus = () => {
         $.ajax({
             type: "GET",
-            url: alertUrl + '?action=getTableDataStockStatus',
+            url: ALERT_CONTROLLER + '?action=getTableDataStockStatus',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();

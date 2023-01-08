@@ -11,4 +11,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+
+CONST DEFAULT_PASSWORD = 'default123';
+
 session_start();

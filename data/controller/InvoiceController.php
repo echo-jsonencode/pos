@@ -20,8 +20,10 @@ if ($action === 'confirmedCheckout') {
 
     if (isset($_POST['data'])) {
         $data = $_POST['data'];
+        $osca_number = $_POST['osca_number'];
         $customerName = $_POST['customerName'];
-        echo json_encode($Invoice->save($data, $discounted, $customerName));
+        $cashPayment = $_POST['cashPayment'];
+        echo json_encode($Invoice->save($data, $discounted, $customerName, $osca_number, $cashPayment));
     }
 } else if ($action === 'getTotalSalesToday') {
     echo json_encode($Invoice->getTotalSalesToday());

@@ -40,11 +40,15 @@ if(!$_SESSION['user']) {
                         <input type="checkbox" class="pos__body__discount__input">
                     </div>
 
+                    <div class="pos__body__customer_number">
+                        <label for="OSCA ID">OSCA ID: </label>
+                        <input type="text" class="pos__body__customer__number">
+                    </div>
                     <div class="pos__body__customer">
                         <label for="Customer Name">Customer Name: </label>
                         <input type="text" class="pos__body__customer__input">
                     </div>
-                    <span class="pos__body__customer__error">Please enter <b>CUSTOMER NAME</b> to avail the discount</span>
+                    <span class="pos__body__customer__error">Please enter <b>OSCA ID and CUSTOMER NAME and</b> to avail the discount</span>
                 </div>
 
                 <div class="pos__body__content">
@@ -108,8 +112,9 @@ if(!$_SESSION['user']) {
                                 <p class="pos__list__item__name"><span class="pos__list__item__quantity">1</span> Kaboooom</p>
                                 <span class="pos__list__item__price">Php 10.23</span>
                             </li> -->
-                            </ul>
+                            </ul>                           
                         </div>
+                        <span class="pos__insufficient__error">Insufficient Payment</span>
                         <div class="modal-footer">
                             <button class="pos__confirm">Confirm</button>
                             <button type="button" class="btn btn-default pos__close" onclick="closeModal('myModal');">Close</button>

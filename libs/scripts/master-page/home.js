@@ -8,15 +8,11 @@ $(document).ready(function () {
 const Home = (() => {
     const thisHome = {};
 
-    const categoyController = 'CategoryController.php';
-    const invoiceController = 'InvoiceController.php';
-    const productController = 'ProductController.php';
-
     thisHome.getTotalProduct = () => {
         const action = '?action=getTotalProduct';
         $.ajax({
             type: "GET",
-            url: `${HOST_CONTROLLER}${productController}${action}`,
+            url: `${PRODUCT_CONTROLLER}${action}`,
             dataType: "json",
             success: function (response) {
                 $('#lbl_total_product').html(`${response.total_product}`)
@@ -31,10 +27,12 @@ const Home = (() => {
         const action = '?action=getTotalSalesToday';
         $.ajax({
             type: "GET",
-            url: `${HOST_CONTROLLER}${invoiceController}${action}`,
+            url: `${INVOICE_CONTROLLER}${action}`,
             dataType: "json",
             success: function (response) {
-                $('#lbl_sales_today').html(`₱${response.total_sales}`)
+                let total_sales = response.total_sales;
+                total_sales = (Math.round(total_sales * 100) / 100).toFixed(2);
+                $('#lbl_sales_today').html(`₱${total_sales}`)
             },
             error: function () {
 
@@ -46,7 +44,7 @@ const Home = (() => {
         const action = '?action=getCategoryPerMonthReport';
         $.ajax({
             type: "GET",
-            url: `${HOST_CONTROLLER}${categoyController}${action}`,
+            url: `${CATEGORY_CONTROLLER}${action}`,
             dataType: "json",
             success: function (response) {
                 let chartData = response;

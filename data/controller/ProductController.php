@@ -94,14 +94,14 @@ else if ($action == 'getProductDetailsTableModal')
         $table_data .= '<td>' . $productDetails['date_added'] . '</td>';
         $table_data .= '<td>' . $productDetails['expiration_date'] . '</td>';
         $table_data .= '<td>' . $expired_status . '</td>';
-        $table_data .= '<td class="col-actions">';
-        $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
-        // $table_data .= '<button type="button" onclick="Product.clickUpdate('. $productDetails['product_details_id'] .','. $productDetails['product_id'] .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
-        if($_SESSION['user']['role'] == 1) {
-        $table_data .= '<button type="button" onclick="Product.clickDelete('. $productDetails['product_details_id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
-        }
-        $table_data .= '</div>';
-        $table_data .= '</td>';
+        // $table_data .= '<td class="col-actions">';
+        // $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
+        // // $table_data .= '<button type="button" onclick="Product.clickUpdate('. $productDetails['product_details_id'] .','. $productDetails['product_id'] .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
+        // if($_SESSION['user']['role'] == 1) {
+        // // $table_data .= '<button type="button" onclick="Product.clickDelete('. $productDetails['product_details_id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
+        // }
+        // $table_data .= '</div>';
+        // $table_data .= '</td>';
         $table_data .= '</tr>';
 
     }

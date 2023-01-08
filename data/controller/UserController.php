@@ -43,6 +43,7 @@ if ($action == 'getTableData')
         $table_data .= '<td class="col-actions">';
         $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
         $table_data .= '<button type="button" onclick="Admin.clickUpdate('. $user['id'] .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
+        $table_data .= '<button type="button" onclick="Admin.clickResetPassword('. $user['id'] .')" class="btn btn-info btn-sm"><i class="bi bi-key"></i> Reset Password </button>';
         if($_SESSION['user']['role'] == 1) {
             $table_data .= '<button type="button" onclick="Admin.clickDelete('. $user['id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
         }
@@ -123,6 +124,38 @@ else if ($action == 'validateAdminPassword')
     $password = $_POST['password'];
 
     $result = $User->validateAdminPassword($password);
+
+    echo json_encode($result);
+}
+
+else if ($action == 'changePassword') 
+{
+    $password = $_POST['password'];
+    $user_id = $_SESSION['user']['id'];
+
+    $request = [
+        'user_id' => $user_id,
+        'password' => $password
+    ];
+
+    $result = $User->update_password($request);
+
+    echo json_encode($result);
+}
+
+else if($action == 'resetPassword') 
+{
+    $password = DEFAULT_PASSWORD;
+    $user_id = $_POST['user_id'];
+
+    $request = [
+        'user_id' => $user_id,
+        'password' => $password
+    ];
+
+    $User->update_status($user_id, 1);
+    $User->update_login_attempt($user_id, 0);
+    $result = $User->update_password($request);
 
     echo json_encode($result);
 }

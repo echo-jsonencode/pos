@@ -71,7 +71,7 @@ if(!$_SESSION['user']) {
                                 <th>Date Added</th>
                                 <th>Expiration Date</th>
                                 <th>Already Expired?</th>
-                                <th>Actions</th>
+                                <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
                         <tbody id="tbody_product_details">

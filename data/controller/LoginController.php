@@ -2,9 +2,11 @@
 
 include_once('../../config/database.php');
 include_once('../model/User.php');
+include_once('../model/ProductDetails.php');
 
 $action = $_GET['action'];
 $User = new User($conn);
+$ProductDetails = new ProductDetails($conn);
 
 if ($action == 'verify_login')
 {
@@ -17,6 +19,10 @@ if ($action == 'verify_login')
     ];
 
     $result = $User->verify_login($request);
+
+    if($result == "Validated") {
+        $ProductDetails->updateExpiredStatus();
+    }
 
     echo json_encode($result);
 }

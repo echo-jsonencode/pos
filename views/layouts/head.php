@@ -18,7 +18,7 @@ session_start();
 
     <link rel="stylesheet" href="../../libs/css/index.css" />
 
-    <?php if($_SESSION['user']) { ?>
+    <?php if(isset($_SESSION['user'])) { ?>
         <input type="text" id="SessionRole" value="<?php echo $_SESSION['user']['role'] ?>" hidden></input>
     <?php } ?>
 </head>

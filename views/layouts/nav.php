@@ -14,13 +14,13 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="../master-page/alerts.php">Alerts</a>
                 </li> -->
-                <?php if($_SESSION['user']['role'] != 3) { ?>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="../master-page/admin.php">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="../master-page/add-item.php">Register</a>
-                </li>
+                <?php if ($_SESSION['user']['role'] != 3) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/admin.php">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/add-item.php">Register</a>
+                    </li>
                 <?php } ?>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="../master-page/products.php">Products</a>
@@ -28,7 +28,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       Reports
+                        Reports
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="../reports/invoice.php">Invoices</a></li>
@@ -45,12 +45,23 @@
             </ul>
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 pull-right">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#" onclick="logout()">Logout</a>
+                <li class="nav-item dropstart">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../master-page/change-password.php">Change Password</a></li>
+                        <li class="nav-item">
+                            <a class="dropdown-item" aria-current="page" href="#" onclick="logout()">Logout</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
+                    <span class="badge rounded-pill bg-danger" style="float:right;margin-bottom:-10px;"><?php echo $_SESSION['alert']['expiredToday'] ?></span> <!-- your badge -->
                     <a class="nav-link" aria-current="page" href="../master-page/alerts.php">Alerts</a>
                 </li>
+
+
 
 
             </ul>

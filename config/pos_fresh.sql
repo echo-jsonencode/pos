@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.28, for Linux (x86_64)
 --
--- Host: localhost    Database: pos
+-- Host: localhost    Database: pos_blank
 -- ------------------------------------------------------
 -- Server version	8.0.28-0ubuntu0.20.04.3
 
@@ -52,8 +52,10 @@ CREATE TABLE `invoices` (
   `date_transact` datetime DEFAULT NULL,
   `total_items` int DEFAULT NULL,
   `total_purchase` float DEFAULT NULL,
-  `dicount` tinyint(1) DEFAULT '0' COMMENT 'True | False',
+  `discount` tinyint(1) DEFAULT '0' COMMENT 'True | False',
   `costumer_name` varchar(100) DEFAULT NULL,
+  `osca_number` varchar(100) DEFAULT NULL,
+  `cash_payment` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `invoices_FK` (`user_id`),
   CONSTRAINT `invoices_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -210,8 +212,9 @@ CREATE TABLE `users` (
   `role` int DEFAULT NULL,
   `status` int DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
+  `login_attempt` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +223,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'John','Doe','owner','$2y$10$uovfGxUqgB7aaOXTlT832OEXoy52Kj1lJ6wzqchHhhnTi65937ZAS',1,1,'2022-12-27 09:28:06'),(2,'Juan','Dela Cruz','admin','$2y$10$45sOywxA1w7OX4m0I/E4Q.Nl5ii0Q892FNdwhnKr.s.xW.y4iP3gq',2,1,'2022-12-27 09:52:59'),(3,'Juana','Dela Cruz','user','$2y$10$z1a/NP5vWRsGUHRCepnk1.V9m0AiER.7zE7Xgff3XMkgGBYyk57By',3,1,'2022-12-27 09:32:10');
+INSERT INTO `users` VALUES (1,'John','Doe','owner','$2y$10$uovfGxUqgB7aaOXTlT832OEXoy52Kj1lJ6wzqchHhhnTi65937ZAS',1,1,'2023-01-09 04:51:21',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -233,4 +236,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-27  9:54:44
+-- Dump completed on 2023-01-09  5:05:17

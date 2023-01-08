@@ -13,7 +13,6 @@ $(document).ready(function () {
 const Category = (() => {
     const thisCategory = {};
 
-    const categoryUrl = '../../data/controller/CategoryController.php';
     let category_id = '';
 
     let toUpdate = false;
@@ -21,7 +20,7 @@ const Category = (() => {
     thisCategory.loadTableData = () => {
         $.ajax({
             type: "GET",
-            url: categoryUrl + '?action=getTableData',
+            url: CATEGORY_CONTROLLER + '?action=getTableData',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();
@@ -38,7 +37,7 @@ const Category = (() => {
     thisCategory.loadSelectData = () => {
         $.ajax({
             type: "GET",
-            url: categoryUrl + '?action=getSelectData',
+            url: CATEGORY_CONTROLLER + '?action=getSelectData',
             dataType: "json",
             success: function (response) {
 
@@ -73,7 +72,7 @@ const Category = (() => {
         else {
             $.ajax({
                 type: "POST",
-                url: categoryUrl + '?action=save',
+                url: CATEGORY_CONTROLLER + '?action=save',
                 dataType: "json",
                 data:{
                     category_name: category_name
@@ -96,7 +95,7 @@ const Category = (() => {
 
         $.ajax({
             type: "POST",
-            url: categoryUrl + '?action=getById',
+            url: CATEGORY_CONTROLLER + '?action=getById',
             dataType: "json",
             data:{
                 category_id: category_id
@@ -119,7 +118,7 @@ const Category = (() => {
 
         $.ajax({
             type: "POST",
-            url: categoryUrl + '?action=update',
+            url: CATEGORY_CONTROLLER + '?action=update',
             dataType: "json",
             data:{
                 category_id: category_id,
@@ -172,7 +171,7 @@ const Category = (() => {
     thisCategory.delete = () => {
         $.ajax({
             type: "POST",
-            url: categoryUrl + '?action=delete',
+            url: CATEGORY_CONTROLLER + '?action=delete',
             dataType: "json",
             data:{
                 category_id: category_id
@@ -194,8 +193,6 @@ const Category = (() => {
 const Product = (() => {
     let thisProduct = {};
 
-    const productUrl = '../../data/controller/ProductController.php';
-
     let product_id;
     let product_details_id;
     let toUpdate = false;
@@ -204,7 +201,7 @@ const Product = (() => {
     thisProduct.loadTableData = () => {
         $.ajax({
             type: "GET",
-            url: productUrl + '?action=getTableDataRegister',
+            url: PRODUCT_CONTROLLER + '?action=getTableDataRegister',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();
@@ -259,7 +256,7 @@ const Product = (() => {
         else {
             $.ajax({
                 type: "POST",
-                url: productUrl + '?action=save',
+                url: PRODUCT_CONTROLLER + '?action=save',
                 dataType: "json",
                 data:{
                     product_barcode: product_barcode,
@@ -290,7 +287,7 @@ const Product = (() => {
 
         $.ajax({
             type: "POST",
-            url: productUrl + '?action=getById',
+            url: PRODUCT_CONTROLLER + '?action=getById',
             dataType: "json",
             data:{
                 product_details_id: product_details_id
@@ -341,7 +338,7 @@ const Product = (() => {
         else {
             $.ajax({
                 type: "POST",
-                url: productUrl + '?action=updateProductDetails',
+                url: PRODUCT_CONTROLLER + '?action=updateProductDetails',
                 dataType: "json",
                 data:{
                     product_id: product_id,

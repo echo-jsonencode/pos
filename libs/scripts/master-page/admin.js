@@ -11,14 +11,13 @@ $(document).ready(function () {
 const Admin = (() => {
     const thisAdmin = {};
 
-    const userUrl = '../../data/controller/UserController.php';
     let user_id = '';
     let toUpdate = false;
 
     thisAdmin.loadTableData = () => {
         $.ajax({
             type: "GET",
-            url: userUrl + '?action=getTableData',
+            url: USER_CONTROLLER + '?action=getTableData',
             dataType: "json",
             success: function (response) {
                 $('.table').DataTable().destroy();
@@ -76,7 +75,7 @@ const Admin = (() => {
         else {
             $.ajax({
                 type: "POST",
-                url: userUrl + '?action=save',
+                url: USER_CONTROLLER + '?action=save',
                 dataType: "json",
                 data:{
                     first_name: first_name,
@@ -103,7 +102,7 @@ const Admin = (() => {
 
         $.ajax({
             type: "POST",
-            url: userUrl + '?action=getById',
+            url: USER_CONTROLLER + '?action=getById',
             dataType: "json",
             data:{
                 user_id: user_id
@@ -140,7 +139,7 @@ const Admin = (() => {
 
         $.ajax({
             type: "POST",
-            url: userUrl + '?action=update',
+            url: USER_CONTROLLER + '?action=update',
             dataType: "json",
             data:{
                 user_id: user_id,
@@ -182,7 +181,7 @@ const Admin = (() => {
     thisAdmin.delete = () => {
         $.ajax({
             type: "POST",
-            url: userUrl + '?action=delete',
+            url: USER_CONTROLLER + '?action=delete',
             dataType: "json",
             data:{
                 user_id: user_id
@@ -204,6 +203,52 @@ const Admin = (() => {
             }
         }); 
     }
+
+    thisAdmin.clickResetPassword = (id) => {
+        user_id = id;
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Update to Default Password!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                thisAdmin.resetPassword();
+            }
+        })
+    }
+
+    thisAdmin.resetPassword = () => {
+
+        $.ajax({
+            type: "POST",
+            url: USER_CONTROLLER + '?action=resetPassword',
+            dataType: "json",
+            data:{
+                user_id: user_id
+            },
+            success: function (response) 
+            {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User Successfully Reset Password',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                thisAdmin.resetFields();
+                thisAdmin.loadTableData();
+            },
+            error: function () {
+
+            }
+        }); 
+    }
+
 
     thisAdmin.resetFields = () => {
         $('#txt_first_name').val("");

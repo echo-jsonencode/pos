@@ -140,6 +140,24 @@ class ProductDetails
             $counter++;
         }
     }
+
+    public function updateExpiredStatus()
+    {
+        $date_today = date("Y-m-d");
+
+        $sql = "UPDATE product_details SET expired_status = 1 WHERE expiration_date = '$date_today'";
+
+        $this->conn->query($sql);
+
+        $sql = "SELECT count(*) as total_expired FROM product_details WHERE expired_status = 1 AND expiration_date = '$date_today'";
+
+        $result = $this->conn->query($sql);
+        $count = $result->fetch_assoc();
+
+        $_SESSION['alert']['expiredToday'] = $count['total_expired'];
+        
+        $this->conn->close();
+    }
 }
 
 function date_compare($element1, $element2) {
