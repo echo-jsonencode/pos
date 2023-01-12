@@ -252,6 +252,7 @@ table tbody tr td {
   border-radius: 25px;
   color: #2cafa8;
   background-color: #fff;
+  padding: 2rem;
   height: 100%;
   width: 100%;
   border: 1px solid gray;
@@ -284,6 +285,65 @@ table tbody tr td {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.table-grid--res {
+  max-width: 100vw;
+  max-height: 75vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas: 'dt dt dt p s' 'dt dt dt r r';
+  grid-gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .table-grid--res {
+        grid-template-areas: 'dt' 'p' 's' 'r';
+    grid-gap: 1rem;
+  }
+}
+
+.table-grid--res .box--date-time {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-area: dt;
+}
+
+.table-grid--res .box--product {
+  -ms-grid-row: 1;
+  -ms-grid-column: 4;
+  grid-area: p;
+}
+
+.table-grid--res .box--sales {
+  -ms-grid-row: 1;
+  -ms-grid-column: 5;
+  grid-area: s;
+}
+
+.table-grid--res .box--report {
+  -ms-grid-row: 2;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 2;
+  grid-area: r;
+}
+
+.table-grid#home_canvas {
+  border: 5px solid red;
+}
+
+#graph {
+  position: relative;
+  height: 100%;
+  width: 100% !important;
+}
+
+canvas {
+  width: 100% !important;
 }
 
 .kaboom {
@@ -332,6 +392,10 @@ table tbody tr td {
   background-color: #24958f;
 }
 
+.pos__confirm.disabled {
+  background-color: #c4f3f0;
+}
+
 .pos__close {
   border: 1px solid gray;
   color: #363636 !important;
@@ -363,6 +427,20 @@ table tbody tr td {
   border-bottom: 1px solid #e5e5e5;
 }
 
+.pos__body__payment {
+  outline: none;
+  border: 2px solid #e5e5e5;
+  padding: 2px 5px;
+  margin-right: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.pos__body__payment.error {
+  border: 2px solid red;
+}
+
 .pos__body__discount {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -374,35 +452,6 @@ table tbody tr td {
 
 .pos__body__discount label {
   padding: 0 5px;
-}
-
-.pos__body__customer_number {
-  margin-top: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  opacity: 0;
-}
-
-.pos__body__customer_number.show {
-  opacity: 1;
-}
-
-.pos__body__customer_number label {
-  padding: 0 5px;
-}
-
-.pos__body__customer_number input {
-  outline: none;
-  border: 2px solid #e5e5e5;
-  padding: 2px 5px;
-  margin-right: 5px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
 }
 
 .pos__body__customer {
@@ -447,13 +496,45 @@ table tbody tr td {
   display: block;
 }
 
-.pos__insufficient__error {
-  display: none;
-  color: red;
-  text-align: center;
+.pos__body__customer_number {
+  margin-top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  opacity: 0;
 }
 
-.pos__insufficient__error.show {
+.pos__body__customer_number.show {
+  opacity: 1;
+}
+
+.pos__body__customer_number label {
+  padding: 0 5px;
+}
+
+.pos__body__customer_number input {
+  outline: none;
+  border: 2px solid #e5e5e5;
+  padding: 2px 5px;
+  margin-right: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.pos__body__customer_number input.error {
+  border: 2px solid red;
+}
+
+.pos__body__customer_number__error {
+  display: none;
+  color: red;
+}
+
+.pos__body__customer_number__error.show {
   display: block;
 }
 
@@ -527,13 +608,29 @@ table tbody tr td {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .pos__list__item.total {
-  padding-top: 5px;
+  padding-top: 15px;
+  padding-bottom: 10px;
   margin-top: 5px;
   border-top: 1px solid #e5e5e5;
   text-transform: uppercase;
+}
+
+.pos__list__item.payment {
+  padding: 1rem 0;
+  margin-top: 5px;
+  padding-left: 10px;
+  border-top: 1px solid #e5e5e5;
+  text-transform: uppercase;
+}
+
+.pos__list__item.payment .pos__list__item__name {
+  color: #2cafa8;
 }
 
 .pos__list__item__details {
@@ -566,6 +663,17 @@ table tbody tr td {
 
 .pos__list__item__name.dark {
   color: #363636;
+}
+
+.pos__insufficient__error {
+  padding: 1rem;
+  color: red;
+  text-align: center;
+  display: none;
+}
+
+.pos__insufficient__error.show {
+  display: block;
 }
 
 .invoice__filters {

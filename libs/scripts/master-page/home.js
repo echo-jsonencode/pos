@@ -55,8 +55,8 @@ const Home = (() => {
                 var stackedBarChartData = $.extend(true, {}, barChartData)
 
                 var stackedBarChartOptions = {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: false,
+                    maintainAspectRatio: true,
                     scales: {
                         xAxes: [{
                             stacked: true,

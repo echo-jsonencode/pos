@@ -47,7 +47,7 @@ class User
         VALUES (?,?,?,?,?,?)";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssii",$first_name, $last_name, $username, $password, $role, $status);
+        $stmt->bind_param("ssssii", $first_name, $last_name, $username, $password, $role, $status);
 
         $result = '';
         if ($stmt->execute() === TRUE) {
@@ -73,7 +73,7 @@ class User
         $sql = "UPDATE users SET first_name=?, last_name=?, username=?, role=?, status=? WHERE id=?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssiii",$first_name, $last_name, $username, $role, $status, $user_id);
+        $stmt->bind_param("sssiii", $first_name, $last_name, $username, $role, $status, $user_id);
 
         $result = '';
         if ($stmt->execute() === TRUE) {
@@ -97,7 +97,7 @@ class User
         $sql = "UPDATE users SET password=? WHERE id=?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("si",$password, $user_id);
+        $stmt->bind_param("si", $password, $user_id);
 
         $result = '';
         if ($stmt->execute() === TRUE) {
@@ -173,34 +173,33 @@ class User
     {
         $username = $request['username'];
         $password = $request['password'];
-        
+
         $sql = "SELECT id, password, first_name, last_name, role, login_attempt, status FROM users where username = ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s",$username);
+        $stmt->bind_param("s", $username);
         $stmt->execute();
 
 
-        $id=0;
-        $db_password="";
-        $first_name="";
-        $last_name="";
-        $role="";
-        $login_attempt="";
-        $status="";
+        $id = 0;
+        $db_password = "";
+        $first_name = "";
+        $last_name = "";
+        $role = "";
+        $login_attempt = "";
+        $status = "";
         $stmt->bind_result($id, $db_password, $first_name, $last_name, $role, $login_attempt, $status);
         $stmt->fetch();
 
 
-        if($status == 0) {
+        if ($status == 0) {
             return "Your Account is InActive. Please contact System Admin.";
-        }
-        else if (password_verify($password, $db_password)) {
+        } else if (password_verify($password, $db_password)) {
             $stmt->free_result();
-            
+
             $_SESSION['user'] = [
-                'id' => $id, 
-                'fullname' => $first_name . ' ' . $last_name, 
+                'id' => $id,
+                'fullname' => $first_name . ' ' . $last_name,
                 'role' => $role
             ];
             $this->update_login_attempt($id, 0);
@@ -213,7 +212,7 @@ class User
 
             $this->update_login_attempt($id, $login_attempt);
 
-            if($login_attempt == 3) {
+            if ($login_attempt == 3) {
                 $this->update_status($id, 0);
                 return "Your Account has been lock due to many attempts. Please contact Admin.";
             }
@@ -235,13 +234,11 @@ class User
         $this->conn->close();
 
         return $result;
-
-
     }
 
     public function validateAdminPassword($password)
     {
-        $sql = "SELECT password from users where role != 3 and status = 1";
+        $sql = "SELECT username,password from users where role != 3 and status = 1";
         $result = $this->conn->query($sql);
 
         $this->conn->close();
@@ -249,8 +246,7 @@ class User
 
         $match = false;
         foreach ($adminUsers as $adminUser) {
-            if (password_verify($password, $adminUser['password'])) 
-            {
+            if (password_verify($password, $adminUser['password'])) {
                 $match = true;
             }
         }

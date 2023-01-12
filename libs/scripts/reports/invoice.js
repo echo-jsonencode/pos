@@ -142,7 +142,7 @@ const openModal = (id) => {
 }
 
 const validateAdminPassword = () => {
-    inpAdminPassword.value = "";
+ 
     $.ajax({
         type: 'POST',
         url: USER_CONTROLLER + `?action=validateAdminPassword`,
@@ -167,6 +167,7 @@ const validateAdminPassword = () => {
             }
         }
     });
+    inpAdminPassword.value = "";
 }
 
 const confirmVoidItem = (invoice, product) => {

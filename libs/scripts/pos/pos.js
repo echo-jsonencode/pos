@@ -1,6 +1,7 @@
 $(document).ready(() => {
     checkSalesToday();
 });
+
 const pos_sales_today = document.querySelector('.pos__head__amount');
 const inpCustomerError = document.querySelector('.pos__body__customer__error');
 const inpPaymentError = document.querySelector('.pos__insufficient__error');
@@ -33,7 +34,10 @@ const checkSalesToday = () => {
         dataType:'json',
         cache: false,
         success: (data) => {
-            pos_sales_today.innerHTML = '₱'+ data.total_sales;
+            if(data.total_sales == null){
+                data.total_sales = 0;
+            }
+            pos_sales_today.innerHTML = '₱'+ parseFloat(data.total_sales).toFixed(2);
         }
     });
 }
@@ -135,7 +139,7 @@ btnCheckout.addEventListener('click', (e)=>{
     grandTotal = 0;
     console.log(productCart);
     let list = productCart.map(item =>{
-        let totalItemPrice = parseInt(item.quantity) * parseInt(item.price);
+        let totalItemPrice = parseInt(item.quantity) * parseFloat(item.price).toFixed(2);
 
         if(inpDiscount.checked){
             totalItemPrice =  calculateDiscount(totalItemPrice, item.type);
@@ -159,10 +163,10 @@ btnCheckout.addEventListener('click', (e)=>{
         <span class="pos__list__item__price">₱ ${grandTotal}</span>
     </li>`
 
-    list+=`<li class="pos__list__item total">
+    list+=`<li class="pos__list__item payment">
         <div class="pos__list__item__details">
         <span class="pos__list__item__quantity"></span>
-        <p class="pos__list__item__name dark">Payment</p>
+        <p class="pos__list__item__name">Payment</p>
         </div>
         <input class="pos__body__payment" oninput="calculateChange()" type="text"></input>
     </li>`
@@ -344,16 +348,26 @@ btnConfirm.addEventListener('click',()=>{
 
 function calculateChange () {
     let payment = $('.pos__body__payment').val();
+    const posPayment = document.querySelector('.pos__body__payment');
     
     let change = payment - grandTotal;
 
     if(payment >= grandTotal) {
         inpPaymentError.classList.remove('show');
+        console.log(payment,grandTotal);
+        posPayment.classList.remove('error');
+        
+    }
+    else{
+        inpPaymentError.classList.add('show');
+        if(posPayment.classList.contains('error') == false){
+            posPayment.classList.add('error');
+        }
     }
 
     if(payment == ""){
         change = 0;
     }
-
+    change = parseFloat(change).toFixed(2);
     $('.pos__list__item__change').html(`₱ ${change}`);
 }

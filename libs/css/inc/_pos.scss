@@ -23,9 +23,6 @@
 }
 
 
-.swal2-html-container {
-    // background-color: red;
-}
 
 .pos {
     padding: 2rem 0;
@@ -40,6 +37,10 @@
         &:hover{
             border:2px solid $main-dark;
             background-color: $main-dark;
+        }
+
+        &.disabled{
+            background-color: $main-light;
         }
     }
 
@@ -67,10 +68,16 @@
         padding: 1.5rem 1.5rem .5rem 1.5rem;
         border-bottom: 1px solid $main-gray;
 
-        &__header{
-            // display: flex;
-            // justify-content: space-between;
-            // align-items: center;
+        &__payment{
+            outline: none;
+            border: 2px solid #e5e5e5;
+            padding: 2px 5px;
+            margin-right: 5px;
+            flex-grow: 1;
+
+            &.error{
+                border: 2px solid red;
+            }
         }
 
         &__discount{
@@ -117,6 +124,44 @@
                 }
             }
         }
+
+        &__customer_number{
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+
+            &.show{
+                opacity: 1;
+            }
+
+            label{
+                padding: 0 5px;
+            }
+
+            input{
+                outline: none;
+                border: 2px solid $main-gray;
+                padding: 2px 5px;
+                margin-right: 5px;
+                flex-grow: 1;
+
+                &.error{
+                    border:2px solid red;
+                }
+            }
+
+            &__error{
+                display: none;
+                color:red;
+
+                &.show{
+                    display: block;
+                }
+            }
+        }
+
+        
     }
     &__form {
         padding: 1rem;
@@ -175,12 +220,26 @@
             // padding-top: 3px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
 
             &.total{
-                padding-top: 5px;
+                padding-top: 15px;
+                padding-bottom: 10px;
                 margin-top: 5px;
                 border-top: 1px solid $main-gray;
                 text-transform: uppercase;
+            }
+
+            &.payment{
+                padding: 1rem 0;
+                margin-top: 5px;
+                padding-left:10px;
+                border-top: 1px solid $main-gray;
+                text-transform: uppercase;
+                
+                .pos__list__item__name{
+                    color: $main;
+                }
             }
 
             &__details{
@@ -220,5 +279,16 @@
         }
 
         
+    }
+
+    &__insufficient__error{
+        padding: 1rem;
+        color:red;
+        text-align: center;
+        display: none;
+
+        &.show{
+            display: block;
+        }
     }
 }
