@@ -1,9 +1,9 @@
 <?php
 
 $host = 'localhost';
-$username = 'dev';
-$password = 'devpassword';
-$db_name = 'pos';
+$username = 'root';
+$password = '';
+$db_name = 'ironmed';
 
 $conn = new mysqli($host, $username, $password, $db_name);
 

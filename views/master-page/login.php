@@ -17,6 +17,7 @@
             <form class="login__form" action="">
                 <input type="text" id="txt_username" placeholder="Username">
                 <input type="password" id="txt_password" placeholder="Password">
+                <i class="bi-eye-fill" id="togglePassword" style="margin-left: -30px; cursor: pointer;" ></i>
                 <button class="btn" onclick="Login.submit()" type="submit">Login</button>
             </form>
         </div>
@@ -28,5 +29,5 @@
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/login.js" ></script>
-
+           
 </html>

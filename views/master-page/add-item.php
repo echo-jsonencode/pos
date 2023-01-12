@@ -8,7 +8,7 @@ if(!$_SESSION['user']) {
     header("Location: login.php"); 
 }
 
-else if($_SESSION['user']['role'] === 3) {
+else if($_SESSION['user']['role'] === 3 ) {
     header("Location: home.php"); 
 }
 ?>
@@ -30,7 +30,7 @@ else if($_SESSION['user']['role'] === 3) {
                                     <label for="txt_product_barcode" class="form-label">Product Barcode</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-upc-scan"></i></span>
-                                        <input type="number" class="form-control" id="txt_product_barcode" onchange="Product.onChangeBarcode()">
+                                        <input type="number" class="form-control" id="txt_product_barcode">
                                     </div>
                                 </div>
                                 <div class="col-md-12">

@@ -25,13 +25,17 @@ if(!$_SESSION['user']) {
                     <div class="box-wrapper">
                         <div class="dateholder">
                             <?php
-                            $monthNum  = date('m');
-                            $monthName = date('F', mktime(0, 0, 0, $monthNum, 10));
-                            ?>
-                            <h2><?php echo $monthName; ?></h2>
-                            <h2><?php echo date('d'); ?></h2>
-                            <h2><?php echo date('Y'); ?></h2>
-                            <h3><?php echo date('h:i:A') ?></h3>
+                             date_default_timezone_set("Asia/Singapore");
+                             $monthNum  = date('m');
+                             $monthName = date('F', mktime(0, 0, 0, $monthNum, 10));
+                             ?>
+                             <h2><?php echo $monthName; ?></h2>
+                             <h2><?php echo date('d'); ?></h2>
+                             <h2><?php echo date('Y'); ?></h2>
+                             <div class="pos__head__date">
+                               <span><?php echo date('l'); ?></span>
+                               <p class="pos__head__time"><?php echo date('h:i:s A'); ?></p>
+                             </div>
                         </div>
                     </div>
                 </td>
@@ -68,5 +72,7 @@ if(!$_SESSION['user']) {
         <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/home.js" ></script>
+<script src="../../libs/scripts/pos/time.js"></script>
+
 
 </html>

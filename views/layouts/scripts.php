@@ -12,7 +12,9 @@
 
 
 <script>
-    $('.table').DataTable();
+    $('.table').DataTable({
+        autoFill: false
+    });
 
 
     const logout = () => {

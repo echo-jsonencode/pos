@@ -10,9 +10,9 @@ nav {
 }
 
 .header-img {
-  height: 40px;
+  height: 45px;
   width: 100px;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 .header-img img {
@@ -47,6 +47,7 @@ nav {
 .section__body {
   margin-top: 1rem;
 }
+
 
 .btn-main {
   background-color: #2cafa8;
@@ -187,6 +188,11 @@ label {
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+.bi-eye-fill{
+  position: relative;
+  left: 100%;
+  bottom: 30px;
 }
 
 table thead {
