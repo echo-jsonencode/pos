@@ -61,9 +61,9 @@ if(!$_SESSION['user']) {
                             <option value="">Batch 2</option>
                             <option value="">Batch 3</option>
                         </select> -->
-                        <input type="text" placeholder="quantity" class="pos__form__quantity">
+                        <input type="number" min="1" oninput="validity.valid || (value='')" placeholder="quantity" class="pos__form__quantity">
                         <button type="submit" class="pos__button pos__form__submit">Add to cart</button>
-                        <button type="button" class="post__button pos__form__checkout">Check out</button>
+                        <button type="button" class="post__button pos__form__checkout" disabled style="background-color:gray">Check out</button>
                     </form>
                     <table class="table table-bordered pos__table" id="pos__table">
                         <thead>

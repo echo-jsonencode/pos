@@ -115,7 +115,8 @@ class User
     {
 
         // $user_id = $request['user_id'];
-        $last_login = date('Y-m-d H:i:s');
+        date_default_timezone_set("Asia/Singapore");
+        $last_login = date('Y-m-d H:i:s A');
         // echo $last_login;
 
         $sql = "UPDATE users SET last_login=? WHERE id=?";

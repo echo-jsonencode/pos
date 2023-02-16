@@ -46,9 +46,9 @@ else if($_SESSION['user']['role'] === 3) {
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-tag"></i></span>
                                         <select class="form-control" name="" id="slc_product_category">
                                             <option value="" selected="true" disabled>Select Category</option>
-                                            <option value="">Catgeory 1</option>
-                                            <option value="">Catgeory 2</option>
-                                            <option value="">Catgeory 3</option>
+                                            <option value="">Category 1</option>
+                                            <option value="">Category 2</option>
+                                            <option value="">Category 3</option>
                                         </select>
                                     </div>
                                 </div>
@@ -57,23 +57,30 @@ else if($_SESSION['user']['role'] === 3) {
                                     <label for="txt_quantity" class="form-label">Quantity</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-box"></i></span>
-                                        <input type="number" class="form-control" id="txt_quantity">
+                                        <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_quantity">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="txt_buying_price" class="form-label">Buying Price</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3">₱</span>
-                                        <input type="number" class="form-control" id="txt_buying_price">
+                                        <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_buying_price">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="txt_selling_price" class="form-label">Selling Price</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon3">₱</span>
-                                        <input type="number" class="form-control" id="txt_selling_price">
+                                        <span class="input-group-text" id="basic-addon3" (required)>₱</span>
+                                        <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price">
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="txt_manufature_date" class="form-label">Manufacture Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon3"><i class="bi bi-calendar-x"></i></span>
+                                        <input type="date" class="form-control" id="txt_manufature_date">
+                                    </div>
+                                </div>                                
                                 <div class="col-md-4">
                                     <label for="txt_expiraton_date" class="form-label">Expiration Date</label>
                                     <div class="input-group">

@@ -3,7 +3,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = '';
-$db_name = 'ironmed';
+$db_name = 'pos';
 
 $conn = new mysqli($host, $username, $password, $db_name);
 

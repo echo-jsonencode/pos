@@ -3,12 +3,13 @@
 
 <?php include '../layouts/head.php' ?>
 
+
 <?php 
 if(!$_SESSION['user']) {
     header("Location: login.php"); 
 }
-
 ?>
+
 
 <style>
 
@@ -17,8 +18,8 @@ if(!$_SESSION['user']) {
 <body>
     <?php include '../layouts/nav.php'; ?>
 
-    <div class="container">
 
+    <div class="container">
         <table class="table-grid">
             <tr>
                 <td class="homebox" rowspan="2">

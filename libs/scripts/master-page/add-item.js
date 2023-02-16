@@ -82,6 +82,12 @@ const Category = (() => {
                     $('#txt_category_name').val("")
                     thisCategory.loadTableData();
                     thisCategory.loadSelectData();
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Category successfully added',
+                        showConfirmButton: true,
+                    })
                 },
                 error: function () {
     
@@ -131,6 +137,12 @@ const Category = (() => {
                 thisCategory.loadSelectData();
                 $('#btn_save_category').html('Register Category');
                 toUpdate = false;
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Category successfully updated',
+                    showConfirmButton: true,
+                })
             },
             error: function () {
 
@@ -178,6 +190,13 @@ const Category = (() => {
             },
             success: function (response) 
             {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Category Successfully Deleted',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 thisCategory.loadTableData();
                 thisCategory.loadSelectData();
             },
@@ -233,6 +252,7 @@ const Product = (() => {
         const product_category = $('#slc_product_category').val();
         const buying_price = $('#txt_buying_price').val();
         const selling_price = $('#txt_selling_price').val();
+        const manufature_date = $('#txt_manufature_date').val();
         const expiraton_date = $('#txt_expiraton_date').val();
         const status = $('#slc_status').val();
         const quantity = $('#txt_quantity').val();
@@ -252,6 +272,19 @@ const Product = (() => {
                 title: 'Please fillup all fields',
                 showConfirmButton: true,
             })
+
+            // ELSE IF EXPIRATION DATE IS <= 180 DAYS
+            //  INVALID EXPIRATION DATE PLS CHECK IF ITS LESS THAN OR EQUAL TO 6 MONTHS
+            
+        }
+        else if (buying_price > selling_price){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Buying price must be lower than Selling price',
+                showConfirmButton: true,
+            })
+
         }
         else {
             $.ajax({
@@ -264,6 +297,7 @@ const Product = (() => {
                     product_category: product_category,
                     buying_price: buying_price,
                     selling_price: selling_price,
+                    manufature_date: manufature_date,
                     expiraton_date: expiraton_date,
                     status: status,
                     quantity: quantity,
@@ -273,10 +307,16 @@ const Product = (() => {
                 {
                     thisProduct.loadTableData();
                     thisProduct.resetFields();
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Product successfully added',
+                        showConfirmButton: true,
+                    })
                 },
-                error: function () {
-
-                }
+                error: function () {                }
+                
+                
             });
         }
     }
@@ -303,6 +343,7 @@ const Product = (() => {
                 $('#txt_buying_price').val(response.buy_price);
                 $('#txt_selling_price').val(response.sale_price);
                 $('#txt_selling_price').prop( "disabled", true );
+                $('#txt_manufature_date').val(response.manufacture_date);
                 $('#txt_expiraton_date').val(response.expiration_date);
                 $('#slc_status').val(response.status);
                 $('#slc_status').prop( "disabled", true );
@@ -322,10 +363,12 @@ const Product = (() => {
 
     thisProduct.update = () => {
         const buying_price = $('#txt_buying_price').val();
+        const manufacture_date = $('#txt_manufature_date').val();
         const expiration_date = $('#txt_expiraton_date').val();
         const quantity = $('#txt_quantity').val();
 
-        if(buying_price == "" 
+        if(buying_price == ""
+        || manufacture_date == "" 
         || expiration_date == ""
         || quantity == "") {
             Swal.fire({
@@ -344,6 +387,7 @@ const Product = (() => {
                     product_id: product_id,
                     product_details_id: product_details_id,
                     buying_price: buying_price,
+                    manufacture_date: manufacture_date,
                     expiration_date: expiration_date,
                     quantity: quantity,
                 },
@@ -351,6 +395,12 @@ const Product = (() => {
                 {
                     thisProduct.loadTableData();
                     thisProduct.resetFields();
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Product successfully updated',
+                        showConfirmButton: true,
+                    })
                 },
                 error: function () {
     
@@ -368,6 +418,7 @@ const Product = (() => {
         $('#slc_product_category').val("");
         $('#txt_buying_price').val("");
         $('#txt_selling_price').val("");
+        $('#txt_manufature_date').val("");
         $('#txt_expiraton_date').val("");
         $('#slc_status').val("");
         $('#txt_quantity').val("");
@@ -404,6 +455,7 @@ const Product = (() => {
                     $('#slc_product_category').val("");
                     $('#txt_buying_price').val("");
                     $('#txt_selling_price').val("");
+                    $('#txt_manufature_date').val("");
                     $('#txt_expiraton_date').val("");
                     $('#slc_status').val("");
                     $('#txt_quantity').val("");

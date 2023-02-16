@@ -57,9 +57,9 @@ if(!$_SESSION['user']) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal_view_deatils_header">New message</h5>
-                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        
+                    </button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered">
@@ -69,6 +69,7 @@ if(!$_SESSION['user']) {
                                 <th>Quantity</th>
                                 <th>Buy Price</th>
                                 <th>Date Added</th>
+                                <th>Manufacture Date</th>
                                 <th>Expiration Date</th>
                                 <th>Already Expired?</th>
                                 <!-- <th>Actions</th> -->
@@ -88,8 +89,7 @@ if(!$_SESSION['user']) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal_update_details_header">New message</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -123,21 +123,21 @@ if(!$_SESSION['user']) {
                                 <label for="message-text" class="col-form-label">Selling Price:</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon3">₱</span>
-                                    <input type="text" class="form-control" id="txt_selling_price">
+                                    <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price" min="0">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Max Stock:</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon3"><i class="bi bi-clipboard2-plus"></i></span>
-                                    <input type="text" class="form-control" id="txt_max_stock">
+                                    <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_max_stock">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Min Stock:</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon3"><i class="bi bi-clipboard2-minus"></i></span>
-                                    <input type="text" class="form-control" id="txt_min_stock">
+                                    <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_min_stock">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -165,7 +165,7 @@ if(!$_SESSION['user']) {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="Product.update()">Save</button>
                 </div>
             </div>

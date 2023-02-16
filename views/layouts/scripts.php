@@ -19,17 +19,18 @@
 
     const logout = () => {
 
-        $.ajax({
-            type: "GET",
-            url: LOGIN_CONTROLLER + '?action=logout',
-            dataType: "json",
-            success: function (response) 
-            {
+ Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to logout?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then(function(result) {
+            if (result.value) {
                 window.location.href = "../../views/master-page/login.php";
-            },
-            error: function () {
-
             }
-        }); 
+        })
     }
 </script>

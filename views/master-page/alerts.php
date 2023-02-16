@@ -27,6 +27,7 @@ if(!$_SESSION['user']) {
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Batch</th>
+                                        <th>Quantity</th>
                                         <th>Expiration Date</th>
                                         <th>Product Status</th>
                                     </tr>

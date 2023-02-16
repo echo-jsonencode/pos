@@ -28,6 +28,7 @@ if ($action == 'getTableDataExpirationStatus')
         $table_data .= '<td>' . $counter . '</td>';
         $table_data .= '<td>' . $product['product_name'] . '</td>';
         $table_data .= '<td>' . $product['batch'] . '</td>';
+        $table_data .= '<td>' . $product['quantity'] . '</td>';
         $table_data .= '<td>' . $product['expiration_date'] . '</td>';
         $table_data .= '<td>' . $expired_status . '</td>';
         $table_data .= '</tr>';

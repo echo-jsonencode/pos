@@ -76,27 +76,27 @@ label {
   border-radius: 15px;
   font-size: .8rem;
   font-weight: 500;
-  border: 2px solid #2cafa8;
-  color: #24958f;
+  /* border: 2px solid #080a0a; */
+  color: #000000;
 }
 
 .category--main {
-  border: 2px solid #2cafa8;
+  /* border: 2px solid #2cafa8; */
   color: #24958f;
 }
 
 .category--green {
-  border: 2px solid green;
+  /* border: 2px solid green; */
   color: green;
 }
 
 .category--red {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   color: red;
 }
 
 .category--orange {
-  border: 2px solid orange;
+  /* border: 2px solid orange; */
   color: orange;
 }
 

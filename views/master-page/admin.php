@@ -23,7 +23,7 @@ else if($_SESSION['user']['role'] === 3) {
             <div class="row">
                 <div class="col-lg-8 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">User Table</h2>
+                        <h2 class="section__sub-title">Accounts Table</h2>
 
                         <div class="table-wrapper">
                             <table class="table table-bordered">
@@ -47,7 +47,7 @@ else if($_SESSION['user']['role'] === 3) {
 
                 <div class="col-lg-4">
                     <div class="user__form-wrapper">
-                        <h2 class="section__sub-title" id="lbl_title">Create User</h2>
+                        <h2 class="section__sub-title" id="lbl_title">Create Account</h2>
                         <form class="row g-3">
                             <div class="col-md-12">
                                 <label for="username" class="form-label">First Name</label>
@@ -86,7 +86,7 @@ else if($_SESSION['user']['role'] === 3) {
                                 </select>
                             </div>
                             <div class="col-12">
-                                <button type="submit" id="btn_save" onclick="Admin.clickSaveButton()" class="btn form-control btn-main">Register User</button>
+                                <button type="submit" id="btn_save" onclick="Admin.clickSaveButton()" class="btn form-control btn-main">Register Account</button>
                             </div>
                         </form>
                     </div>

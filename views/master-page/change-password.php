@@ -20,16 +20,20 @@ if (!$_SESSION['user']) {
                     <div class="user__form-wrapper">
                         <h2 class="section__sub-title" id="lbl_title">Change Password</h2>
                         <form class="row g-3">
+                        <div class="col-md-12">
+                                <label for="oldpassword" class="form-label">Old Password</label>
+                                <input type="password" class="form-control" id="txt_oldpassword" autofill="on">
+                            </div>
                             <div class="col-md-12">
-                                <label for="password" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="txt_password">
+                                <label for="newpassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="txt_newpassword">
                             </div>
                             <div class="col-md-12">
                                 <label for="confirmPassword" class="form-label">Confirm New Password</label>
                                 <input type="password" class="form-control" id="txt_confirm_password">
                             </div>
                             <div class="col-12">
-                                <button type="submit" id="btn_save" onclick="ChangePassword.confirm()" class="btn form-control btn-main">Register User</button>
+                                <button type="submit" id="btn_save" onclick="ChangePassword.confirm()" class="btn form-control btn-main">Update Password</button>
                             </div>
                         </form>
                     </div>

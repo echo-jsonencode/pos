@@ -92,6 +92,7 @@ else if ($action == 'getProductDetailsTableModal')
         $table_data .= '<td>' . $productDetails['quantity'] . '</td>';
         $table_data .= '<td>' . $productDetails['buy_price'] . '</td>';
         $table_data .= '<td>' . $productDetails['date_added'] . '</td>';
+        $table_data .= '<td>' . $productDetails['manufacture_date'] . '</td>';
         $table_data .= '<td>' . $productDetails['expiration_date'] . '</td>';
         $table_data .= '<td>' . $expired_status . '</td>';
         // $table_data .= '<td class="col-actions">';
@@ -137,6 +138,7 @@ else if ($action == 'save')
     $product_category = $_POST['product_category'];
     $buying_price = $_POST['buying_price'];
     $selling_price = $_POST['selling_price'];
+    $manufature_date = $_POST['manufature_date'];
     $expiraton_date = $_POST['expiraton_date'];
     $status = $_POST['status'];
     $quantity = $_POST['quantity'];
@@ -149,6 +151,7 @@ else if ($action == 'save')
         'product_category' => $product_category,
         'buying_price' => $buying_price,
         'selling_price' => $selling_price,
+        'manufature_date' => $manufature_date,
         'expiraton_date' => $expiraton_date,
         'status' => $status,
         'quantity' => $quantity,
@@ -180,6 +183,7 @@ else if ($action == 'updateProductDetails')
     $product_id = $_POST['product_id'];
     $product_details_id = $_POST['product_details_id'];
     $buying_price = $_POST['buying_price'];
+    $manufacture_date = $_POST['manufacture_date'];
     $expiration_date = $_POST['expiration_date'];
     $quantity = $_POST['quantity'];
 
@@ -187,6 +191,7 @@ else if ($action == 'updateProductDetails')
         'product_id' => $product_id,
         'product_details_id' => $product_details_id,
         'buying_price' => $buying_price,
+        'manufacture_date' => $manufacture_date,
         'expiration_date' => $expiration_date,
         'quantity' => $quantity,
     ];

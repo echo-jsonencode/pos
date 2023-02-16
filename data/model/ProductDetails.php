@@ -8,7 +8,7 @@ class ProductDetails
 
     private $getAllquery = "SELECT p.id AS product_id, category_id, barcode, p.name AS product_name, sale_price, status, max_stock, min_stock,
     c.name AS category_name, 
-    pd.id AS product_details_id, quantity, buy_price, date_added, expiration_date, batch, expired_status, type
+    pd.id AS product_details_id, quantity, buy_price, date_added, manufacture_date, expiration_date, batch, expired_status, type
     FROM products p
     INNER JOIN categories as c
     ON p.category_id = c.id
@@ -71,13 +71,14 @@ class ProductDetails
         $product_id = $request['product_id'];
         $quantity = $request['quantity'];
         $buying_price = $request['buying_price'];
+        $manufature_date = $request['manufature_date'];
         $expiraton_date = $request['expiraton_date'];
         $date_added = date("Y-m-d H:i:s");
 
-        $sql = "INSERT INTO product_details (product_id, quantity, buy_price, date_added, expiration_date) VALUES (?,?,?,?,?)";
+        $sql = "INSERT INTO product_details (product_id, quantity, buy_price, date_added, manufacture_date, expiration_date) VALUES (?,?,?,?,?,?)";
         
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iidss",$product_id, $quantity, $buying_price, $date_added, $expiraton_date);
+        $stmt->bind_param("iidsss",$product_id, $quantity, $buying_price, $date_added, $manufature_date, $expiraton_date);
         
         $result = '';
         if ($stmt->execute() === TRUE) {
@@ -97,15 +98,16 @@ class ProductDetails
         $product_id = $request['product_id'];
         $product_details_id = $request['product_details_id'];
         $buying_price = $request['buying_price'];
+        $manufacture_date = $request['manufacture_date'];
         $expiration_date = $request['expiration_date'];
         $quantity = $request['quantity'];
 
         $sql = "UPDATE product_details 
-        SET buy_price= ?, expiration_date= ?, quantity= ?
+        SET buy_price= ?, manufacture_date= ?, expiration_date= ?, quantity= ?
         WHERE id= ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("dsii",$buying_price, $expiration_date, $quantity, $product_details_id);
+        $stmt->bind_param("dssii",$buying_price, $manufacture_date, $expiration_date, $quantity, $product_details_id);
 
 
         $result = '';

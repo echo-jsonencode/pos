@@ -1,2 +1,2 @@
-const SYSNAME = '/pos-master';
+const SYSNAME = '/pos';
 // const SYSNAME = '';

@@ -43,7 +43,11 @@
                 </li>
 
             </ul>
-
+            <?php echo ($_SESSION["user"]["fullname"]);
+    // foreach($_SESSION["user"] as $key => $value) {
+    //     echo($key);
+    // }
+    ?>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 pull-right">
                 <li class="nav-item dropstart">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

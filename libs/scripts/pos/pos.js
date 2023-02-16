@@ -168,7 +168,7 @@ btnCheckout.addEventListener('click', (e)=>{
         <span class="pos__list__item__quantity"></span>
         <p class="pos__list__item__name">Payment</p>
         </div>
-        <input class="pos__body__payment" oninput="calculateChange()" type="text"></input>
+        <input class="pos__body__payment" oninput="calculateChange()" type="text" maxlength="10"></input>
     </li>`
 
     list+=`<li class="pos__list__item total">
@@ -261,7 +261,9 @@ btnCart.addEventListener('click', (e) => {
                 $('#pos__table tbody').append(row);
                 $('.table').DataTable();
                 checkDiscount()
-                posForm.reset();
+                // btnCheckout.style.color="Yellow"
+                posForm.reset()
+                btnCheckout.disabled=false;
 
             } else if (data.length > 0 && totalAvailableQuantity < requiredQuantity) {
                 posQuantity.classList.add('error');
@@ -275,7 +277,7 @@ btnCart.addEventListener('click', (e) => {
                     icon: 'error',
                     title: 'Product Not Found',
                     text: 'It seems like the product that you\'re looking for is out of stock',
-                    footer: '<a class="kaboom" href="http://localhost/inventory-pos/views/master-page/products.php">You might check the list of available products here</a>'
+                    footer: '<a class="kaboom" href="http://localhost/pos/views/master-page/products.php">You might check the list of available products here</a>'
                 })
             }
         }
