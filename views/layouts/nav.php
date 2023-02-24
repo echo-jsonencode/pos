@@ -21,6 +21,9 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="../master-page/add-item.php">Register</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/logs.php">Logs</a>
+                    </li>
                 <?php } ?>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="../master-page/products.php">Products</a>

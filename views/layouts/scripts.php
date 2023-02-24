@@ -19,7 +19,7 @@
 
     const logout = () => {
 
- Swal.fire({
+        Swal.fire({
             title: 'Are you sure?',
             text: "You want to logout?",
             icon: 'warning',
@@ -29,7 +29,18 @@
             confirmButtonText: 'Yes!'
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "../../views/master-page/login.php";
+                $.ajax({
+                    type: "POST",
+                    url: LOGIN_CONTROLLER + '?action=logout',
+                    dataType: "json",
+                    success: function (response) 
+                    {
+                        window.location.href = "../../views/master-page/login.php";
+                    },
+                    error: function () {
+
+                    }
+                }); 
             }
         })
     }

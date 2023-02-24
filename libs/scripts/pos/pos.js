@@ -24,7 +24,7 @@ let grandTotal = 0;
 
 const printReceipt = (invoiceId) => {
     // window.location.href = 
-    window.open(`${HOST}views/pos/receipt.php?invoice_id=${invoiceId}`);
+    window.open(`${HOST_2}/views/pos/receipt.php?invoice_id=${invoiceId}`);
 }
 
 const checkSalesToday = () => {

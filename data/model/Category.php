@@ -2,13 +2,17 @@
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 
+include_once('ActionLog.php');
+
 class Category
 {
     private $conn;
+    private $ActionLog;
 
     public function __construct($connection)
     {
         $this->conn = $connection;
+        $this->ActionLog = new ActionLog($connection);
     }
 
     public function getAll()
@@ -41,6 +45,8 @@ class Category
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Save";
+
+            $this->ActionLog->saveLogs('category', 'saved');
         } else {
             $result = "Error: <br>" . $this->conn->error;
         }
@@ -63,6 +69,8 @@ class Category
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Updated Successfully";
+
+            $this->ActionLog->saveLogs('category', 'updated');
         } else {
             $result = "Error updating record: " . $this->conn->error;
         }
@@ -79,6 +87,8 @@ class Category
         $result = '';
         if ($this->conn->query($sql) === TRUE) {
             $result = "Deleted Successfully";
+
+            $this->ActionLog->saveLogs('category', 'deleted');
         } else {
             $result = "Error deleting record: " . $this->conn->error;
         }

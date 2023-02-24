@@ -14,3 +14,4 @@ const CATEGORY_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/CategoryContro
 const LOGIN_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/LoginController.php';
 const USER_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/UserController.php';
 const SALES_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/SalesController.php';
+const ACTIONLOG_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/ActionLogController.php';

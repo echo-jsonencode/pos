@@ -2,9 +2,12 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
+include_once('ActionLog.php');
+
 class ProductDetails
 {
     private $conn;
+    private $ActionLog;
 
     private $getAllquery = "SELECT p.id AS product_id, category_id, barcode, p.name AS product_name, sale_price, status, max_stock, min_stock,
     c.name AS category_name, 
@@ -20,6 +23,7 @@ class ProductDetails
     public function __construct($connection)
     {
         $this->conn = $connection;
+        $this->ActionLog = new ActionLog($connection);
     }
 
     public function getAll()
@@ -84,6 +88,7 @@ class ProductDetails
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Save";
             $this->adjustBatchNumber($product_id);
+            $this->ActionLog->saveLogs('product_details', 'saved');
         } else {
             $result = "Error: " . $sql . "<br>" . $this->conn->error;
         }
@@ -114,6 +119,7 @@ class ProductDetails
         if ($stmt->execute() === TRUE) {
             $result = "Updated Successfully";
             $this->adjustBatchNumber($product_id);
+            $this->ActionLog->saveLogs('product_details', 'updated');
         } else {
             $result = "Error updating record: " . $this->conn->error;
         }

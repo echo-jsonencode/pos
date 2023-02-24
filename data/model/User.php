@@ -4,14 +4,17 @@
 
 // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once('ActionLog.php');
 
 class User
 {
     private $conn;
+    private $ActionLog;
 
     public function __construct($connection)
     {
         $this->conn = $connection;
+        $this->ActionLog = new ActionLog($connection);
     }
 
     public function getAll()
@@ -52,6 +55,7 @@ class User
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Save";
+            $this->ActionLog->saveLogs('user', 'saved');
         } else {
             $result = "Error: <br>" . $this->conn->error;
         }
@@ -78,6 +82,7 @@ class User
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Updated Successfully";
+            $this->ActionLog->saveLogs('user', 'updated');
         } else {
             $result = "Error updating record: " . $this->conn->error;
         }
@@ -102,6 +107,7 @@ class User
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Updated Successfully";
+            $this->ActionLog->saveLogs('user', 'change password');
         } else {
             $result = "Error updating record: " . $this->conn->error;
         }
@@ -201,10 +207,13 @@ class User
             $_SESSION['user'] = [
                 'id' => $id,
                 'fullname' => $first_name . ' ' . $last_name,
-                'role' => $role
+                'role' => $role,
+                'username' => $username
             ];
             $this->update_login_attempt($id, 0);
             $this->udpate_login_details($id);
+
+            $this->ActionLog->saveLogs('login');
             return "Validated";
         } else {
             $stmt->free_result();
@@ -228,6 +237,8 @@ class User
         $result = '';
         if ($this->conn->query($sql) === TRUE) {
             $result = "Deleted Successfully";
+
+            $this->ActionLog->saveLogs('user', 'deleted');
         } else {
             $result = "Error deleting record: " . $this->conn->error;
         }
