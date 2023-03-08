@@ -9,7 +9,7 @@ class ProductDetails
     private $conn;
     private $ActionLog;
 
-    private $getAllquery = "SELECT p.id AS product_id, category_id, barcode, p.name AS product_name, sale_price, status, max_stock, min_stock,
+    private $getAllquery = "SELECT p.id AS product_id, category_id, barcode, p.name AS product_name, sale_price, status, max_stock, min_stock, expired_products,
     c.name AS category_name, 
     pd.id AS product_details_id, quantity, buy_price, date_added, manufacture_date, expiration_date, batch, expired_status, type
     FROM products p
@@ -69,6 +69,18 @@ class ProductDetails
         return $result->fetch_all(MYSQLI_ASSOC);
 
     }
+    
+    // public function getAllByStockStatus()
+    // {
+    //     $sql = $this->getAllquery . ' where stock_status > max ' . $this->orderBy;
+
+    //     $result = $this->conn->query($sql);
+        
+    //     $this->conn->close();
+
+    //     return $result->fetch_all(MYSQLI_ASSOC);
+
+    // }
 
     public function save($request)
     {
@@ -103,8 +115,8 @@ class ProductDetails
         $product_id = $request['product_id'];
         $product_details_id = $request['product_details_id'];
         $buying_price = $request['buying_price'];
-        $manufacture_date = $request['manufacture_date'];
-        $expiration_date = $request['expiration_date'];
+        $manufature_date = $request['manufature_date'];
+        $expiraton_date = $request['expiraton_date'];
         $quantity = $request['quantity'];
 
         $sql = "UPDATE product_details 
@@ -112,7 +124,7 @@ class ProductDetails
         WHERE id= ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("dssii",$buying_price, $manufacture_date, $expiration_date, $quantity, $product_details_id);
+        $stmt->bind_param("dssii",$buying_price, $manufature_date, $expiraton_date, $quantity, $product_details_id);
 
 
         $result = '';

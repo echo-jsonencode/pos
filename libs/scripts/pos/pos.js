@@ -1,6 +1,6 @@
 $(document).ready(() => {
     checkSalesToday();
-    checkCart();    
+    checkCart();
 });
 
 const pos_sales_today = document.querySelector('.pos__head__amount');
@@ -20,13 +20,17 @@ const btnCheckout = document.querySelector('.pos__form__checkout');
 const btnClose = document.querySelector('pos__close');
 const posTable = document.querySelector('pos__table');
 const posQuantity = document.querySelector('.pos__form__quantity');
-let container = 0;
+const btnConfirmPassword = document.querySelector('.admin__password__button');
+const inpAdminPassword = document.querySelector('.admin__password__input');
+
+let barcode;
 let productCart = [];
 let grandTotal = 0;
+let container = 0;
 
 const printReceipt = (invoiceId) => {
-    // window.location.href = 
-    window.open(`${HOST}views/pos/receipt.php?invoice_id=${invoiceId}`);
+    // window.location.href = ('http://localhost/pos/views/pos/receipt.php?invoice_id=${invoiceId}');
+    window.open(`${HOST_2}/views/pos/receipt.php?invoice_id=${invoiceId}`);
 }
 
 const checkSalesToday = () => {
@@ -43,6 +47,48 @@ const checkSalesToday = () => {
         }
     });
 }
+
+// const getBarcode =  () => {
+
+//     let actionURL;
+
+//     if(select.value == 0){
+//         if(inpSearchDaily.value == ''){
+//             inpSearchDaily.classList.add('error');
+//         }
+//         else{
+//             inpSearchDaily.classList.remove('error');
+//             actionURL = `?action=searchDaily&date=${inpSearchDaily.value}`;
+//         }
+
+//     }
+// }
+
+// const openModal = (id) => {
+//     $('#myModal').modal('show');
+//     $.ajax({
+//         type:'get',
+//         url: INVOICE_CONTROLLER + `?action=voidCart=${id}`,
+//         dataType: 'json',
+//         cache:false,
+//         success: (data) =>{
+//             console.log(data);
+//             let tbody = '';
+
+//             data.forEach(item => {
+//                 tbody += `<tr>
+//                 <td>
+//                     <button class="invoice__modal__void" onclick="confirmVoidCart(${product.barcode}">Void</button>
+//                 </td>
+//             </tr>`;
+//             });
+
+//             $('#sales__table').DataTable().destroy();
+//             $('#sales__table tbody').html(tbody);
+//             $('#sales__table').DataTable();
+//         }
+//     })
+// }
 
 const checkCart = () => {
     if(container == 0){
@@ -67,13 +113,77 @@ const removeItem = (barcode) => {
         .rows( rowClass )
         .remove()
         .draw()
-    container --
-    checkCart();
+        container --
+        checkCart();
 }
+
+const validateAdminPassword = () => {
+ var barcode = $('#modal_confirmpassword').data('barcode');
+    $.ajax({
+        type: 'POST',
+        url: USER_CONTROLLER + `?action=validateAdminPassword`,
+        data:{
+            password:inpAdminPassword.value
+        },
+        dataType: 'json',
+        cache: false,
+        success: (result) => {
+            if(result == true) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Voided successfully',
+                    showConfirmButton: true,
+                })
+                removeItem(barcode)
+                $('#modal_confirmpassword').modal('hide');
+            }
+            else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Incorrect Password',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        }
+    });
+    inpAdminPassword.value = "";
+}
+
+const confirmVoidCart = (barcode) => {
+    barcode = barcode;
+    if(SessionRole.value == 3) {
+        $('#modal_confirmpassword').data('barcode', barcode);
+        $('#modal_confirmpassword').modal('show');
+    } 
+    else {
+        removeItem(barcode)
+    }
+}
+
+const voidCart = (barcode) => {
+        $.ajax({
+            type: 'GET',
+            url: INVOICE_CONTROLLER + `?action=voidCart`,
+            // type: 'DELETE',
+            data:{
+                barcode:barcode,
+            },
+            dataType: 'json',
+            cache: false,
+            success: (data) => {
+                console.log(data);
+            }
+        });
+}
+
 
 const closeModal = (modal) =>{
     $(`#${modal}`).modal('hide');
 }
+
 
 const calculateDiscount = (amount, discountType) => {
                 let discount = 0;
@@ -256,7 +366,7 @@ btnCart.addEventListener('click', (e) => {
                         const rowClass = `rowClass row${product.barcode}`;
                         row += `<tr class="${rowClass}">
                         <td>
-                            <button class="btn-remove" onclick="removeItem(${product.barcode})">&#10008;</button>
+                            <button class="btn-remove" onclick="confirmVoidCart(${product.barcode})">&#10008;</button>
                         </td>
                         <td>${product.product_name}</td>
                         <td>${product.category_name}</td>
@@ -275,11 +385,10 @@ btnCart.addEventListener('click', (e) => {
                 $('.table').DataTable().destroy();
                 $('#pos__table tbody').append(row);
                 $('.table').DataTable();
-                checkDiscount()
-                // btnCheckout.style.color="Yellow"
-                posForm.reset()
                 container ++
-                checkCart();
+                checkCart()
+                checkDiscount()
+                posForm.reset();
 
             } else if (data.length > 0 && totalAvailableQuantity < requiredQuantity) {
                 posQuantity.classList.add('error');
@@ -349,7 +458,7 @@ btnConfirm.addEventListener('click',()=>{
                 window.location.href = HOST_2 + '/views/pos/index.php';
             },
             error: function () {
-                // console.log('error');
+                console.log('error');
             }
         });
     }
@@ -389,3 +498,6 @@ function calculateChange () {
     change = parseFloat(change).toFixed(2);
     $('.pos__list__item__change').html(`₱ ${change}`);
 }
+
+
+btnConfirmPassword.addEventListener('click', validateAdminPassword);

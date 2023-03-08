@@ -19,7 +19,25 @@
                         <a class="nav-link" aria-current="page" href="../master-page/admin.php">Admin</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/purchase.php">Purchase</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Register
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../master-page/add-item.php">Products</a></li>
+                        <li><a class="dropdown-item" href="../master-page/category.php">Category</a></li>
+                    </ul>
+                    </li>
+                    <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="../master-page/add-item.php">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/category.php">Categories</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../master-page/logs.php">Logs</a>
                     </li>
                 <?php } ?>
                 <li class="nav-item">

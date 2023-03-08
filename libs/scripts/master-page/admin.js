@@ -7,6 +7,25 @@ $(document).ready(function () {
     })
 });
 
+const validation = () =>{
+    const passPattern = /(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_])(?=^.*[^\s].*$).*$/;
+
+
+if (document.getElementById('txt_password').value.match(passPattern)){
+        document.getElementById('mess').innerHTML='Valid';
+        document.getElementById('mess').style.color = 'green';
+        document.getElementById('btn_save').disabled=false;
+        // return validation;
+        // return true;
+        }
+        else {
+        document.getElementById('mess').innerHTML="Your password must contain at least six characters, an uppercase, lowercase, special character, and number";
+        document.getElementById('mess').style.color = 'red';
+        document.getElementById('btn_save').disabled=true;
+        // return thisChangePassword.preventDefault();
+        }
+
+    }
 
 const Admin = (() => {
     const thisAdmin = {};
@@ -60,7 +79,7 @@ const Admin = (() => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Please fillup all fields',
+                title: 'Please fillout all fields',
                 showConfirmButton: true,
             })
         }
@@ -170,7 +189,8 @@ const Admin = (() => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes!',
+            cancelButtonText: 'No'
         }).then((result) => {
             if (result.isConfirmed) {
                 thisAdmin.delete();
@@ -189,9 +209,9 @@ const Admin = (() => {
             success: function (response) 
             {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
-                    title: 'User Successfully Deleted',
+                    title: 'User account was deleted successfully',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -214,7 +234,8 @@ const Admin = (() => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Update to Default Password!'
+            confirmButtonText: 'Yes, Update to Default Password!',
+            cancelButtonText: 'No'
         }).then((result) => {
             if (result.isConfirmed) {
                 thisAdmin.resetPassword();
@@ -236,7 +257,7 @@ const Admin = (() => {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
-                    title: 'User Successfully Reset Password',
+                    title: 'Password Reset Successfully ',
                     showConfirmButton: false,
                     timer: 1500
                 })

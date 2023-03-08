@@ -74,6 +74,7 @@ if(!$_SESSION['user']) {
 </body>
 <script src="../../libs/scripts/master-page/home.js" ></script>
 <script src="../../libs/scripts/pos/time.js"></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 
 </html>

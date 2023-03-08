@@ -21,23 +21,24 @@ if (!$_SESSION['user']) {
                     <div class="user__form-wrapper">
                         <h2 class="section__sub-title" id="lbl_title">Change Password</h2>
                         <form class="row g-3">
-                        <div class="col-md-12">
-                                <input type="hidden" class="form-control" id="txt_currentpass" value="<?php echo($_SESSION['user']['password']); ?>">
-                            </div>
-                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <input type="hidden" id="old_password" value="<?php echo($_SESSION['user']['password']); ?>">
                                 <label for="oldpassword" class="form-label">Old Password</label>
-                                <input type="password" class="form-control" id="txt_oldpassword" autofill="on">
+                                <input type="password" class="form-control" id="txt_oldpassword" name="txt_oldpassword" autofill="on">
+                                <!-- <i class="bi-eye-slash-fill" id="togglePassword" style="margin-left: -30px; cursor: pointer;" ></i> -->
                             </div>
                             <div class="col-md-12">
                                 <label for="newpassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="txt_newpassword">
+                                <input type="password" class="form-control" id="txt_newpassword" onkeyup = validation(); required/><span id="mess"></span>
+                                <!-- <i class="bi-eye-slash-fill" id="togglePassword" style="margin-left: -30px; cursor: pointer;" ></i> -->
                             </div>
                             <div class="col-md-12">
                                 <label for="confirmPassword" class="form-label">Confirm New Password</label>
                                 <input type="password" class="form-control" id="txt_confirm_password">
+                                <!-- <i class="bi-eye-slash-fill" id="togglePassword" style="margin-left: -30px; cursor: pointer;" ></i> -->
                             </div>
                             <div class="col-12">
-                                <button type="submit" id="btn_save" onclick="ChangePassword.confirm()" class="btn form-control btn-main">Update Password</button>
+                                <button type="submit" id="btn_save" name="btn_save" onclick="ChangePassword.confirm()" class="btn form-control btn-main">Update Password</button>
                             </div>
                         </form>
                     </div>
@@ -52,5 +53,6 @@ if (!$_SESSION['user']) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/change-password.js"></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

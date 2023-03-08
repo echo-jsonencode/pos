@@ -47,7 +47,7 @@ const Product = (() => {
         });
     }
 
-    thisProduct.clickView = (id, proudct_name) => {
+    thisProduct.clickView = (id, product_name) => {
         $.ajax({
             type: "POST",
             url: PRODUCT_CONTROLLER + '?action=getProductDetailsTableModal',
@@ -57,7 +57,7 @@ const Product = (() => {
             },
             success: function (response) {
                 $('#modal_view_details').modal('show')
-                $('#modal_view_deatils_header').html(proudct_name)
+                $('#modal_view_deatils_header').html(product_name)
 
                 $('#tbody_product_details').html(response);
             },
@@ -86,7 +86,7 @@ const Product = (() => {
                 $('#txt_max_stock').val(response.max_stock);
                 $('#txt_min_stock').val(response.min_stock);
                 $('#slc_type').val(response.type);
-
+               
                 $('#modal_update_details').modal('show')
                 $('#modal_update_details_header').html('Update ' + product_name)
 

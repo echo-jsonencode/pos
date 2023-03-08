@@ -74,5 +74,6 @@ if(!$_SESSION['user']) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/alerts.js" ></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

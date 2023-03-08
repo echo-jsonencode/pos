@@ -20,11 +20,6 @@ if(!$_SESSION['user']) {
         <section class="pos">
             <div class="pos__head">
                 <div class="pos__head__date">
-                    <?php
-                    date_default_timezone_set("Asia/Singapore");
-                    $monthNum  = date('m');
-                    $monthName = date('F', mktime(0, 0, 0, $monthNum, 10));
-                    ?>
                     <span><?php echo date('l, Y-m-d'); ?></span>
                     <p class="pos__head__time"><?php echo date('h:i:s A'); ?></p>
                 </div>
@@ -132,11 +127,36 @@ if(!$_SESSION['user']) {
         </section>
     </div>
 
+    <div class="modal modal-md" id="modal_confirmpassword">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirm Admin Password</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <input type="password" class="form-control admin__password__input" id="password__input">
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success admin__password__button">Confirm</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
     <?php include '../layouts/scripts.php' ?>
     <script src="../../libs/scripts/pos/time.js"></script>
     <script src="../../libs/scripts/pos/pos.js"></script>
+    <!-- <script src="../../libs/scripts/reports/invoice.js"></script> -->
 </body>
 
 </html>

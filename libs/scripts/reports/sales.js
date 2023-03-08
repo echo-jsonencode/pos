@@ -72,8 +72,8 @@ const Sales = (() => {
                 dateTo: dateTo
             },
             dataType: "json",
-            success: function (response) {
-                $('#lbl_total_sales').html(`Total Sales: ₱${response.total_sales}`)
+            success: function (response) {   
+                $('#lbl_total_sales').html(`Total Sales: ₱${parseFloat(response.total_sales).toFixed(2)}`)
 
                 if(barchart) {
                     barchart.destroy();

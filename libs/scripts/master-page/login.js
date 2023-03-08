@@ -5,6 +5,7 @@ $(document).ready(function () {
 });
 
 
+
 const Login = (() => {
     const thisLogin = {};
 
@@ -54,3 +55,13 @@ const Login = (() => {
 
     return thisLogin;
 })();
+
+const togglePassword = document.querySelector('#togglePassword');
+                const password = document.querySelector('#txt_password');
+                togglePassword.addEventListener('click', () => {
+                // toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ?'text' : 'password';
+                password.setAttribute('type', type);
+                // toggle the eye slash icon
+                event.target.classList.toggle('bi-eye');
+            });

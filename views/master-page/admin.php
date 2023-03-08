@@ -23,7 +23,7 @@ else if($_SESSION['user']['role'] === 3) {
             <div class="row">
                 <div class="col-lg-8 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">Accounts Table</h2>
+                        <h2 class="section__sub-title">List of Accounts</h2>
 
                         <div class="table-wrapper">
                             <table class="table table-bordered">
@@ -63,7 +63,7 @@ else if($_SESSION['user']['role'] === 3) {
                             </div>
                             <div class="col-md-12">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="txt_password">
+                                <input type="password" class="form-control" id="txt_password" onkeyup = validation(); required/><span id="mess"></span>
                             </div>
                             <div class="col-md-12">
                                 <label for="confirmPassword" class="form-label">Confirm Password</label>
@@ -102,5 +102,6 @@ else if($_SESSION['user']['role'] === 3) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/admin.js" ></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

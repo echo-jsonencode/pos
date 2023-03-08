@@ -189,9 +189,9 @@ label {
      object-fit: cover;
   width: 100%;
 }
-.bi-eye-fill{
+.bi-eye-slash-fill{
   position: relative;
-  left: 100%;
+  left: 93%;
   bottom: 30px;
 }
 

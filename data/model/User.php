@@ -199,7 +199,7 @@ class User
 
 
         if ($status == 0) {
-            return "Your Account is InActive. Please contact System Admin.";
+            return "Account is deactivated";
         } else if (password_verify($password, $db_password)) {
             $stmt->free_result();
 
@@ -207,7 +207,8 @@ class User
                 'id' => $id,
                 'fullname' => $first_name . ' ' . $last_name,
                 'role' => $role,
-                'username' => $username
+                'username' => $username,
+                'password' => $password,
             ];
             $this->update_login_attempt($id, 0);
             $this->udpate_login_details($id);
@@ -263,4 +264,20 @@ class User
         }
         return $match;
     }
+
+    public function getCurrentPassword($password)
+    {
+        $sql = "SELECT password from user";
+        $result = $this->conn->query($sql);
+
+        return $result;
+    }
+
+
+
+
+
+
+
+
 }

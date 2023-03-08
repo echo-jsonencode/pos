@@ -1,5 +1,5 @@
-const HOST = window.location.protocol + "//" + window.location.host + '/inventory-pos/';
-const HOST_CONTROLLER = window.location.protocol + "//" + window.location.host + '/inventory-pos/data/controller/';
+const HOST = window.location.protocol + "//" + window.location.host + '/pos/';
+const HOST_CONTROLLER = window.location.protocol + "//" + window.location.host + '/pos/data/controller/';
 
 // const HOST = window.location.protocol + "//" + window.location.host + '/inventory-pos/data/controller/';
 
@@ -14,3 +14,5 @@ const CATEGORY_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/CategoryContro
 const LOGIN_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/LoginController.php';
 const USER_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/UserController.php';
 const SALES_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/SalesController.php';
+const ACTIONLOG_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/ActionLogController.php';
+const PURCHASE_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/PurchaseController.php';

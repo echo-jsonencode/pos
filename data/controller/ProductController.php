@@ -184,16 +184,18 @@ else if ($action == 'updateProductDetails')
     $product_id = $_POST['product_id'];
     $product_details_id = $_POST['product_details_id'];
     $buying_price = $_POST['buying_price'];
-    $manufacture_date = $_POST['manufacture_date'];
-    $expiration_date = $_POST['expiration_date'];
+    $selling_price = $_POST['selling_price'];
+    $manufature_date = $_POST['manufature_date'];
+    $expiraton_date = $_POST['expiraton_date'];
     $quantity = $_POST['quantity'];
 
     $request = [
         'product_id' => $product_id,
         'product_details_id' => $product_details_id,
         'buying_price' => $buying_price,
-        'manufacture_date' => $manufacture_date,
-        'expiration_date' => $expiration_date,
+        'selling_price' => $selling_price,
+        'manufature_date' => $manufature_date,
+        'expiraton_date' => $expiraton_date,
         'quantity' => $quantity,
     ];
 
@@ -223,6 +225,7 @@ else if ($action == 'updateProduct')
     $max_stock = $_POST['max_stock'];
     $min_stock = $_POST['min_stock'];
     $type = $_POST['type'];
+    $expired_products = $_POST['expired_products'];
 
     $request = [
         'product_id' => $product_id,
@@ -234,6 +237,7 @@ else if ($action == 'updateProduct')
         'max_stock' => $max_stock,
         'min_stock' => $min_stock,
         'type' => $type,
+        'expired_products' => $expired_products,
     ];
 
     $result = $Product->update($request);

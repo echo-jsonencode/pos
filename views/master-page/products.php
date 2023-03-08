@@ -18,7 +18,7 @@ if(!$_SESSION['user']) {
             <div class="row">
                 <div class="col-lg-12 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">Product Table</h2>
+                        <h2 class="section__sub-title">List of Products</h2>
 
                         <div class="table-wrapper">
                             <table class="table table-bordered">
@@ -176,5 +176,6 @@ if(!$_SESSION['user']) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/products.js"></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

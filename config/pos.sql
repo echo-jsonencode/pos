@@ -1,244 +1,518 @@
--- MySQL dump 10.13  Distrib 8.0.28, for Linux (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: pos
--- ------------------------------------------------------
--- Server version	8.0.28-0ubuntu0.20.04.3
+-- Host: 127.0.0.1
+-- Generation Time: Mar 08, 2023 at 02:37 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pos`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `action_logs`
+--
+
+CREATE TABLE `action_logs` (
+  `id` int(11) NOT NULL,
+  `datetime` datetime DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `action` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `action_logs`
+--
+
+INSERT INTO `action_logs` (`id`, `datetime`, `role`, `username`, `action`) VALUES
+(1, '2023-03-06 11:22:10', 'Owner', 'owner', 'User has logged in'),
+(2, '2023-03-06 04:31:46', 'Owner', 'owner', 'Successfully saved the Category'),
+(3, '2023-03-06 04:32:09', 'Owner', 'owner', 'Successfully saved the Product'),
+(4, '2023-03-06 04:35:00', 'Owner', 'owner', 'Successfully saved the Product'),
+(5, '2023-03-06 04:42:41', 'Owner', 'owner', 'Successfully saved the Category'),
+(6, '2023-03-06 04:43:06', 'Owner', 'owner', 'Successfully saved the Product'),
+(7, '2023-03-06 04:46:56', 'Owner', 'owner', 'Successfully saved the Product'),
+(8, '2023-03-06 04:57:52', 'Owner', 'owner', 'Successfully update sell price of the Product'),
+(9, '2023-03-06 04:57:53', 'Owner', 'owner', 'Successfully saved the Product details'),
+(10, '2023-03-06 13:32:20', 'Owner', 'owner', 'User has logged in'),
+(11, '2023-03-06 17:17:54', 'Owner', 'owner', 'User has logged in'),
+(12, '2023-03-07 13:03:19', 'Owner', 'owner', 'User has logged in'),
+(13, '2023-03-07 15:02:39', 'Owner', 'owner', 'Successfully saved the Product'),
+(14, '2023-03-07 15:02:40', 'Owner', 'owner', 'Successfully update sell price of the Product'),
+(15, '2023-03-07 15:02:41', 'Owner', 'owner', 'Successfully saved the Product details'),
+(16, '2023-03-07 15:02:41', 'Owner', 'owner', 'Successfully update sell price of the Product'),
+(17, '2023-03-07 15:02:41', 'Owner', 'owner', 'Successfully saved the Product details'),
+(18, '2023-03-07 15:03:25', 'Owner', 'owner', 'Successfully updated the Product'),
+(19, '2023-03-07 15:03:27', 'Owner', 'owner', 'Successfully updated the Product'),
+(20, '2023-03-07 15:03:27', 'Owner', 'owner', 'Successfully updated the Product'),
+(21, '2023-03-07 15:03:27', 'Owner', 'owner', 'Successfully updated the Product'),
+(22, '2023-03-07 15:03:27', 'Owner', 'owner', 'Successfully updated the Product'),
+(23, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(24, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(25, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(26, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(27, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(28, '2023-03-07 15:03:28', 'Owner', 'owner', 'Successfully updated the Product'),
+(29, '2023-03-07 15:03:29', 'Owner', 'owner', 'Successfully updated the Product'),
+(30, '2023-03-07 15:03:29', 'Owner', 'owner', 'Successfully updated the Product'),
+(31, '2023-03-07 15:03:31', 'Owner', 'owner', 'Successfully updated the Product'),
+(32, '2023-03-07 15:03:31', 'Owner', 'owner', 'Successfully updated the Product'),
+(33, '2023-03-07 15:03:31', 'Owner', 'owner', 'Successfully updated the Product'),
+(34, '2023-03-07 15:03:31', 'Owner', 'owner', 'Successfully updated the Product'),
+(35, '2023-03-07 15:03:34', 'Owner', 'owner', 'Successfully updated the Product'),
+(36, '2023-03-08 07:58:48', 'Owner', 'owner', 'User has logged in'),
+(37, '2023-03-08 01:35:07', 'Owner', 'owner', 'Successfully saved the User'),
+(38, '2023-03-08 01:35:41', 'Owner', 'owner', 'User has logged out'),
+(39, '2023-03-08 08:36:42', 'Admin', 'Ready', 'User has logged in'),
+(40, '2023-03-08 01:38:26', 'Admin', 'Ready', 'Successfully change password the User'),
+(41, '2023-03-08 08:39:24', 'Admin', 'Ready', 'User has logged in');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categories`
 --
 
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'MILK & DIAPERS'),(2,'OINTMENTS'),(3,'BRANDED TABLETS'),(4,'GENERIC TABLETS'),(5,'SUPPLEMENTS'),(6,'BRANDED SYRUP'),(7,'GENERIC SYRUP'),(8,'GALLENICALS'),(9,'TEST2');
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Hotdog'),
+(2, 'keme');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` int(11) NOT NULL,
+  `expense` varchar(25) NOT NULL,
+  `amount` float NOT NULL,
+  `issuer` int(11) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `invoices`
 --
 
-DROP TABLE IF EXISTS `invoices`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `invoices` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `number` varchar(100) DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `date_transact` datetime DEFAULT NULL,
-  `total_items` int DEFAULT NULL,
+  `total_items` int(11) DEFAULT NULL,
   `total_purchase` float DEFAULT NULL,
-  `discount` tinyint(1) DEFAULT '0' COMMENT 'True | False',
+  `discount` tinyint(1) DEFAULT 0 COMMENT 'True | False',
   `costumer_name` varchar(100) DEFAULT NULL,
   `osca_number` varchar(100) DEFAULT NULL,
   `cash_payment` float DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoices_FK` (`user_id`),
-  CONSTRAINT `invoices_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `label` int(11) DEFAULT NULL,
+  `voider` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `invoices`
+-- Table structure for table `issues`
 --
 
-LOCK TABLES `invoices` WRITE;
-/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-INSERT INTO `invoices` VALUES (1,'20221227102104',1,'2022-12-27 10:21:04',1,435,0,'',NULL,NULL),(2,'20221227110021',1,'2022-12-27 11:00:21',1,368,1,'Jason',NULL,NULL),(3,'20230107090124',1,'2023-01-07 09:01:24',2,87,0,'',NULL,NULL),(4,'20230107090240',1,'2023-01-07 09:02:40',2,160,0,'',NULL,NULL),(5,'20230107090528',1,'2023-01-07 09:05:28',1,240,0,'',NULL,NULL),(6,'20230109001009',1,'2023-01-09 00:10:09',2,267.6,1,'John Dela Cruz',NULL,NULL),(7,'20230109014930',1,'2023-01-09 01:49:30',1,125,0,'','',150),(8,'20230109020323',1,'2023-01-09 02:03:23',2,315,1,'Juana Dela Cruz','4568799',350),(9,'20230109020857',1,'2023-01-09 02:08:57',2,345,0,'','',350),(10,'20230109021133',1,'2023-01-09 02:11:33',3,515,1,'Test Customer Name','1241251',1000),(11,'20230109044833',1,'2023-01-09 04:48:33',2,300,0,'','',500);
-/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `issues` (
+  `id` int(11) NOT NULL,
+  `damage_description` varchar(100) NOT NULL,
+  `incomplete_description` varchar(100) NOT NULL,
+  `theft_description` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Table structure for table `product_details`
---
-
-DROP TABLE IF EXISTS `product_details`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product_details` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int DEFAULT NULL,
-  `quantity` int DEFAULT NULL,
-  `buy_price` float DEFAULT NULL,
-  `date_added` datetime DEFAULT NULL,
-  `expiration_date` date DEFAULT NULL,
-  `expired_status` int DEFAULT '0',
-  `batch` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product_details_FK` (`product_id`),
-  CONSTRAINT `product_details_FK` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `product_details`
---
-
-LOCK TABLES `product_details` WRITE;
-/*!40000 ALTER TABLE `product_details` DISABLE KEYS */;
-INSERT INTO `product_details` VALUES (1,1,0,10,'2022-12-27 10:01:16','2023-04-27',0,3),(2,1,0,10,'2022-12-27 10:02:19','2023-03-07',0,2),(3,1,9,10,'2022-12-27 10:03:07','2023-07-20',0,4),(4,2,0,30,'2022-12-27 10:04:14','2023-05-25',0,1),(5,2,0,30,'2022-12-27 10:05:07','2023-11-10',0,2),(6,3,0,5,'2022-12-27 10:05:52','2023-03-16',0,1),(7,3,0,6,'2022-12-27 10:06:17','2023-07-18',0,2),(8,4,0,15,'2022-12-27 10:54:34','2023-03-07',0,1),(9,4,0,15,'2022-12-27 10:55:55','2023-06-21',0,2),(10,4,0,15,'2022-12-27 10:56:13','2023-12-27',0,4),(11,5,0,15,'2022-12-27 10:56:56','2023-02-09',0,2),(12,5,5,20,'2022-12-27 10:57:12','2023-04-26',0,3),(13,4,10,15,'2023-01-09 02:00:28','2023-09-08',0,3),(14,5,10,20,'2023-01-09 03:53:45','2023-01-09',1,1),(15,1,20,10,'2023-01-09 04:22:19','2022-12-13',1,1),(16,5,10,15,'2023-01-09 04:23:10','2023-01-09',1,1),(17,6,13,12,'2023-01-09 04:46:09','2023-01-09',1,1);
-/*!40000 ALTER TABLE `product_details` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `products`
 --
 
-DROP TABLE IF EXISTS `products`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `category_id` int NOT NULL,
-  `barcode` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `barcode` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `sale_price` float DEFAULT NULL,
-  `status` int DEFAULT NULL,
-  `max_stock` int DEFAULT NULL,
-  `min_stock` int DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `max_stock` int(11) DEFAULT NULL,
+  `min_stock` int(11) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `products_FK` (`category_id`),
-  CONSTRAINT `products_FK` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `expired_products` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-LOCK TABLES `products` WRITE;
-/*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,1,1479,'Happy Baby Pants Large 12s',20,1,50,20,NULL),(2,2,22,'Betamethasone Cream',33.5,1,20,8,NULL),(3,3,294,'Advil Liquigel capsule',10,1,10,5,'branded'),(4,4,107,'Allopurinol 100mg tab',25,1,NULL,NULL,'generic'),(5,3,287,'Alaxan FR capsule',25,1,NULL,NULL,'branded'),(6,9,123,'test',12,1,NULL,NULL,'branded');
-/*!40000 ALTER TABLE `products` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `products` (`id`, `category_id`, `barcode`, `name`, `sale_price`, `status`, `max_stock`, `min_stock`, `type`, `expired_products`) VALUES
+(1, 1, 356536, 'Rreaddf', 44, 1, NULL, NULL, 'generic', 0),
+(2, 1, 47356, 'grwtg', 44, 1, NULL, NULL, 'branded', 0),
+(3, 2, 36735, 'Ready to be', 66, 1, NULL, NULL, 'branded', 0),
+(4, 2, 33, 'afterretwry', 44, 1, NULL, NULL, 'generic', 0),
+(5, 2, 12345, 'MOONLIGHT SUNRISE', 55, 1, 300, 50, 'generic', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_details`
+--
+
+CREATE TABLE `product_details` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `buy_price` float DEFAULT NULL,
+  `date_added` datetime DEFAULT NULL,
+  `manufacture_date` date DEFAULT NULL,
+  `expiration_date` date DEFAULT NULL,
+  `expired_status` int(11) DEFAULT 0,
+  `batch` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `product_details`
+--
+
+INSERT INTO `product_details` (`id`, `product_id`, `quantity`, `buy_price`, `date_added`, `manufacture_date`, `expiration_date`, `expired_status`, `batch`) VALUES
+(5, 4, 322, 33, '2023-03-06 04:57:52', '2023-03-06', '2023-11-02', 0, 1),
+(7, 5, 300, 44, '2023-03-07 15:02:40', '2023-03-07', '2023-12-28', 0, 1),
+(8, 5, 40, 44, '2023-03-07 15:02:41', '2023-03-07', '2023-02-08', 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase`
+--
+
+CREATE TABLE `purchase` (
+  `id` int(11) NOT NULL,
+  `orders` varchar(50) NOT NULL,
+  `supply` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `amount` float NOT NULL,
+  `order_date` datetime NOT NULL,
+  `receiving_date` datetime NOT NULL,
+  `supplier` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `paid` datetime DEFAULT NULL,
+  `delivery` datetime DEFAULT NULL,
+  `received` datetime DEFAULT NULL,
+  `stock` datetime DEFAULT NULL,
+  `damaged` int(11) DEFAULT NULL,
+  `incomplete` int(11) DEFAULT NULL,
+  `theft` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`id`, `orders`, `supply`, `quantity`, `amount`, `order_date`, `receiving_date`, `supplier`, `status`, `paid`, `delivery`, `received`, `stock`, `damaged`, `incomplete`, `theft`) VALUES
+(1, 'dhety', 0, 344, 5555, '0000-00-00 00:00:00', '2023-04-07 00:00:00', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(2, 'ghsfgs', 0, 44, 555, '0000-00-00 00:00:00', '2023-04-07 00:00:00', 2, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(3, 'rwtwt', 0, 455, 6666, '0000-00-00 00:00:00', '2023-03-31 00:00:00', 2, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'rwtwt', 0, 455, 6666, '0000-00-00 00:00:00', '2023-03-31 00:00:00', 2, 7, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(6, 'Keme', 0, 400, 4000, '0000-00-00 00:00:00', '2023-04-01 00:00:00', 3, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'qwerty', 0, 200, 2000, '0000-00-00 00:00:00', '2023-03-31 00:00:00', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'bnbnb', 0, 557, 6000, '0000-00-00 00:00:00', '2023-03-27 00:00:00', 3, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'Save your tears', 0, 500, 6000, '0000-00-00 00:00:00', '2023-03-16 00:00:00', 2, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sales`
 --
 
-DROP TABLE IF EXISTS `sales`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sales` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
-  `qty` int DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
   `date_purchased` datetime DEFAULT NULL,
-  `invoice_id` int DEFAULT NULL,
-  `product_detail_id` int DEFAULT NULL,
-  `void` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `sales_FK` (`product_id`),
-  KEY `sales_FK_1` (`invoice_id`),
-  KEY `sales_FK_2` (`product_detail_id`),
-  CONSTRAINT `sales_FK` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  CONSTRAINT `sales_FK_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`),
-  CONSTRAINT `sales_FK_2` FOREIGN KEY (`product_detail_id`) REFERENCES `product_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `invoice_id` int(11) DEFAULT NULL,
+  `product_detail_id` int(11) DEFAULT NULL,
+  `void` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `sales`
+-- Table structure for table `supplier`
 --
 
-LOCK TABLES `sales` WRITE;
-/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-INSERT INTO `sales` VALUES (1,1,300,15,'2022-12-27 10:21:04',1,2,1),(2,1,100,5,'2022-12-27 10:21:04',1,1,1),(3,2,335,10,'2022-12-27 10:21:04',1,4,NULL),(4,2,100.5,3,'2022-12-27 10:21:04',1,5,NULL),(5,3,100,10,'2022-12-27 10:21:04',1,6,1),(6,3,20,2,'2022-12-27 10:21:04',1,7,1),(7,4,160,10,'2022-12-27 11:00:21',2,8,NULL),(8,4,80,5,'2022-12-27 11:00:21',2,9,NULL),(9,4,128,8,'2022-12-27 11:00:21',2,10,NULL),(10,5,460,20,'2022-12-27 11:00:21',2,11,1),(11,5,23,1,'2022-12-27 11:00:21',2,12,1),(12,1,20,1,'2023-01-07 09:01:24',3,2,NULL),(13,2,67,2,'2023-01-07 09:01:24',3,5,NULL),(14,1,60,3,'2023-01-07 09:02:40',4,2,NULL),(15,3,100,10,'2023-01-07 09:02:40',4,6,NULL),(16,4,240,12,'2023-01-07 09:05:28',5,10,NULL),(17,1,220,11,'2023-01-09 00:10:09',6,2,NULL),(18,1,20,1,'2023-01-09 00:10:09',6,1,NULL),(19,3,27.6,3,'2023-01-09 00:10:09',6,7,NULL),(20,5,125,5,'2023-01-09 01:49:30',7,11,NULL),(21,5,115,5,'2023-01-09 02:03:23',8,11,NULL),(22,4,200,10,'2023-01-09 02:03:23',8,13,NULL),(23,4,325,13,'2023-01-09 02:08:57',9,13,NULL),(24,3,20,2,'2023-01-09 02:08:57',9,7,NULL),(25,1,180,9,'2023-01-09 02:11:33',10,1,NULL),(26,1,20,1,'2023-01-09 02:11:33',10,3,NULL),(27,4,200,10,'2023-01-09 02:11:33',10,13,NULL),(28,5,115,5,'2023-01-09 02:11:33',10,11,NULL),(29,5,125,5,'2023-01-09 04:48:33',11,11,NULL),(30,4,175,7,'2023-01-09 04:48:33',11,13,NULL);
-/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `supplier_name` varchar(25) NOT NULL,
+  `product_supply` int(11) NOT NULL,
+  `personnel` varchar(25) NOT NULL,
+  `contact_number` int(11) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `address` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `trigger`
 --
 
-DROP TABLE IF EXISTS `trigger`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `trigger` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `triggered` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `trigger_FK` (`user_id`),
-  CONSTRAINT `trigger_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `triggered` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `trigger`
---
-
-LOCK TABLES `trigger` WRITE;
-/*!40000 ALTER TABLE `trigger` DISABLE KEYS */;
-/*!40000 ALTER TABLE `trigger` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `role` int DEFAULT NULL,
-  `status` int DEFAULT NULL,
+  `role` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
-  `login_attempt` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `login_attempt` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'John','Doe','owner','$2y$10$uovfGxUqgB7aaOXTlT832OEXoy52Kj1lJ6wzqchHhhnTi65937ZAS',1,1,'2023-01-09 04:51:21',0),(2,'Juan','Dela Cruz','admin','$2y$10$45sOywxA1w7OX4m0I/E4Q.Nl5ii0Q892FNdwhnKr.s.xW.y4iP3gq',2,1,'2023-01-09 04:49:38',0),(3,'Juana','Dela Cruz','user','$2y$10$z1a/NP5vWRsGUHRCepnk1.V9m0AiER.7zE7Xgff3XMkgGBYyk57By',3,1,'2022-12-27 17:17:36',NULL),(6,'Test','Test','user2','$2y$10$ty1kK4D2WYYFcQfL7EZfVeYSFkg6wYbBdBLiC3Xjapp2eijb4U.AO',3,1,'2023-01-09 03:34:07',0),(7,'user3','user3','user3','$2y$10$NfmdGTpxlbt2WjYMYi2qfetOX8v1NDy2mpDmH3fijT2nDrLPUaHzG',2,1,NULL,NULL);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `password`, `role`, `status`, `last_login`, `login_attempt`) VALUES
+(1, 'John', 'Doe', 'owner', '$2y$10$uovfGxUqgB7aaOXTlT832OEXoy52Kj1lJ6wzqchHhhnTi65937ZAS', 1, 1, '2023-03-08 07:58:48', 0),
+(8, 'Chou', 'Tzuyu', 'Ready', '$2y$10$2YupNAahHjKmWJ5rHhiqTebUt7IxbGS3VwsKhH5MGPUZfhuCkgMUK', 2, 1, '2023-03-08 08:39:24', 0);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `action_logs`
+--
+ALTER TABLE `action_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoices_FK` (`user_id`);
+
+--
+-- Indexes for table `issues`
+--
+ALTER TABLE `issues`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `products_FK` (`category_id`);
+
+--
+-- Indexes for table `product_details`
+--
+ALTER TABLE `product_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_details_FK` (`product_id`);
+
+--
+-- Indexes for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sales_FK` (`product_id`),
+  ADD KEY `sales_FK_1` (`invoice_id`),
+  ADD KEY `sales_FK_2` (`product_detail_id`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `trigger`
+--
+ALTER TABLE `trigger`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `trigger_FK` (`user_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `action_logs`
+--
+ALTER TABLE `action_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `issues`
+--
+ALTER TABLE `issues`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `product_details`
+--
+ALTER TABLE `product_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `purchase`
+--
+ALTER TABLE `purchase`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `trigger`
+--
+ALTER TABLE `trigger`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD CONSTRAINT `invoices_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_FK` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+--
+-- Constraints for table `product_details`
+--
+ALTER TABLE `product_details`
+  ADD CONSTRAINT `product_details_FK` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_FK` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `sales_FK_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`),
+  ADD CONSTRAINT `sales_FK_2` FOREIGN KEY (`product_detail_id`) REFERENCES `product_details` (`id`);
+
+--
+-- Constraints for table `trigger`
+--
+ALTER TABLE `trigger`
+  ADD CONSTRAINT `trigger_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2023-01-09  4:57:44

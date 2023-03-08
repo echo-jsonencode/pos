@@ -26,3 +26,5 @@ if ($action == 'getTableData')
 
     echo json_encode($table_data);
 }
+
+?>

@@ -11,7 +11,7 @@ class Product
     private $conn;
     private $ActionLog;
 
-    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock, type,
+    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock, type, expired_products,
     c.id AS category_id, c.name AS category_name,
     SUM(pd.quantity) AS total_quantity
     FROM products p 
@@ -97,12 +97,13 @@ class Product
         $max_stock = $request['max_stock'];
         $min_stock = $request['min_stock'];
         $type = ($request['type'] != "" ? $request['type'] : null);
+        $expired_products = $request['expired_products'];
         
         $sql = "UPDATE products 
-        SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?, type=?
+        SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?, type=?, expired_products=?
         WHERE id= ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("issdiiisi",$product_category, $product_barcode, $product_name, $selling_price, $status, $max_stock, $min_stock, $type, $product_id);
+        $stmt->bind_param("issdiiisii",$product_category, $product_barcode, $product_name, $selling_price, $status, $max_stock, $min_stock, $type, $expired_products, $product_id);
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Update";
@@ -157,7 +158,7 @@ class Product
     public function getAvailableProductByBarcode($barcode){
         $sql = "SELECT
         p.id, p.barcode, p.name AS product_name, p.sale_price, p.type, p.status, p.category_id,
-        pd.id, pd.product_id, pd.expired_status, pd.quantity, pd.batch, pd.expiration_date,
+        pd.id, pd.product_id, pd.expired_status, pd.quantity, pd.batch, pd.manufacture_date, pd.expiration_date,
         c.id, c.name AS category_name
         FROM products p 
         INNER JOIN product_details pd ON pd.product_id = p.id

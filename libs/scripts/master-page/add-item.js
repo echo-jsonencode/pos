@@ -85,7 +85,7 @@ const Category = (() => {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Category successfully added',
+                        title: 'Category added successfully',
                         showConfirmButton: true,
                     })
                 },
@@ -140,7 +140,7 @@ const Category = (() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Category successfully updated',
+                    title: 'Category updated successfully',
                     showConfirmButton: true,
                 })
             },
@@ -172,7 +172,8 @@ const Category = (() => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes!',
+            cancelButtonText: 'No'
         }).then((result) => {
             if (result.isConfirmed) {
                 thisCategory.delete();
@@ -191,9 +192,9 @@ const Category = (() => {
             success: function (response) 
             {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
-                    title: 'Category Successfully Deleted',
+                    title: 'Category Deleted Successfully ',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -208,6 +209,24 @@ const Category = (() => {
 
     return thisCategory;
 })()
+
+        const today = new Date();
+        today.setDate(today.getDate() + 1);
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const dates = today.getDate();
+      
+        // Set max date to today's date
+        const maxDate = new Date(year, month, dates).toISOString().split('T')[0];
+        document.getElementById("txt_manufature_date").setAttribute("max", maxDate);
+      
+      let dateInput = document.getElementById('txt_expiraton_date'); 
+       
+      const cur_date = new Date(); 
+      const cur_month = cur_date.getMonth() > 9 ? cur_date.getMonth() + 1 : '0' + (cur_date.getMonth() + 1); 
+      const cur_day = cur_date.getDate() > 9 ? cur_date.getDate() : '0' + cur_date.getDate();
+      const dateStr = cur_date.getFullYear() + '-' + cur_month + '-' + cur_day; 
+      dateInput.setAttribute('min', dateStr); 
 
 const Product = (() => {
     // const sixMonthsFromNow = new Date();
@@ -263,35 +282,46 @@ const Product = (() => {
         const date = new Date();
         date.setDate(date.getDate() + 180);
         var expiration = new Date(expiraton_date);
-        var todayDate = Date();
-        a = todayDate.toString();
-        
+        // var todayDate = Date(expiraton_date);
+        const datetoday = new Date();
+        datetoday.setDate(datetoday.getDate());
+        var manufacture = new Date(manufature_date);
+        // a = todayDate.toString();
 
         if(product_barcode == "" 
         || product_name == ""
         || product_category == ""
         || buying_price == ""
         || selling_price == ""
+        || manufature_date == ""
+        || expiraton_date == ""
         || quantity == ""
+        || type == null
         || status == null) {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Please fillup all fields',
+                title: 'Please fillout all fields',
                 showConfirmButton: true,
             })
             
         }
-
-        else if (expiraton_date > todayDate){
+        else if (manufacture > datetoday){
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Expired product cannot be added',
+                title: 'Cannot add products that is not manufactured yet',
                 showConfirmButton: true,
             })
-        }
-
+        }          
+        else if (date >= expiration){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Product is within six months',
+                showConfirmButton: true,
+            })
+        }    
         else if (expiration < date){
             Swal.fire({
                 position: 'center',
@@ -300,14 +330,11 @@ const Product = (() => {
                 showConfirmButton: true,
             })
         }
-
-
-
-        else if (buying_price > selling_price){
+        else if (buying_price >= selling_price){
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Buying price must be lower than Selling price',
+                title: 'Buying price should be lower than Selling price',
                 showConfirmButton: true,
             })
 
@@ -336,7 +363,7 @@ const Product = (() => {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Product successfully added',
+                        title: 'Product added successfully',
                         showConfirmButton: true,
                     })
                 },
@@ -368,9 +395,11 @@ const Product = (() => {
                 $('#slc_product_category').prop( "disabled", true );
                 $('#txt_buying_price').val(response.buy_price);
                 $('#txt_selling_price').val(response.sale_price);
-                $('#txt_selling_price').prop( "disabled", true );
+                // $('#txt_selling_price').prop( "disabled", true );
                 $('#txt_manufature_date').val(response.manufacture_date);
+                $('#txt_manufature_date').prop( "disabled", true );
                 $('#txt_expiraton_date').val(response.expiration_date);
+                $('#txt_expiraton_date').prop( "disabled", true );
                 $('#slc_status').val(response.status);
                 $('#slc_status').prop( "disabled", true );
                 $('#txt_quantity').val(response.quantity);
@@ -389,40 +418,27 @@ const Product = (() => {
 
     thisProduct.update = () => {
         const buying_price = $('#txt_buying_price').val();
-        const manufacture_date = $('#txt_manufature_date').val();
-        const expiraton_date = $('#txt_expiraton_date').val();
+        const selling_price = $('#txt_selling_price').val();
         const quantity = $('#txt_quantity').val();
-
-        const date = new Date();
-        date.setDate(date.getDate() + 180);
-        var expiration = new Date(expiraton_date);
-        // var todayDate = Date();
-        // a = todayDate.toString(); 
+        const manufature_date = $('#txt_manufature_date').val();
+        const expiraton_date = $('#txt_expiraton_date').val();
 
         if(buying_price == ""
-        || manufacture_date == "" 
-        || expiraton_date == ""
+        || selling_price == ""
         || quantity == "") {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Please fillup all fields',
+                title: 'Please fillout all fields',
                 showConfirmButton: true,
             })
         }
-        // else if (expiraton_date > todayDate){
-        //     Swal.fire({
-        //         position: 'center',
-        //         icon: 'warning',
-        //         title: 'Expired product cannot be added',
-        //         showConfirmButton: true,
-        //     })
-        // }
-        else if (expiration < date){
+
+        else if (buying_price >= selling_price){
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Invalid expiration date',
+                title: 'Buying price should be lower than Selling price',
                 showConfirmButton: true,
             })
         }
@@ -435,21 +451,22 @@ const Product = (() => {
                     product_id: product_id,
                     product_details_id: product_details_id,
                     buying_price: buying_price,
-                    manufacture_date: manufacture_date,
+                    selling_price: selling_price,
+                    quantity: quantity,
+                    manufature_date: manufature_date,
                     expiraton_date: expiraton_date,
-                    quantity: quantity,  
-                    date: date,
+                    
                 },
                 success: function () 
                 {
-                    thisProduct.loadTableData();
-                    thisProduct.resetFields();
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Product successfully updated',
+                        title: 'Product updated successfully',
                         showConfirmButton: true,
                     })
+                    thisProduct.loadTableData();
+                    thisProduct.resetFields()
                 },
                 error: function () {
     

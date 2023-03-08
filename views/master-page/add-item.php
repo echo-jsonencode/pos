@@ -63,29 +63,29 @@ else if($_SESSION['user']['role'] === 3) {
                                 <div class="col-md-4">
                                     <label for="txt_buying_price" class="form-label">Buying Price</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon3">₱</span>
-                                        <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_buying_price">
+                                        <span class="input-group-text" id="basic-addon3"(required)>₱</span>
+                                        <input type="number" step="0.01" min="1" oninput="validity.valid || (value='')" class="form-control" id="txt_buying_price">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="txt_selling_price" class="form-label">Selling Price</label>
+                                    <label for="txt_selling_price" class="form-label" >Selling Price</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3" (required)>₱</span>
-                                        <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price">
+                                        <input type="number" step="0.01" min="1" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="txt_manufature_date" class="form-label">Manufacture Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-calendar-x"></i></span>
-                                        <input type="date" class="form-control" id="txt_manufature_date">
+                                        <input type="date" class="form-control" oninput="validity.valid || (value='')"  id="txt_manufature_date">
                                     </div>
                                 </div>                                
                                 <div class="col-md-4">
                                     <label for="txt_expiraton_date" class="form-label">Expiration Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon3"><i class="bi bi-calendar-x"></i></span>
-                                        <input type="date" class="form-control" id="txt_expiraton_date">
+                                        <input type="date" class="form-control" oninput="validity.valid || (value='')"  id="txt_expiraton_date">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -189,5 +189,6 @@ else if($_SESSION['user']['role'] === 3) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/add-item.js" ></script>
+<!-- <script src="../../libs/scripts/pos/session_timer.js"></script> -->
 
 </html>

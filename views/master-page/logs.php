@@ -32,7 +32,7 @@ if(!$_SESSION['user']) {
                                     </tr>
                                 </thead>
                                 <tbody id="tbl_data">
-                                    
+                        
                                 </tbody>
                             </table>
                         </div>
@@ -45,5 +45,6 @@ if(!$_SESSION['user']) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/logs.js" ></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

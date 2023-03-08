@@ -4,18 +4,46 @@ $(document).ready(function () {
     })
 });
 
+
+
+const validation = () =>{
+    const passPattern = /(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_])(?=^.*[^\s].*$).*$/;
+
+
+
+if (document.getElementById('txt_newpassword').value.match(passPattern)){
+        document.getElementById('mess').innerHTML='Valid';
+        document.getElementById('mess').style.color = 'green';
+        document.getElementById('btn_save').disabled=false;
+        // return validation;
+        // return true;
+        }
+        else {
+        document.getElementById('mess').innerHTML="Your password must contain at least six characters, an uppercase, lowercase, special character, and number";
+        document.getElementById('mess').style.color = 'red';
+        document.getElementById('btn_save').disabled=true;
+        // return thisChangePassword.preventDefault();
+        }
+
+    }
+
+
+
+
 const ChangePassword = (() => {
     const thisChangePassword = {};
     
-    
     thisChangePassword.confirm = () => {
-
-        const currentpass = $('#txt_currentpass').val();
+        const dboldpass = $('#old_password').val();
         const oldpass = $('#txt_oldpassword').val();
         const newpassword = $('#txt_newpassword').val();
         const confirm_password = $('#txt_confirm_password').val();
-        
-        if(oldpass == "" || confirm_password == ""|| newpassword=="" || currentpass == "") {
+        console.log(dboldpass);
+
+
+
+            
+        if(oldpass == "" || confirm_password == ""|| newpassword=="") {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -23,7 +51,7 @@ const ChangePassword = (() => {
                 showConfirmButton: true,
             })
         }
-        else if(oldpass != currentpass) {
+        else if(dboldpass != oldpass) {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -64,7 +92,7 @@ const ChangePassword = (() => {
                         showConfirmButton: true,
                     }).then((result) => {
                         if(result.isConfirmed) {
-                            window.location.href = `http://localhost/pos/views/master-page/home.php`;
+                            window.location.href = `http://localhost/pos/views/master-page/login.php`;
                         }
                     });
                 },
@@ -77,3 +105,5 @@ const ChangePassword = (() => {
 
     return thisChangePassword;
 })();
+
+
