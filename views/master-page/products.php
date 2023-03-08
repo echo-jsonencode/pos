@@ -34,6 +34,7 @@ if(!$_SESSION['user']) {
                                         <th>Min Stock</th>
                                         <th>Selling Price</th>
                                         <th>Status</th>
+                                        <th>Expired Products</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

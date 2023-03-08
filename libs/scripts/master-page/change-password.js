@@ -9,16 +9,13 @@ const ChangePassword = (() => {
     
     
     thisChangePassword.confirm = () => {
-        // const password = $('#txt_password').val();
-        // const oldpassword = $('#txt_oldpassword').val();
-        const password = $('#txt_password').val();
+
+        const currentpass = $('#txt_currentpass').val();
         const oldpass = $('#txt_oldpassword').val();
         const newpassword = $('#txt_newpassword').val();
         const confirm_password = $('#txt_confirm_password').val();
-
         
-        
-        if(oldpass == "" || confirm_password == ""|| newpassword=="") {
+        if(oldpass == "" || confirm_password == ""|| newpassword=="" || currentpass == "") {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -26,7 +23,7 @@ const ChangePassword = (() => {
                 showConfirmButton: true,
             })
         }
-        else if(password != oldpass) {
+        else if(oldpass != currentpass) {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',

@@ -3,10 +3,12 @@
 include_once('../../config/database.php');
 include_once('../model/User.php');
 include_once('../model/ProductDetails.php');
+include_once('../model/ActionLog.php');
 
 $action = $_GET['action'];
 $User = new User($conn);
 $ProductDetails = new ProductDetails($conn);
+$ActionLog = new ActionLog($conn);
 
 if ($action == 'verify_login')
 {
@@ -29,6 +31,8 @@ if ($action == 'verify_login')
 
 else if ($action == 'logout')
 {
+    $ActionLog->saveLogs('logout');
+
     session_destroy();
 
     echo json_encode('Success');

@@ -43,15 +43,13 @@
                 </li>
 
             </ul>
-            <?php echo ($_SESSION["user"]["fullname"]);
-    // foreach($_SESSION["user"] as $key => $value) {
-    //     echo($key);
-    // }
-    ?>
+           
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 pull-right">
                 <li class="nav-item dropstart">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i>
+                        <?php echo ($_SESSION["user"]["fullname"]);
+                        ?>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="../master-page/change-password.php">Change Password</a></li>
@@ -65,12 +63,7 @@
                     <a class="nav-link" aria-current="page" href="../master-page/alerts.php">Alerts</a>
                 </li>
 
-
-
-
             </ul>
-
-
 
             <!-- <div>
 

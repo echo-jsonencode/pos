@@ -4,14 +4,18 @@ ini_set('display_startup_errors', 1);
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once('ActionLog.php');
+
 
 class Invoice
 {
     private $conn;
+    private $ActionLog;
 
     public function __construct($connection)
     {
         $this->conn = $connection;
+        $this->ActionLog = new ActionLog($connection);
     }
 
     public function save($data, $discounted, $customerName, $osca_number, $cashPayment)
@@ -149,6 +153,8 @@ class Invoice
 
 
             $this->conn->commit();
+
+            $this->ActionLog->saveLogs('invoice', 'saved');
             return $last_invoice_id;
         } catch (mysqli_sql_exception $exception) {
             $this->conn->rollback();
@@ -180,7 +186,6 @@ class Invoice
     {
         $sql = "SELECT invoices.*,
         CONCAT(users.first_name, ' ', users.last_name) AS users_name
-
         FROM invoices
         INNER JOIN users ON users.id = invoices.user_id
         WHERE  DATE(invoices.date_transact) = '$date'";
@@ -194,7 +199,6 @@ class Invoice
     {
         $sql = "SELECT invoices.*,
         CONCAT(users.first_name, ' ', users.last_name) AS users_name
-
         FROM invoices
         INNER JOIN users ON users.id = invoices.user_id
         WHERE YEAR(invoices.date_transact) = '$yearmonth[0]'
@@ -209,7 +213,6 @@ class Invoice
     {
         $sql = "SELECT invoices.*,
         CONCAT(users.first_name, ' ', users.last_name) AS users_name
-
         FROM invoices
         INNER JOIN users ON users.id = invoices.user_id
         WHERE  DATE(invoices.date_transact) >= '$start'
@@ -298,6 +301,8 @@ class Invoice
         $sql_pd = $this->conn->prepare($sql_pd);
         $sql_pd->bind_param("iii", $invoice_total_items, $invoice_new_total_purchase, $invoice_id);
         $sql_pd->execute();
+
+        $this->ActionLog->saveLogs('void');
     }
 
     public function getReceipt($invoice_id)

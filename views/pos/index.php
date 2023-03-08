@@ -20,6 +20,11 @@ if(!$_SESSION['user']) {
         <section class="pos">
             <div class="pos__head">
                 <div class="pos__head__date">
+                    <?php
+                    date_default_timezone_set("Asia/Singapore");
+                    $monthNum  = date('m');
+                    $monthName = date('F', mktime(0, 0, 0, $monthNum, 10));
+                    ?>
                     <span><?php echo date('l, Y-m-d'); ?></span>
                     <p class="pos__head__time"><?php echo date('h:i:s A'); ?></p>
                 </div>

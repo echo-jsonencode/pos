@@ -3,6 +3,7 @@
 
 <?php include '../layouts/head.php' ?>
 
+
 <?php
 if (!$_SESSION['user']) {
     header("Location: login.php");
@@ -20,6 +21,9 @@ if (!$_SESSION['user']) {
                     <div class="user__form-wrapper">
                         <h2 class="section__sub-title" id="lbl_title">Change Password</h2>
                         <form class="row g-3">
+                        <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="txt_currentpass" value="<?php echo($_SESSION['user']['password']); ?>">
+                            </div>
                         <div class="col-md-12">
                                 <label for="oldpassword" class="form-label">Old Password</label>
                                 <input type="password" class="form-control" id="txt_oldpassword" autofill="on">

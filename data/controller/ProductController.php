@@ -61,6 +61,7 @@ else if ($action == 'getProductTable')
         $table_data .= '<td>' . $product['min_stock'] . '</td>';
         $table_data .= '<td>' . $product['sale_price'] . '</td>';
         $table_data .= '<td>' . $status . '</td>';
+        $table_data .= '<td>' . $product['expired_products'] . '</td>';
         $table_data .= '<td class="col-actions">';
         $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
         $table_data .= '<button type="button" onclick="Product.clickView('. $product['product_id'] .','. $product_name .')" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> View </button>';

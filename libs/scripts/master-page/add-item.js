@@ -210,6 +210,10 @@ const Category = (() => {
 })()
 
 const Product = (() => {
+    // const sixMonthsFromNow = new Date();
+    // sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6 );
+
+
     let thisProduct = {};
 
     let product_id;
@@ -234,7 +238,6 @@ const Product = (() => {
         });
     }
 
-
     thisProduct.clickSaveButton= () => {
         console.log('test');
         if(!toUpdate) {
@@ -257,7 +260,12 @@ const Product = (() => {
         const status = $('#slc_status').val();
         const quantity = $('#txt_quantity').val();
         const type = $('#slc_type').val();
-
+        const date = new Date();
+        date.setDate(date.getDate() + 180);
+        var expiration = new Date(expiraton_date);
+        var todayDate = Date();
+        a = todayDate.toString();
+        
 
         if(product_barcode == "" 
         || product_name == ""
@@ -272,11 +280,29 @@ const Product = (() => {
                 title: 'Please fillup all fields',
                 showConfirmButton: true,
             })
-
-            // ELSE IF EXPIRATION DATE IS <= 180 DAYS
-            //  INVALID EXPIRATION DATE PLS CHECK IF ITS LESS THAN OR EQUAL TO 6 MONTHS
             
         }
+
+        else if (expiraton_date > todayDate){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Expired product cannot be added',
+                showConfirmButton: true,
+            })
+        }
+
+        else if (expiration < date){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Invalid expiration date',
+                showConfirmButton: true,
+            })
+        }
+
+
+
         else if (buying_price > selling_price){
             Swal.fire({
                 position: 'center',
@@ -350,7 +376,7 @@ const Product = (() => {
                 $('#txt_quantity').val(response.quantity);
                 $('#slc_type').val(response.type);
                 $('#slc_type').prop( "disabled", true );
-
+                
                 toUpdate = true;
 
                 $('#btn_save_product').html('Update Product');
@@ -364,17 +390,39 @@ const Product = (() => {
     thisProduct.update = () => {
         const buying_price = $('#txt_buying_price').val();
         const manufacture_date = $('#txt_manufature_date').val();
-        const expiration_date = $('#txt_expiraton_date').val();
+        const expiraton_date = $('#txt_expiraton_date').val();
         const quantity = $('#txt_quantity').val();
+
+        const date = new Date();
+        date.setDate(date.getDate() + 180);
+        var expiration = new Date(expiraton_date);
+        // var todayDate = Date();
+        // a = todayDate.toString(); 
 
         if(buying_price == ""
         || manufacture_date == "" 
-        || expiration_date == ""
+        || expiraton_date == ""
         || quantity == "") {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
                 title: 'Please fillup all fields',
+                showConfirmButton: true,
+            })
+        }
+        // else if (expiraton_date > todayDate){
+        //     Swal.fire({
+        //         position: 'center',
+        //         icon: 'warning',
+        //         title: 'Expired product cannot be added',
+        //         showConfirmButton: true,
+        //     })
+        // }
+        else if (expiration < date){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Invalid expiration date',
                 showConfirmButton: true,
             })
         }
@@ -388,10 +436,11 @@ const Product = (() => {
                     product_details_id: product_details_id,
                     buying_price: buying_price,
                     manufacture_date: manufacture_date,
-                    expiration_date: expiration_date,
-                    quantity: quantity,
+                    expiraton_date: expiraton_date,
+                    quantity: quantity,  
+                    date: date,
                 },
-                success: function (response) 
+                success: function () 
                 {
                     thisProduct.loadTableData();
                     thisProduct.resetFields();

@@ -4,9 +4,12 @@
 
 // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once('ActionLog.php');
+
 class Product
 {
     private $conn;
+    private $ActionLog;
 
     private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock, type,
     c.id AS category_id, c.name AS category_name,
@@ -23,6 +26,7 @@ class Product
     public function __construct($connection)
     {
         $this->conn = $connection;
+        $this->ActionLog = new ActionLog($connection);
     }
 
     public function getAll()
@@ -74,6 +78,7 @@ class Product
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Save";
+            $this->ActionLog->saveLogs('product', 'saved');
             return $this->conn->insert_id;
         } else {
             return "Error: " . $sql . "<br>" . $this->conn->error;
@@ -101,6 +106,7 @@ class Product
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Successfully Update";
+            $this->ActionLog->saveLogs('product', 'updated');
             return $this->conn->insert_id;
         } else {
             return "Error: " . $sql . "<br>" . $this->conn->error;
@@ -121,6 +127,7 @@ class Product
         $result = '';
         if ($stmt->execute() === TRUE) {
             $result = "Updated Successfully";
+            $this->ActionLog->saveLogs('product', 'update sell price of');
         } else {
             $result = "Error updating record: " . $this->conn->error;
         }
@@ -135,6 +142,7 @@ class Product
         $result = '';
         if ($this->conn->query($sql) === TRUE) {
             $result = "Deleted Successfully";
+            $this->ActionLog->saveLogs('product', 'deleted');
         } else {
             $result = "Error deleting record: " . $this->conn->error;
         }

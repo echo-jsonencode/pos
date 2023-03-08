@@ -261,8 +261,8 @@ const Admin = (() => {
 
         $('.form-control').prop("disabled", false);
 
-        $('#btn_save').html("Register User");
-        $('#lbl_title').html("Create User");
+        $('#btn_save').html("Register Account");
+        $('#lbl_title').html("Create Account");
     }
 
     return thisAdmin;

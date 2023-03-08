@@ -1,5 +1,6 @@
 $(document).ready(() => {
     checkSalesToday();
+    checkCart();    
 });
 
 const pos_sales_today = document.querySelector('.pos__head__amount');
@@ -19,6 +20,7 @@ const btnCheckout = document.querySelector('.pos__form__checkout');
 const btnClose = document.querySelector('pos__close');
 const posTable = document.querySelector('pos__table');
 const posQuantity = document.querySelector('.pos__form__quantity');
+let container = 0;
 let productCart = [];
 let grandTotal = 0;
 
@@ -42,6 +44,17 @@ const checkSalesToday = () => {
     });
 }
 
+const checkCart = () => {
+    if(container == 0){
+        btnCheckout.style.backgroundColor="#808080";
+        btnCheckout.disabled=true;
+    }
+    else{
+        btnCheckout.style.backgroundColor="#99FFCC";
+        btnCheckout.disabled=false;
+    }
+}
+
 const removeItem = (barcode) => {
 
     productCart = productCart.filter((item)=>{
@@ -53,7 +66,9 @@ const removeItem = (barcode) => {
     const rows = table
         .rows( rowClass )
         .remove()
-        .draw();
+        .draw()
+    container --
+    checkCart();
 }
 
 const closeModal = (modal) =>{
@@ -263,7 +278,8 @@ btnCart.addEventListener('click', (e) => {
                 checkDiscount()
                 // btnCheckout.style.color="Yellow"
                 posForm.reset()
-                btnCheckout.disabled=false;
+                container ++
+                checkCart();
 
             } else if (data.length > 0 && totalAvailableQuantity < requiredQuantity) {
                 posQuantity.classList.add('error');
@@ -333,7 +349,7 @@ btnConfirm.addEventListener('click',()=>{
                 window.location.href = HOST_2 + '/views/pos/index.php';
             },
             error: function () {
-                console.log('errror');
+                // console.log('error');
             }
         });
     }
