@@ -1104,4 +1104,9 @@ body {
 .table-wrapper {
   overflow-x: scroll;
 }
+
+
+.red-border{
+  border: 1px solid red;
+}
 /*# sourceMappingURL=index.css.map */

@@ -57,9 +57,10 @@ const Product = (() => {
             },
             success: function (response) {
                 $('#modal_view_details').modal('show')
-                $('#modal_view_deatils_header').html(product_name)
-
+                $('#modal_view_details_header').html(product_name)
+                $('.table').DataTable().destroy();
                 $('#tbody_product_details').html(response);
+                $('.table').DataTable();
             },
             error: function () {
 
@@ -86,6 +87,7 @@ const Product = (() => {
                 $('#txt_max_stock').val(response.max_stock);
                 $('#txt_min_stock').val(response.min_stock);
                 $('#slc_type').val(response.type);
+                $('#txt_expired_products').val(response.status);
                
                 $('#modal_update_details').modal('show')
                 $('#modal_update_details_header').html('Update ' + product_name)

@@ -32,7 +32,20 @@ if (document.getElementById('txt_newpassword').value.match(passPattern)){
 
 const ChangePassword = (() => {
     const thisChangePassword = {};
-    
+
+
+    thisChangePassword.validateOldPassword = () => {
+        const dboldpass = $('#old_password').val();
+        const oldpass = $('#txt_oldpassword').val();
+        
+        if(dboldpass != oldpass) {
+            document.getElementById('old_password').style.color = 'red';
+            console.log("Test")
+        }
+    }
+
+
+
     thisChangePassword.confirm = () => {
         const dboldpass = $('#old_password').val();
         const oldpass = $('#txt_oldpassword').val();

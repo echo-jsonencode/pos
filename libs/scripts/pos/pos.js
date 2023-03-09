@@ -3,6 +3,15 @@ $(document).ready(() => {
     checkCart();
 });
 
+$(window).bind('beforeunload', function(){
+    if (transaction == 1) {
+        return '';
+    }
+    else{
+
+    }
+});
+
 const pos_sales_today = document.querySelector('.pos__head__amount');
 const inpCustomerError = document.querySelector('.pos__body__customer__error');
 const inpPaymentError = document.querySelector('.pos__insufficient__error');
@@ -27,6 +36,7 @@ let barcode;
 let productCart = [];
 let grandTotal = 0;
 let container = 0;
+let transaction = 0;
 
 const printReceipt = (invoiceId) => {
     // window.location.href = ('http://localhost/pos/views/pos/receipt.php?invoice_id=${invoiceId}');
@@ -114,6 +124,7 @@ const removeItem = (barcode) => {
         .remove()
         .draw()
         container --
+        transaction --
         checkCart();
 }
 
@@ -387,6 +398,7 @@ btnCart.addEventListener('click', (e) => {
                 $('.table').DataTable();
                 container ++
                 checkCart()
+                transaction ++
                 checkDiscount()
                 posForm.reset();
 

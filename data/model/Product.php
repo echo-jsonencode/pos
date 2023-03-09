@@ -97,7 +97,7 @@ class Product
         $max_stock = $request['max_stock'];
         $min_stock = $request['min_stock'];
         $type = ($request['type'] != "" ? $request['type'] : null);
-        $expired_products = $request['expired_products'];
+        // $expired_products = $request['expired_products'];
         
         $sql = "UPDATE products 
         SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?, type=?, expired_products=?

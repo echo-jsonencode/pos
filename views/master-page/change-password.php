@@ -24,7 +24,7 @@ if (!$_SESSION['user']) {
                             <div class="col-md-12">
                                 <input type="hidden" id="old_password" value="<?php echo($_SESSION['user']['password']); ?>">
                                 <label for="oldpassword" class="form-label">Old Password</label>
-                                <input type="password" class="form-control" id="txt_oldpassword" name="txt_oldpassword" autofill="on">
+                                <input type="password" class="form-control" id="txt_oldpassword" name="txt_oldpassword" onChange = "ChangePassword.validateOldPassword()" autofill="on">
                                 <!-- <i class="bi-eye-slash-fill" id="togglePassword" style="margin-left: -30px; cursor: pointer;" ></i> -->
                             </div>
                             <div class="col-md-12">
