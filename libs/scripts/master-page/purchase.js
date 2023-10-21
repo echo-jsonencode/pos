@@ -28,8 +28,17 @@ const Purchase = (() => {
         });        
     }
 
+
+    let dateInput = document.getElementById('txt_receiving_date'); 
+       
+      const cur_date = new Date(); 
+      const cur_month = cur_date.getMonth() > 9 ? cur_date.getMonth() + 1 : '0' + (cur_date.getMonth() + 1); 
+      const cur_day = cur_date.getDate() > 9 ? cur_date.getDate() : '0' + cur_date.getDate();
+      const dateStr = cur_date.getFullYear() + '-' + cur_month + '-' + cur_day; 
+      dateInput.setAttribute('min', dateStr); 
+
     thisPurchase.openPurchase = () => {
-        $('#modal_view_details').modal('show')
+        $('#modal_add_order').modal('show')
     }
 
     thisPurchase.createPurchase = () => {
@@ -68,7 +77,7 @@ const Purchase = (() => {
                 success: function (response) 
                 {
                     thisPurchase.loadPurchaseData();
-                    $('#modal_view_details').modal('hide');
+                    thisPurchase.resetFields();
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -83,52 +92,471 @@ const Purchase = (() => {
         }
     }
 
-    thisPurchase.updateStatus = (id, status) => {
+    thisPurchase.clickPay = (id) => {
         purchase_id = id;
-        status = status;
-        // paid = paid;
-        // delivery = delivery;
-        // received = received;
-        // stock = stock;
-        // damaged = damaged;
-        // incomplete = incomplete;
-        // theft = theft;
-        // status = status;
+
         $.ajax({
             type: "POST",
-            url: PURCHASE_CONTROLLER + '?action=updatePurchaseStatus',
+            url: PURCHASE_CONTROLLER + '?action=getID',
             dataType: "json",
             data:{
                 purchase_id: id,
-                paid: paid,
-                delivery: delivery,
-                received: received,
-                stock: stock,
-                damaged: damaged,
-                incomplete: incomplete,
-                theft: theft,
-                status: status,
-
             },            
             success: function (response) {
-                // $('.table').DataTable().destroy();
-                $('#paid').html(response);
-                $('#delivery').html(response);
-                $('#received').html(response);
-                $('#stock').html(response);
-                $('#damaged').html(response);
-                $('#incomplete').html(response);
-                $('#theft').html(response);
-                $('#status').html(response);
-
-
-                $('.table').DataTable();
+                thisPurchase.updatePay();
+                // thisPurchase.paidDate();
             },
             error: function () {
 
             }
         });        
-    }        
+    }
 
+    thisPurchase.clickDeliver = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateDeliver();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.clickReceive = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateReceive();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.clickStock = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateStock();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.clickDamage = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateDamage();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.clickIncomplete = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateIncomplete();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.clickTheft = (id) => {
+        purchase_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=getID',
+            dataType: "json",
+            data:{
+                purchase_id: id,
+            },            
+            success: function (response) {
+                // $('.table').DataTable().destroy();
+                thisPurchase.updateTheft();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updatePay = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Pay',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#pay').html(response);
+                thisPurchase.loadPurchaseData();
+                thisPurchase.paidDate();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.paidDate = (paid) => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=paid',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                paid: paid,
+            },
+            success: function (response) 
+            {
+                $('#pay').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    thisPurchase.updateDeliver = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Deliver',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#deliver').html(response);
+                thisPurchase.deliveryDate();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.deliveryDate = (delivery) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=delivery',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                delivery: delivery,
+            },
+            success: function (response) 
+            {
+                $('#deliver').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updateReceive = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Receive',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#receive').html(response);
+                thisPurchase.receivedDate();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.receivedDate = (received) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=received',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                received: received,
+            },
+            success: function (response) 
+            {
+                $('#receive').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updateStock = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Stock',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#status').html(response);
+                thisPurchase.addStock();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.addStock = (stock) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=stock',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                stock: stock,
+            },
+            success: function (response) 
+            {
+                $('#stock').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updateDamage = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Damage',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#status').html(response);
+                thisPurchase.addDamage();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.addDamage = (damaged) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=damaged',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                damaged: damaged,
+            },
+            success: function (response) 
+            {
+                $('#damaged').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updateIncomplete = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Incomplete',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#status').html(response);
+                thisPurchase.addIncomplete();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.addIncomplete = (incomplete) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=incomplete',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                incomplete: incomplete,
+            },
+            success: function (response) 
+            {
+                $('#incomplete').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.updateTheft = () => {
+        purchase_id = purchase_id;
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=Theft',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                status: status,
+            },
+            success: function (response) 
+            {
+                $('#status').html(response);
+                thisPurchase.addTheft();
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisPurchase.addTheft = (theft) => {
+        purchase_id = purchase_id;        
+
+        $.ajax({
+            type: "POST",
+            url: PURCHASE_CONTROLLER + '?action=theft',
+            dataType: "json",
+            data:{
+                purchase_id: purchase_id,
+                theft: theft,
+            },
+            success: function (response) 
+            {
+                $('#theft').html(response);
+                thisPurchase.loadPurchaseData();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisPurchase.resetFields = () => {
+
+        $('#txt_order').val("");
+        $('#txt_quantity').val("");
+        $('#txt_amount').val("");
+        $('#txt_receiving_date').val("");
+        $('#txt_supplier').val("");
+
+        $('#modal_add_order').modal('hide');
+    }
     return thisPurchase;
 })();

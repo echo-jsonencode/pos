@@ -11,8 +11,8 @@ class Product
     private $conn;
     private $ActionLog;
 
-    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, max_stock, min_stock, type, expired_products,
-    c.id AS category_id, c.name AS category_name,
+    private $commonSql = "SELECT p.id AS product_id, p.name AS product_name, barcode, sale_price, status, p.lot_num, max_stock, min_stock, type, expired_products, stock_status,
+    c.id AS category_id, c.name AS category_name, pd.id AS product_details_id,
     SUM(pd.quantity) AS total_quantity
     FROM products p 
     INNER JOIN categories c 
@@ -20,7 +20,7 @@ class Product
     INNER JOIN product_details pd 
     ON p.id = pd.product_id ";
 
-    private $groupBySql = " GROUP BY p.id, p.name, barcode, sale_price, status, max_stock, min_stock,
+    private $groupBySql = " GROUP BY p.id, p.name, barcode, sale_price, status, max_stock, min_stock, p.lot_num,
     c.id, c.name";
 
     public function __construct($connection)
@@ -37,9 +37,25 @@ class Product
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getRegisteredProductsById($product_id)
+    {
+        $sql = "SELECT * FROM products WHERE id = '$product_id'";
+        $result = $this->conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getAllExpired()
+    {
+        $sql = $this->commonSql . ' WHERE expired_status = 1 ' . $this->groupBySql ;
+        $result = $this->conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getAllByStockStatus()
     {
-        $sql = $this->commonSql . ' WHERE expired_status = 0 ' . $this->groupBySql . ' HAVING sum(pd.quantity) NOT BETWEEN min_stock and max_stock' ;
+        $sql = $this->commonSql . ' WHERE expired_status = 0 AND stock_status = 0 OR stock_status = 2 OR stock_status = 3' . $this->groupBySql;
         $result = $this->conn->query($sql);
 
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -55,7 +71,7 @@ class Product
 
     public function getById($product_id)
     {
-        $sql = "SELECT id, category_id, barcode, name, sale_price, status, max_stock, min_stock, type from products where id = '$product_id'";
+        $sql = "SELECT id, category_id, barcode, name, sale_price, status, lot_num, max_stock, min_stock, type from products where id = '$product_id'";
         $result = $this->conn->query($sql);
 
         return $result->fetch_assoc();
@@ -68,23 +84,25 @@ class Product
         $product_category = $request['product_category'];
         $selling_price = $request['selling_price'];
         $status = $request['status'];
-        $type = ($request['type'] != "" ? $request['type'] : null);
-
-        $sql = "INSERT INTO products (category_id,barcode,name,sale_price,status,type) VALUES (?, ?, ?, ?, ?, ?)";
-
+        // $lot_num = $request['lot_num'];
+        $type = isset($request['type']) ? $request['type'] : null;
+    
+        $sql = "INSERT INTO products (category_id, barcode, name, sale_price, status, type) VALUES (?, ?, ?, ?, ?, ?)";
+    
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("issdis",$product_category, $product_barcode, $product_name, $selling_price, $status, $type);
-        
+        $stmt->bind_param("issdis", $product_category, $product_barcode, $product_name, $selling_price, $status, $type);
+    
         $result = '';
+    
         if ($stmt->execute() === TRUE) {
-            $result = "Successfully Save";
+            $result = "Successfully Saved";
             $this->ActionLog->saveLogs('product', 'saved');
             return $this->conn->insert_id;
         } else {
             return "Error: " . $sql . "<br>" . $this->conn->error;
         }
-
     }
+        
 
     public function update($request)
     {
@@ -93,11 +111,12 @@ class Product
         $product_barcode = $request['product_barcode'];
         $product_category = $request['product_category'];
         $selling_price = $request['selling_price'];
+        // $lot_num = $request['lot_num'];
         $status = $request['status'];
         $max_stock = $request['max_stock'];
         $min_stock = $request['min_stock'];
         $type = ($request['type'] != "" ? $request['type'] : null);
-        $expired_products = $request['expired_products'];
+        // $expired_products = $request['expired_products'];
         
         $sql = "UPDATE products 
         SET category_id= ?, barcode= ?, name= ?, sale_price= ?, status= ?, max_stock=?, min_stock=?, type=?, expired_products=?
@@ -182,4 +201,87 @@ class Product
         $this->conn->close();
         return $result->fetch_assoc();
     }
+
+    public function updateOverstock()
+    {
+        // $quantity = "SELECT quantity FROM product_details INNER JOIN products p ON p.id = quantity";
+
+        $sql = "UPDATE products 
+                LEFT JOIN (
+                    SELECT product_id, SUM(quantity) AS total_quantity
+                    FROM product_details
+                    GROUP BY product_id
+                ) AS pd ON pd.product_id = products.id
+                SET stock_status = 3
+                WHERE pd.total_quantity > max_stock;";
+        
+        $this->conn->query($sql);
+
+        $sql = "SELECT count(*) as total_oversupply FROM products WHERE stock_status = 3";
+       
+        $result = $this->conn->query($sql);
+        $count = $result->fetch_assoc();
+
+        $_SESSION['alert']['overStock'] = $count['total_oversupply'];
+        
+        // $this->conn->close();
+    }
+
+    public function updateUnderstock()
+    {
+        // $quantity = "SELECT quantity FROM product_details INNER JOIN products p ON p.id = quantity";
+
+        $sql = "UPDATE products 
+        LEFT JOIN (
+                    SELECT product_id, SUM(quantity) AS total_quantity
+                    FROM product_details
+                    GROUP BY product_id
+                ) AS pd ON pd.product_id = products.id
+        SET stock_status = 2 
+        WHERE pd.total_quantity < min_stock;";
+        
+        $this->conn->query($sql);
+
+        $sql = "SELECT count(*) as total_understock FROM products WHERE stock_status = 2";
+       
+        $result = $this->conn->query($sql);
+        $count = $result->fetch_assoc();
+
+        $_SESSION['alert']['underStock'] = $count['total_understock'];
+        
+        // $this->conn->close();
+    }
+
+    public function updateOutofStock()
+    {
+        // $quantity = "SELECT quantity FROM product_details INNER JOIN products p ON p.id = quantity";
+
+        $sql = "UPDATE products
+        LEFT JOIN (
+                    SELECT product_id, SUM(quantity) AS total_quantity
+                    FROM product_details
+                    GROUP BY product_id
+                ) AS pd ON pd.product_id = products.id
+        SET stock_status = 0 
+        WHERE pd.total_quantity = 0;";
+        
+        $this->conn->query($sql);
+
+        $sql = "SELECT count(*) as total_outofstock FROM products WHERE stock_status = 0";
+       
+        $result = $this->conn->query($sql);
+        $count = $result->fetch_assoc();
+
+        $_SESSION['alert']['outofStock'] = $count['total_outofstock'];
+        
+        $this->conn->close();
+    }
+    // public function getOrderById($product_id)
+    // {
+    //     $sql = $this->getAllquery . " WHERE p.id = $product_id " . $this->orderBy;
+    //     $result = $this->conn->query($sql);
+
+    //     $this->conn->close();
+    //     return $result->fetch_assoc();
+    // }
 }

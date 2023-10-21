@@ -57,7 +57,55 @@ if ($action === 'getReportData') {
 
     echo json_encode($charts_data);
 
-} else {
+} 
+
+else if ($action === 'showReportTable'){
+    $dateFrom = date('Y-m-d', strtotime($_POST['dateFrom']));
+    $dateTo = date('Y-m-d', strtotime($_POST['dateTo']));
+
+    $result = $Sales->getReport($dateFrom, $dateTo);
+
+    $table_data = '';
+    $counter = 1;
+    foreach ($result as $sales) {
+        $table_data .= '<tr>';
+        $table_data .= '<td>' . $counter . '</td>';
+        $table_data .= '<td>' . $sales['product_name'] . '</td>';
+        $table_data .= '<td>' . $sales['total_sales'] . '</td>';
+        $table_data .= '<td>' . $sales['total_price'] . '</td>';
+        $table_data .= '<td>' . $sales['bought'] . '</td>';
+        $table_data .= '<td>' . $sales['transact'] . '</td>';
+        $table_data .= '</tr>';
+
+        $counter++;
+    }
+
+    echo json_encode($table_data);
+}
+
+else if ($action == "exportData") 
+{
+    $dateFrom = date('Y-m-d', strtotime($_POST['dateFrom']));
+    $dateTo = date('Y-m-d', strtotime($_POST['dateTo']));
+
+    $result = $Sales->getReport($dateFrom, $dateTo);
+
+    $column_name = [];
+    foreach ($result as $sales) {
+        $column_name[] = [
+            'Invoice ID' => $sales['transact'],
+            'Product Name' => $sales['product_name'],
+            'Total Sales' => $sales['total_sales'],
+            'Total Price' => $sales['total_price'],
+            'Transaction Date' => $sales['bought']
+        ];
+    }
+
+    echo json_encode($column_name);
+}
+
+
+else {
     return 'Something went wrong';
 }
 

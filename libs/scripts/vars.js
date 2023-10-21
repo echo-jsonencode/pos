@@ -16,3 +16,4 @@ const USER_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/UserController.php
 const SALES_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/SalesController.php';
 const ACTIONLOG_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/ActionLogController.php';
 const PURCHASE_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/PurchaseController.php';
+const EXPORT_CONTROLLER = HOST_2 + '/' + PATH_TO_CONTROLLER + '/ExportController.php';

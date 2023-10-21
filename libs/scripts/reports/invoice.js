@@ -92,7 +92,7 @@ const getInvoices =  () => {
             data.forEach(invoice =>{
                 tbody+=`<tr>
                 <td>${count++}</td>
-                <td>${invoice.users_name}</td>
+                <td>${invoice.users_name}</td>             
                 <td>${invoice.date_transact}</td>
                 <td>${invoice.total_items}</td>
                 <td>${invoice.total_purchase}</td>
@@ -124,6 +124,7 @@ const openModal = (id) => {
             let tbody = '';
 
             data.forEach(item => {
+                if(item.void == null){
                 tbody += `<tr>
                 <td>${item.qty}</td>
                 <td>${item.name}</td>
@@ -132,6 +133,17 @@ const openModal = (id) => {
                     <button class="invoice__modal__void" onclick="confirmVoidItem(${item.invoice_id}, ${item.product_id})">Void</button>
                 </td>
             </tr>`;
+                }
+                else{
+                    tbody += `<tr>
+                    <td>${item.qty}</td>
+                    <td>${item.name}</td>
+                    <th>${item.price}</th>
+                    <td>
+                        <button class="invoice__modal__void" disabled style="color:red">Voided</button>
+                    </td>
+                </tr>`;
+                }
             });
 
             $('#sales__table').DataTable().destroy();

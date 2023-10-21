@@ -218,13 +218,14 @@ class User
         } else {
             $stmt->free_result();
 
-            $login_attempt += 1;
+            $login_attempt ++;
 
+            if ($role != 1){
             $this->update_login_attempt($id, $login_attempt);
-
+            }
             if ($login_attempt == 3) {
                 $this->update_status($id, 0);
-                return "Your Account has been lock due to many attempts. Please contact Admin.";
+                return "Your Account has been lock due to many attempts. Please contact System admin.";
             }
             return "Invalid Username or Password";
         }

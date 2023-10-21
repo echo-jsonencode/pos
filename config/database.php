@@ -11,7 +11,11 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Check for an active session before starting a new one
+if (session_id() === '') {
+  session_start();
+}
 
 CONST DEFAULT_PASSWORD = 'default123';
 
-session_start();
+

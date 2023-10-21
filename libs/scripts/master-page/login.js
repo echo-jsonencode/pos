@@ -28,14 +28,14 @@ const Login = (() => {
                 if(response == "Validated") {
                     window.location.href = "home.php";
                 } 
-                // else if(username != username || password != password){
-                //     Swal.fire({
-                //         position: 'center',
-                //         icon: 'warning',
-                //         title: 'Account does not exist',
-                //         showConfirmButton: true,
-                //     })
-                // }
+                else if(username == "" || password == ""){
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Please fillout all fields',
+                        showConfirmButton: true,
+                    })
+                }
                 else {
                     Swal.fire({
                         position: 'center',

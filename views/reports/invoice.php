@@ -10,9 +10,9 @@ if(!$_SESSION['user']) {
 
 <body>
     <?php include '../layouts/nav.php'; ?>
-
     <section class="section user">
         <h1 class="section__title">Invoice</h1>
+       
         <div class="container-fluid section__body">
 
             <div class="invoice__filters">
@@ -149,6 +149,7 @@ if(!$_SESSION['user']) {
 
     <?php include '../layouts/scripts.php' ?>
     <script src="../../libs/scripts/reports/invoice.js"></script>
+    <script src="../../libs/scripts/pos/session_timer.js"></script>
 </body>
 
 

@@ -11,7 +11,7 @@ class Invoice
 {
     private $conn;
     private $ActionLog;
-
+     
     public function __construct($connection)
     {
         $this->conn = $connection;
@@ -25,7 +25,8 @@ class Invoice
 
         try {
             $totalPrice = 0;
-            $currentDateTime = date('Y-m-d H:i:s');
+            date_default_timezone_set("Asia/Singapore");
+            $currentDateTime = date('Y-m-d H:i:s A');
             $sales = [];
 
             foreach ($data as $product) {
@@ -238,13 +239,14 @@ class Invoice
         p.name,
         p.id AS product_id,
         SUM(price) AS price,
-        SUM(qty) AS qty
+        SUM(qty) AS qty,
+        sales.void
         FROM `sales` 
         INNER JOIN `invoices` i ON i.id = sales.invoice_id
         INNER JOIN `products` p ON p.id =sales.product_id
         INNER JOIN `product_details` pd ON pd.id = sales.product_detail_id
         WHERE invoice_id = $invoice_id
-        AND sales.void IS NULL
+        -- AND sales.void IS NULL this removes the voided invoice's on the system
         GROUP BY p.id";
         $result = $this->conn->query($sql);
 

@@ -2,14 +2,30 @@
 <html lang="en">
 
 <?php include '../layouts/head.php' ?>
-
+<?php include_once('../../config/database.php');?>
 
 <?php 
 if(!$_SESSION['user']) {
     header("Location: login.php"); 
 }
-?>
 
+else if($_SESSION['user']['role'] === 3) {
+    header("Location: userhome.php"); 
+}
+
+$currentDate = date('Y-m-d');
+$sql = "SELECT * FROM sales WHERE DATE(date_purchased) = '$currentDate'";
+$result = $conn->query($sql);
+$sales = $result->fetch_all(MYSQLI_ASSOC);
+
+$totalQuantity = 0;
+
+foreach ($sales as $product){
+    $totalQuantity += $product['qty'];
+}
+
+$totalQuantity = number_format($totalQuantity);
+?>
 
 <style>
 

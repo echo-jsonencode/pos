@@ -41,5 +41,101 @@ const Alerts = (() => {
         });
     }
 
+    thisAlerts.getExpiredId = (id) => {
+        product_details_id = id;
+
+        $.ajax({
+            type: "POST",
+            url: ALERT_CONTROLLER + '?action=getById',
+            dataType: "json",
+            data:{
+                product_details_id: id,
+            },            
+            success: function (response) {
+                // thisAlerts.changeStatus();
+                // thisAlerts.getDesignationId();
+                thisAlerts.Exchange();
+                thisAlerts.Return();
+                thisAlerts.Decompose();
+            },
+            error: function () {
+
+            }
+        });        
+    }
+
+    thisAlerts.Exchange = (designation, expired_status) => {
+        product_details_id = product_details_id;
+
+        $.ajax({
+            type: "POST",
+            url: ALERT_CONTROLLER + '?action=exchange',
+            dataType: "json",
+            data:{
+                product_details_id: product_details_id,
+                designation: designation,
+                expired_status: expired_status,
+            },
+            success: function (response) 
+            {
+                $('#exchange').html(response);
+                thisAlerts.loadTableDataExpiredStatus();
+                thisAlerts.loadTableDataStockStatus();    
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisAlerts.Return = (designation, expired_status) => {
+        product_details_id = product_details_id;
+
+        $.ajax({
+            type: "POST",
+            url: ALERT_CONTROLLER + '?action=return',
+            dataType: "json",
+            data:{
+                product_details_id: product_details_id,
+                designation: designation,
+                expired_status: expired_status,
+            },
+            success: function (response) 
+            {
+                $('#return').html(response);
+                thisAlerts.loadTableDataExpiredStatus();
+                thisAlerts.loadTableDataStockStatus();    
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+    thisAlerts.Decompose = (designation, expired_status) => {
+        product_details_id = product_details_id;
+
+        $.ajax({
+            type: "POST",
+            url: ALERT_CONTROLLER + '?action=decompose',
+            dataType: "json",
+            data:{
+                product_details_id: product_details_id,
+                designation: designation,
+                expired_status: expired_status,
+            },
+            success: function (response) 
+            {
+                $('#decompose').html(response);
+                thisAlerts.loadTableDataExpiredStatus();
+                thisAlerts.loadTableDataStockStatus();    
+            },
+            error: function () {
+
+            }
+        });         
+    }
+
+
     return thisAlerts;
 })();

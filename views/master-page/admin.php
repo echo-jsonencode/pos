@@ -47,30 +47,31 @@ else if($_SESSION['user']['role'] === 3) {
 
                 <div class="col-lg-4">
                     <div class="user__form-wrapper">
-                        <h2 class="section__sub-title" id="lbl_title">Create User</h2>
+                        <h2 class="section__sub-title" id="lbl_title">Create Account</h2>
                         <form class="row g-3">
                             <div class="col-md-12">
-                                <label for="username" class="form-label">First Name</label>
+                                <label for="username" class="form-label">First Name</label><span class="required" style="color:red;"> *</span>
                                 <input type="text" class="form-control" id="txt_first_name">
                             </div>
                             <div class="col-md-12">
-                                <label for="lastName" class="form-label">Last Name</label>
+                                <label for="lastName" class="form-label">Last Name</label><span class="required" style="color:red;"> *</span>
                                 <input type="text" class="form-control" id="txt_last_name">
                             </div>
                             <div class="col-md-12">
-                                <label for="lastName" class="form-label">Username</label>
+                                <label for="lastName" class="form-label">Username</label><span class="required" style="color:red;"> *</span>
                                 <input type="text" class="form-control" id="txt_user_name">
                             </div>
                             <div class="col-md-12">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="txt_password" onkeyup = validation(); required/><span id="mess"></span>
+                                <label for="newpassword" class="form-label">Password</label><span class="required" style="color:red;"> *</span>
+                                <p style="color:gray"><i><sup>Must be at least eight characters, has uppercase, and lowercase, special character and a number</sup></i></p>
+                                <input type="text" class="form-control" id="txt_newpassword" onkeyup = validateNewPass();><span id="mess"></span>
                             </div>
                             <div class="col-md-12">
-                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="txt_confirm_password">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label><span class="required" style="color:red;"> *</span>
+                                <input type="text" class="form-control" id="txt_confirm_password" name="txt_oldpassword" onkeyup = "ChangePassword.validateConfirmPassword()"><span id="confirmPass"></span>
                             </div>
                             <div class="col-md-6">
-                                <label for="role" class="form-label">Role</label>
+                                <label for="role" class="form-label">Role</label><span class="required" style="color:red;"> *</span>
                                 <select id="slc_role" class="form-select">
                                     <option value="" disabled selected>Choose...</option>
                                     <option value="2">Admin</option>
@@ -78,11 +79,11 @@ else if($_SESSION['user']['role'] === 3) {
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="status" class="form-label">Status</label>
+                                <label for="status" class="form-label">Status</label><span class="required" style="color:red;"> *</span>
                                 <select id="slc_status" class="form-select">
                                     <option value="" disabled selected>Choose...</option>
                                     <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="0">Deactivate</option>
                                 </select>
                             </div>
                             <div class="col-12">
@@ -102,6 +103,7 @@ else if($_SESSION['user']['role'] === 3) {
     <?php include '../layouts/scripts.php' ?>
 </body>
 <script src="../../libs/scripts/master-page/admin.js" ></script>
+<script src="../../libs/scripts/master-page/change-password.js"></script>
 <script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

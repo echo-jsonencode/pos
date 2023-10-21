@@ -24,7 +24,7 @@ else if($_SESSION['user']['role'] === 3) {
             <div class="row">
                 <div class="col-lg-6 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">Register Category</h2>
+                        <h2 class="section__sub-title" id="txt_category">Register Category</h2>
 
                         <div class="form-wrapper">
                             <form class="row g-3">
@@ -65,6 +65,7 @@ else if($_SESSION['user']['role'] === 3) {
     </section>
     <?php include '../layouts/scripts.php' ?>
 </body>
-<script src="../../libs/scripts/master-page/add-item.js" ></script>
+<script src="../../libs/scripts/master-page/category.js" ></script>
+<script src="../../libs/scripts/pos/session_timer.js"></script>
 
 </html>

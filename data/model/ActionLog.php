@@ -21,6 +21,7 @@ class ActionLog
 
     public function save($request)
     {
+        date_default_timezone_set("Asia/Singapore");
         $datetime = $request['datetime'];
         $role = $request['role'];
         $username = $request['username'];
@@ -86,10 +87,10 @@ class ActionLog
                 $request['action'] = 'Successfully ' . $action . ' the Invoice';
                 break;
             case 'login':
-                $request['action'] = 'User has logged in';
+                $request['action'] = 'Account has logged in';
                 break;
             case 'logout':
-                $request['action'] = 'User has logged out';
+                $request['action'] = 'Account has logged out';
                 break;
             case 'void':
                 $request['action'] = 'Successfully void the item';

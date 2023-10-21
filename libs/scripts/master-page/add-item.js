@@ -167,7 +167,7 @@ const Category = (() => {
 
         Swal.fire({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "You will not be able to revert this action",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -210,6 +210,19 @@ const Category = (() => {
     return thisCategory;
 })()
 
+        // limit 10 years ang manufacture
+        const day_today = new Date();
+        const tenYearsAgo = new Date(day_today.getFullYear() - 10, day_today.getMonth(), day_today.getDate());
+        const inputDate = document.getElementById("txt_manufature_date");
+        inputDate.min = tenYearsAgo.toISOString().split("T")[0];
+
+        // limit 10 years ang expiration
+        const todaydate = new Date();
+        const tenYearsFromNow = new Date(todaydate.getFullYear() + 10, todaydate.getMonth(), todaydate.getDate());
+        const exp_date = document.getElementById("txt_expiraton_date");
+        exp_date.max = tenYearsFromNow.toISOString().split("T")[0];
+  
+        // disable future dates
         const today = new Date();
         today.setDate(today.getDate() + 1);
         const year = today.getFullYear();
@@ -220,6 +233,7 @@ const Category = (() => {
         const maxDate = new Date(year, month, dates).toISOString().split('T')[0];
         document.getElementById("txt_manufature_date").setAttribute("max", maxDate);
       
+    //   disable past dates
       let dateInput = document.getElementById('txt_expiraton_date'); 
        
       const cur_date = new Date(); 
@@ -229,8 +243,6 @@ const Category = (() => {
       dateInput.setAttribute('min', dateStr); 
 
 const Product = (() => {
-    // const sixMonthsFromNow = new Date();
-    // sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6 );
 
 
     let thisProduct = {};
@@ -257,7 +269,7 @@ const Product = (() => {
         });
     }
 
-    thisProduct.clickSaveButton= () => {
+    thisProduct.clickSaveButton = () => {
         console.log('test');
         if(!toUpdate) {
             console.log('test2');
@@ -272,6 +284,7 @@ const Product = (() => {
         const product_barcode = $('#txt_product_barcode').val();
         const product_name = $('#txt_product_name').val();
         const product_category = $('#slc_product_category').val();
+        const lot_num = $('#txt_lot_number').val();
         const buying_price = $('#txt_buying_price').val();
         const selling_price = $('#txt_selling_price').val();
         const manufature_date = $('#txt_manufature_date').val();
@@ -279,6 +292,7 @@ const Product = (() => {
         const status = $('#slc_status').val();
         const quantity = $('#txt_quantity').val();
         const type = $('#slc_type').val();
+        const location = $('#txt_location').val();
         const date = new Date();
         date.setDate(date.getDate() + 180);
         var expiration = new Date(expiraton_date);
@@ -291,13 +305,15 @@ const Product = (() => {
         if(product_barcode == "" 
         || product_name == ""
         || product_category == ""
+        || lot_num == ""
         || buying_price == ""
         || selling_price == ""
         || manufature_date == ""
         || expiraton_date == ""
         || quantity == ""
         || type == null
-        || status == null) {
+        || status == null
+        || location == "") {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -306,7 +322,7 @@ const Product = (() => {
             })
             
         }
-        else if (manufacture > datetoday){
+        else if (manufacture >= datetoday){
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -318,11 +334,11 @@ const Product = (() => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Product is within six months',
+                title: 'Expiration date is due in less than six months',
                 showConfirmButton: true,
             })
         }    
-        else if (expiration < date){
+        else if (expiration <= date){
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -348,6 +364,7 @@ const Product = (() => {
                     product_barcode: product_barcode,
                     product_name: product_name,
                     product_category: product_category,
+                    lot_num: lot_num,
                     buying_price: buying_price,
                     selling_price: selling_price,
                     manufature_date: manufature_date,
@@ -355,6 +372,7 @@ const Product = (() => {
                     status: status,
                     quantity: quantity,
                     type: type,
+                    location: location,
                 },
                 success: function (response) 
                 {
@@ -363,7 +381,7 @@ const Product = (() => {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Product added successfully',
+                        title: 'Product Registered Successfully',
                         showConfirmButton: true,
                     })
                 },
@@ -377,53 +395,74 @@ const Product = (() => {
     thisProduct.clickUpdate = (id, product_table_id) => {
         product_details_id = id;
         product_id = product_table_id;
+        if(id == 0) {
+            $.ajax({
+                type: "POST",
+                url: PRODUCT_CONTROLLER + '?action=getRegisteredProductsById',
+                dataType: "json",
+                data:{product_id : product_id},
+                success: function(response) {
+                    $('#txt_product_barcode').val(response[0]['barcode']);
+                    $('#txt_product_name').val(response[0]['name']);
+                    $('#slc_product_category').val(response[0]['category_id']);
+                }
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: PRODUCT_CONTROLLER + '?action=getById',
+                dataType: "json",
+                data:{
+                    product_details_id: product_details_id
+                },
+                success: function (response) 
+                {
+                    $('#txt_product_barcode').val(response.barcode);
+                    $('#txt_product_barcode').prop( "disabled", true );
+                    $('#txt_product_name').val(response.product_name);
+                    $('#txt_product_name').prop( "disabled", true );
+                    $('#slc_product_category').val(response.category_id);
+                    $('#slc_product_category').prop( "disabled", true );
+                    $('#txt_lot_number').val(response.lot_num);
+                    $('#txt_lot_number').prop( "disabled", false );
+                    $('#txt_buying_price').val(response.buy_price);
+                    $('#txt_selling_price').val(response.sale_price);
+                    // $('#txt_selling_price').prop( "disabled", true );
+                    $('#txt_manufature_date').val(response.manufacture_date);
+                    $('#txt_manufature_date').prop( "disabled", true );
+                    $('#txt_expiraton_date').val(response.expiration_date);
+                    $('#txt_expiraton_date').prop( "disabled", true );
+                    $('#slc_status').val(response.status);
+                    $('#slc_status').prop( "disabled", true );
+                    $('#txt_quantity').val(response.quantity);
+                    $('#slc_type').val(response.type);
+                    $('#slc_type').prop( "disabled", true );
+                    $('#txt_location').val(response.location);
+                    $('#txt_location').prop( "disabled", true );
+                    
+                    toUpdate = true;
 
-        $.ajax({
-            type: "POST",
-            url: PRODUCT_CONTROLLER + '?action=getById',
-            dataType: "json",
-            data:{
-                product_details_id: product_details_id
-            },
-            success: function (response) 
-            {
-                $('#txt_product_barcode').val(response.barcode);
-                $('#txt_product_barcode').prop( "disabled", true );
-                $('#txt_product_name').val(response.product_name);
-                $('#txt_product_name').prop( "disabled", true );
-                $('#slc_product_category').val(response.category_id);
-                $('#slc_product_category').prop( "disabled", true );
-                $('#txt_buying_price').val(response.buy_price);
-                $('#txt_selling_price').val(response.sale_price);
-                // $('#txt_selling_price').prop( "disabled", true );
-                $('#txt_manufature_date').val(response.manufacture_date);
-                $('#txt_manufature_date').prop( "disabled", true );
-                $('#txt_expiraton_date').val(response.expiration_date);
-                $('#txt_expiraton_date').prop( "disabled", true );
-                $('#slc_status').val(response.status);
-                $('#slc_status').prop( "disabled", true );
-                $('#txt_quantity').val(response.quantity);
-                $('#slc_type').val(response.type);
-                $('#slc_type').prop( "disabled", true );
-                
-                toUpdate = true;
+                    $('#btn_save_product').html('Add Stocks');
+                    $('#txt_title').html('Add Stocks');
 
-                $('#btn_save_product').html('Update Product');
-            },
-            error: function () {
+                },
+                error: function () {
 
-            }
-        });
+                }
+            });  
+        }        
     }
 
     thisProduct.update = () => {
         const buying_price = $('#txt_buying_price').val();
         const selling_price = $('#txt_selling_price').val();
+        const lot_num = $('#txt_lot_number').val();
         const quantity = $('#txt_quantity').val();
         const manufature_date = $('#txt_manufature_date').val();
         const expiraton_date = $('#txt_expiraton_date').val();
 
         if(buying_price == ""
+        || lot_num == ""
         || selling_price == ""
         || quantity == "") {
             Swal.fire({
@@ -451,6 +490,7 @@ const Product = (() => {
                     product_id: product_id,
                     product_details_id: product_details_id,
                     buying_price: buying_price,
+                    lot_num: lot_num,
                     selling_price: selling_price,
                     quantity: quantity,
                     manufature_date: manufature_date,
@@ -482,6 +522,7 @@ const Product = (() => {
         $('#txt_product_barcode').val("");
         $('#txt_product_name').val("");
         $('#slc_product_category').val("");
+        $('#txt_lot_number').val("");
         $('#txt_buying_price').val("");
         $('#txt_selling_price').val("");
         $('#txt_manufature_date').val("");
@@ -489,6 +530,7 @@ const Product = (() => {
         $('#slc_status').val("");
         $('#txt_quantity').val("");
         $('#slc_type').val("");
+        $('#txt_location').val("");
 
         $('.form-control').prop("disabled", false);
 
@@ -533,7 +575,10 @@ const Product = (() => {
         })
     }
 
-
+   
 
     return thisProduct;
 })();
+window.onload = function(){
+    document.getElementById("txt_product_barcode").focus();
+}

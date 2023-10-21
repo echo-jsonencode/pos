@@ -26,7 +26,7 @@ if(!$_SESSION['user']) {
 
                 <div class="pos__head__sale">
                     <p>
-                        Todays Sale: <span class="pos__head__amount">₱10 000.00</span>
+                        Todays Sale: <span class="pos__head__amount">₱ 00.00</span>
                     </p>
                 </div>
             </div>
@@ -53,8 +53,9 @@ if(!$_SESSION['user']) {
 
                 <div class="pos__body__content">
                     <form class="pos__form" action="">
-                        <input type="text" placeholder="barcode" class="pos__form__barcode">
-                        <input type="text" placeholder="Product" class="pos__form__product" readonly>
+                    <input type="number" id="bCode" placeholder="barcode" class="pos__form__barcode" onchange="Product.onChangeBarcode()" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" required autofocus>
+                    
+                        <input type="text" placeholder="Product" class="pos__form__product" disabled readonly>
                         <!-- <select name="" id="" class="pos__form__batch">
                             <option disabled selected=true value="">Select...</option>
                             <option value="">Batch 1</option>
@@ -156,7 +157,7 @@ if(!$_SESSION['user']) {
     <?php include '../layouts/scripts.php' ?>
     <script src="../../libs/scripts/pos/time.js"></script>
     <script src="../../libs/scripts/pos/pos.js"></script>
-    <!-- <script src="../../libs/scripts/reports/invoice.js"></script> -->
+    <!-- <script src="../../libs/scripts/pos/session_timer.js"></script> -->
 </body>
 
 </html>

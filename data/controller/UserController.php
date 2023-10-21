@@ -12,8 +12,16 @@ if ($action == 'getTableData')
 
     $table_data = '';
     $counter = 1;
+    // foreach ($result as $user) {
+    //     $fullName = $user['first_name'] . ' ' . $user['last_name'] ;
+   
     foreach ($result as $user) {
-        $fullName = $user['first_name'] . ' ' . $user['last_name'] ;
+        if($user['status'] == 0) {
+            // skip deactivated user
+            continue;
+        }
+        
+    $fullName = $user['first_name'] . ' ' . $user['last_name'] ;    
 
         $role = 'Admin';
         if($user['role'] == 3)
@@ -24,7 +32,7 @@ if ($action == 'getTableData')
         $status = '<span class="badge bg-success">Active</span>';
         if($user['status'] == 0)
         {
-            $status = '<span class="badge bg-danger">Inactive</span>';
+            $status = '<span class="badge bg-danger">Deactivate</span>';
         }
 
         $last_login = '';
@@ -44,9 +52,9 @@ if ($action == 'getTableData')
         $table_data .= '<div class="btn-group" role="group" aria-label="Basic mixed styles example">';
         $table_data .= '<button type="button" onclick="Admin.clickUpdate('. $user['id'] .')" class="btn btn-warning btn-sm"><i class="bi bi-list-check"></i> Update </button>';
         $table_data .= '<button type="button" onclick="Admin.clickResetPassword('. $user['id'] .')" class="btn btn-info btn-sm"><i class="bi bi-key"></i> Reset Password </button>';
-        if($_SESSION['user']['role'] == 1) {
-            $table_data .= '<button type="button" onclick="Admin.clickDelete('. $user['id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
-        }
+        // if($_SESSION['user']['role'] == 1) {
+        //     $table_data .= '<button type="button" onclick="Admin.clickDelete('. $user['id'] .')" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i> Delete</button>';
+        // }
         $table_data .= '</div>';
         $table_data .= '</td>';
         $table_data .= '</tr>';
@@ -139,7 +147,7 @@ else if ($action == 'changePassword')
     ];
 
     $result = $User->update_password($request);
-
+    session_destroy();
     echo json_encode($result);
 }
 

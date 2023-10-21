@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 const select = document.querySelector('.invoice__filters__select');
 const filterGroups = document.querySelectorAll('.invoice__filters__group');
+const btnExport = document.querySelector('.button__export__file');
 
 
 select.addEventListener('change', () => {
@@ -25,11 +26,13 @@ const Sales = (() => {
     const thisSales = {};
     let barchart;
     let piechart;
+    let dateFrom;
+    let dateTo;
 
 
     thisSales.searchClick = (filter_by) => {
-        let dateFrom;
-        let dateTo;
+        // let dateFrom;
+        // let dateTo;
         if(filter_by == 'Daily') {
             let txt_date = $('#date_daily').val();
             if(txt_date == '') {
@@ -60,6 +63,8 @@ const Sales = (() => {
 
 
         thisSales.getReportsData(dateFrom, dateTo);
+        // thisSales.getReportTable(dateFrom, dateTo);
+        thisSales.showSalesTable(dateFrom, dateTo);
     }
 
     thisSales.getReportsData = (dateFrom, dateTo) => {
@@ -142,5 +147,86 @@ const Sales = (() => {
         })
     }
 
+    thisSales.showSalesTable = (dateFrom, dateTo) => {
+        const action = '?action=showReportTable';
+        $.ajax({
+            type: "POST",
+            url: `${SALES_CONTROLLER}${action}`,
+            data: {
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            },
+            dataType: "json",
+            success: function (response) {   
+                $('.table').DataTable().destroy();
+                $('#tbody_sales').html(response);
+                thisSales.export(response);
+
+                $('.table').DataTable();
+                
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    thisSales.export = () => {
+        const action = '?action=exportData';
+        $.ajax({
+            type: "POST",
+            url: `${SALES_CONTROLLER}${action}`,
+            data: {
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            },
+            dataType: "json",
+            success: function (data) {   
+                var csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += Object.keys(data[0]).join(",") + "\n";
+                data.forEach(function (item) {
+                    var row = Object.values(item).join(",");
+                    csvContent += row + "\n";
+                });
+
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "data.csv");
+                link.style.display = "none";  // Hide the link element
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    // thisSales.showSalesTable = (product_name, total_price, total_sales) => {
+    //     product_name = product_name;
+    //     total_price = total_price;
+    //     total_sales = total_sales;
+    //     $.ajax({
+    //         type: "POST",
+    //         url: SALES_CONTROLLER + '?action=getSalesData',
+    //         dataType: "json",
+    //         data:{
+    //             // product_barcode: product_barcode,
+    //             product_name: product_name,
+    //             total_sales: total_sales,
+    //             total_price: total_price,
+    //         },
+    //         success: function (response) 
+    //         {
+    //             $('#tbody_sales').html(response);
+    //         },
+    //         error: function () {                }
+            
+            
+    //     });
+    // }
+
     return thisSales;
-})();
+})();;

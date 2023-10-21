@@ -6,6 +6,10 @@
 if(!$_SESSION['user']) {
     header("Location: login.php"); 
 }
+
+else if($_SESSION['user']['role'] === 3) {
+    header("Location: home.php"); 
+}
 ?>
 
 <body>
@@ -17,8 +21,7 @@ if(!$_SESSION['user']) {
             <div class="row">
                 <div class="col-lg-12 col-md-12 ">
                     <div class="user__table-wrapper">
-                        <h2 class="section__sub-title">Sales Report</h2>
-                        <div class="row">
+                        <!-- <h2 class="section__sub-title">Sales Report</h2> -->                   
                             <div class="invoice__filters">
                                 <div class="invoice__filters__left">
                                     <label for="">Filter by</label>
@@ -33,6 +36,7 @@ if(!$_SESSION['user']) {
                                         <label for="" class="invoice__filters__daily__label">Date</label>
                                         <input type="date" id="date_daily" class="invoice__filters__daily__input">
                                         <button class="invoice__filters__daily__button" onclick="Sales.searchClick('Daily')">Search</button>
+                                    
                                     </div>
                                     <div class="invoice__filters__group invoice__filters__daily hidden">
                                         <label for="" class="invoice__filters__monthly__label">Month/Year</label>
@@ -68,14 +72,61 @@ if(!$_SESSION['user']) {
             </div>
         </div>
 
+        <section class="section user">
+        <!-- <h1 class="section__title">Admin</h1> -->
+        <div class="container-fluid section__body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 ">
+                    <div class="user__table-wrapper">
+                        <h2 class="section__sub-title">Sales Table</h2>
+
+                        <div class="table-wrapper">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Date Purchased</th>
+                                        <th>Invoice ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_sales">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </section>
+        
+        <button onclick="Sales.export();" class="button__export__file" style="background-color: gray; color: black; border: 1px solid black; border-radius: 4px;" >Export</button>
 
     </section>
 
 
     <?php include '../layouts/scripts.php' ?>
     <script src="../../libs/scripts/reports/sales.js"></script>
+    <script src="../../libs/scripts/pos/session_timer.js"></script>
+
+
 </body>
 
-
-
 </html>
+<script>
+    // window.print();
+    // window.close();
+    // window.onfocus = function () { window.close(); }
+    document.getElementById("btnPrint").classList.remove("hidden-print");
+    window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
+    const $btnPrint = document.querySelector("#btnPrint");
+    $btnPrint.addEventListener("click", () => {
+        window.print();
+    });
+</script>

@@ -40,7 +40,10 @@ th.price {
     text-align: right;
     align-content: right;
 }
-
+.left {
+    text-align: left;
+    align-content: left;
+}
 .ticket {
     width: 155px;
     max-width: 155px;

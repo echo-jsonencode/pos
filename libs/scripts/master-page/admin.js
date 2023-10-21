@@ -7,25 +7,6 @@ $(document).ready(function () {
     })
 });
 
-const validation = () =>{
-    const passPattern = /(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_])(?=^.*[^\s].*$).*$/;
-
-
-if (document.getElementById('txt_password').value.match(passPattern)){
-        document.getElementById('mess').innerHTML='Valid';
-        document.getElementById('mess').style.color = 'green';
-        document.getElementById('btn_save').disabled=false;
-        // return validation;
-        // return true;
-        }
-        else {
-        document.getElementById('mess').innerHTML="Your password must contain at least six characters, an uppercase, lowercase, special character, and number";
-        document.getElementById('mess').style.color = 'red';
-        document.getElementById('btn_save').disabled=true;
-        // return thisChangePassword.preventDefault();
-        }
-
-    }
 
 const Admin = (() => {
     const thisAdmin = {};
@@ -64,7 +45,8 @@ const Admin = (() => {
         const first_name = $('#txt_first_name').val();
         const last_name = $('#txt_last_name').val();
         const username = $('#txt_user_name').val();
-        const password = $('#txt_password').val();
+        const newpassword = $('#txt_newpassword').val();
+        // const password = $('#txt_password').val();
         const confirm_password = $('#txt_confirm_password').val();
         const role = $('#slc_role').val();
         const status = $('#slc_status').val();
@@ -72,7 +54,7 @@ const Admin = (() => {
         if(first_name == "" 
         || last_name == ""
         || username == ""
-        || password == ""
+        || newpassword == ""
         || confirm_password == ""
         || role == null
         || status == null) {
@@ -83,7 +65,7 @@ const Admin = (() => {
                 showConfirmButton: true,
             })
         }
-        else if(password != confirm_password) {
+        else if(newpassword != confirm_password) {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -100,7 +82,7 @@ const Admin = (() => {
                     first_name: first_name,
                     last_name: last_name,
                     username: username,
-                    password: password,
+                    password: newpassword,
                     role: role,
                     status: status,
                 },
@@ -131,15 +113,15 @@ const Admin = (() => {
                 $('#txt_first_name').val(response.first_name);
                 $('#txt_last_name').val(response.last_name);
                 $('#txt_user_name').val(response.username);
-                $('#txt_password').prop( "disabled", true );
+                $('#txt_newpassword').prop( "disabled", true );
                 $('#txt_confirm_password').prop( "disabled", true );
                 $('#slc_role').val(response.role);
                 $('#slc_status').val(response.status);
                 
                 toUpdate = true;
 
-                $('#btn_save').html("Update User");
-                $('#lbl_title').html("Update User");
+                $('#btn_save').html("Update Account");
+                $('#lbl_title').html("Update Account");
             },
             error: function () {
 
@@ -170,50 +152,11 @@ const Admin = (() => {
             },
             success: function (response) 
             {
-                thisAdmin.resetFields();
-                thisAdmin.loadTableData();
-            },
-            error: function () {
-
-            }
-        }); 
-    }
-
-    thisAdmin.clickDelete = (id) => {
-        user_id = id;
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!',
-            cancelButtonText: 'No'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                thisAdmin.delete();
-            }
-        })
-    }
-
-    thisAdmin.delete = () => {
-        $.ajax({
-            type: "POST",
-            url: USER_CONTROLLER + '?action=delete',
-            dataType: "json",
-            data:{
-                user_id: user_id
-            },
-            success: function (response) 
-            {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'User account was deleted successfully',
-                    showConfirmButton: false,
-                    timer: 1500
+                    title: 'Account updated successfully',
+                    showConfirmButton: true,
                 })
                 thisAdmin.resetFields();
                 thisAdmin.loadTableData();
@@ -223,6 +166,51 @@ const Admin = (() => {
             }
         }); 
     }
+
+    // thisAdmin.clickDelete = (id) => {
+    //     user_id = id;
+
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Yes!',
+    //         cancelButtonText: 'No'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             thisAdmin.delete();
+    //         }
+    //     })
+    // }
+
+    // thisAdmin.delete = () => {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: USER_CONTROLLER + '?action=delete',
+    //         dataType: "json",
+    //         data:{
+    //             user_id: user_id
+    //         },
+    //         success: function (response) 
+    //         {
+    //             Swal.fire({
+    //                 position: 'center',
+    //                 icon: 'success',
+    //                 title: 'User account was deleted successfully',
+    //                 showConfirmButton: false,
+    //                 timer: 1500
+    //             })
+    //             thisAdmin.resetFields();
+    //             thisAdmin.loadTableData();
+    //         },
+    //         error: function () {
+
+    //         }
+    //     }); 
+    // }
 
     thisAdmin.clickResetPassword = (id) => {
         user_id = id;
@@ -255,7 +243,7 @@ const Admin = (() => {
             success: function (response) 
             {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Password Reset Successfully ',
                     showConfirmButton: false,
@@ -275,14 +263,14 @@ const Admin = (() => {
         $('#txt_first_name').val("");
         $('#txt_last_name').val("");
         $('#txt_user_name').val("");
-        $('#txt_password').val("");
+        $('#txt_newpassword').val("");
         $('#txt_confirm_password').val("");
         $('#slc_role').val("");
         $('#slc_status').val("");
 
         $('.form-control').prop("disabled", false);
 
-        $('#btn_save').html("Register Account");
+        $('#btn_save').html("Create Account");
         $('#lbl_title').html("Create Account");
     }
 

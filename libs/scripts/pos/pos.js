@@ -27,6 +27,7 @@ let barcode;
 let productCart = [];
 let grandTotal = 0;
 let container = 0;
+let transaction = 0;
 
 const printReceipt = (invoiceId) => {
     // window.location.href = ('http://localhost/pos/views/pos/receipt.php?invoice_id=${invoiceId}');
@@ -114,6 +115,7 @@ const removeItem = (barcode) => {
         .remove()
         .draw()
         container --
+        transaction --
         checkCart();
 }
 
@@ -207,7 +209,7 @@ const checkDiscount = () => {
             const quantity = row.querySelector('.p-quantity');
             const amount = row.querySelector('.p-amount');
             const type = row.querySelector('.p-type');
-            let amountValue = +price.innerHTML * +quantity.innerHTML;
+            let amountValue = (+price.innerHTML * +quantity.innerHTML).toFixed(2);
             
             posCustomer.classList.remove('show');
             posCustomerNumber.classList.remove('show');
@@ -251,8 +253,8 @@ inpBarcode.addEventListener('blur', (e)=>{
                 Swal.fire({
                     icon: 'error',
                     title: 'Product Not Found',
-                    text: 'It seems like the product that you\'re looking for is out of stock',
-                    footer: `<a class="kaboom" href="${HOST}views/master-page/products.php">You might check the list of available products here</a>`
+                    text: 'It seems like the product that you\'re looking for does not exist or out of stock',
+                    // footer: `<a class="kaboom" href="${HOST}views/master-page/products.php">You might check the list of available products here</a>`
                 })
             }
         }
@@ -277,7 +279,7 @@ btnCheckout.addEventListener('click', (e)=>{
             <span class="pos__list__item__quantity">${item.quantity}</span>
             <p class="pos__list__item__name"> ${item.name}</p>
             </div>
-            <span class="pos__list__item__price">₱ ${totalItemPrice}</span>
+            <span class="pos__list__item__price">₱ ${totalItemPrice.toFixed(2)}</span>
         </li>`;
     }).join('');
     list+=`<li class="pos__list__item total">
@@ -285,7 +287,7 @@ btnCheckout.addEventListener('click', (e)=>{
         <span class="pos__list__item__quantity"></span>
         <p class="pos__list__item__name dark">Grand Total</p>
         </div>
-        <span class="pos__list__item__price">₱ ${grandTotal}</span>
+        <span class="pos__list__item__price" step="0.01">₱ ${grandTotal.toFixed(2)}</span>
     </li>`
 
     list+=`<li class="pos__list__item payment">
@@ -293,7 +295,8 @@ btnCheckout.addEventListener('click', (e)=>{
         <span class="pos__list__item__quantity"></span>
         <p class="pos__list__item__name">Payment</p>
         </div>
-        <input class="pos__body__payment" oninput="calculateChange()" type="text" maxlength="10"></input>
+        <input class="pos__body__payment" min="1" oninput="calculateChange() || validity.valid || (value='')" 
+        type="number" step="0.01" max="100000"></input>
     </li>`
 
     list+=`<li class="pos__list__item total">
@@ -301,7 +304,7 @@ btnCheckout.addEventListener('click', (e)=>{
         <span class="pos__list__item__quantity"></span>
         <p class="pos__list__item__name dark">Change</p>
         </div>
-        <span class="pos__list__item__change">₱ 0</span>
+        <span class="pos__list__item__change">₱ 0.00</span>
     </li>`
 
     $('.pos__list').html(list);
@@ -361,7 +364,8 @@ btnCart.addEventListener('click', (e) => {
                             availableQuantity = requiredQuantity;
                             requiredQuantity = 0;
                         }
-
+                        
+                        
                         const amount = product.sale_price * availableQuantity;
                         const rowClass = `rowClass row${product.barcode}`;
                         row += `<tr class="${rowClass}">
@@ -374,7 +378,7 @@ btnCart.addEventListener('click', (e) => {
                         <td>${product.expiration_date}</td>
                         <td class="p-price">${product.sale_price}</td>
                         <td class="p-quantity">${availableQuantity}</td>
-                        <td class="p-amount">${amount}</td>
+                        <td class="p-amount">${amount.toFixed(2)}</td>
                        
                         </tr>`;
                     } else {
@@ -387,22 +391,23 @@ btnCart.addEventListener('click', (e) => {
                 $('.table').DataTable();
                 container ++
                 checkCart()
+                transaction ++
                 checkDiscount()
                 posForm.reset();
 
             } else if (data.length > 0 && totalAvailableQuantity < requiredQuantity) {
                 posQuantity.classList.add('error');
                 Swal.fire(
-                    `${data[0].barcode}`,
+                    `${data[0].product_name}`,
                     `We only have ${totalAvailableQuantity} items left for this product`,
                     'info'
                 )
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Product Not Found',
+                    title: 'Out of Stock',
                     text: 'It seems like the product that you\'re looking for is out of stock',
-                    footer: '<a class="kaboom" href="http://localhost/pos/views/master-page/products.php">You might check the list of available products here</a>'
+                    // footer: '<a class="kaboom" href="http://localhost/pos/views/master-page/products.php">You might check the list of available products here</a>'
                 })
             }
         }
@@ -501,3 +506,57 @@ function calculateChange () {
 
 
 btnConfirmPassword.addEventListener('click', validateAdminPassword);
+
+var formChanged = false;
+// Form warning before leaving
+$(document).ready(function() {
+    $('form').on('change', function() {
+        formChanged = true;
+    });
+
+    $('a').on('click', function(e) {
+        console.log("test")
+        if (transaction == 1) {
+            e.preventDefault(); 
+            Swal.fire({
+                title: 'Transaction is in progress',
+                text: 'Are you sure you want to leave?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, leave anyway',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = this.href;
+                }
+            });
+        }
+    });
+    
+    $('.cancelButton').on('click', function(e) {
+        if (formChanged) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Transaction is in progress',
+                text: 'Are you sure you want to leave?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../master-page/home.php";
+                }
+            });
+        } else {
+            window.location.href = "../master-page/home.php";
+        }
+    });
+});
+window.onload = function(){
+    document.getElementById("bCode").focus();
+}

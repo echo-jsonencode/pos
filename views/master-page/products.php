@@ -19,7 +19,7 @@ if(!$_SESSION['user']) {
                 <div class="col-lg-12 col-md-12 ">
                     <div class="user__table-wrapper">
                         <h2 class="section__sub-title">List of Products</h2>
-
+                        <button type="button" onclick="Product.exportInventory();" class="btn btn-primary">Export Inventory</button>
                         <div class="table-wrapper">
                             <table class="table table-bordered">
                                 <thead>
@@ -30,11 +30,12 @@ if(!$_SESSION['user']) {
                                         <th>Type</th>
                                         <th>Barcode</th>
                                         <th>Stock</th>
-                                        <th>Max Stock</th>
+                                        <th>Max Stock</th>                                
                                         <th>Min Stock</th>
                                         <th>Selling Price</th>
                                         <th>Status</th>
                                         <th>Expired Products</th>
+                                        <!-- <th>Lot Number </th> -->
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -45,34 +46,36 @@ if(!$_SESSION['user']) {
                     </div>
                 </div>
 
-
-
             </div>
         </div>
 
     </section>
 
     <!-- MODAL FOR PRODUCT DETAILS -->
+  
     <div class="modal fade bd-example-modal-lg" id="modal_view_details" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal_view_deatils_header">New message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        
+                    <h5 class="modal-title" id="modal_view_details_header">Product details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">                    
                     </button>
                 </div>
                 <div class="modal-body">
+                <div class="table-wrapper">
+                    
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Batch</th>
+                                <th>Lot Number</th>
                                 <th>Quantity</th>
                                 <th>Buy Price</th>
                                 <th>Date Added</th>
                                 <th>Manufacture Date</th>
                                 <th>Expiration Date</th>
                                 <th>Already Expired?</th>
+                               
                                 <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
@@ -80,9 +83,12 @@ if(!$_SESSION['user']) {
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         </div>
     </div>
+    
+
 
     <!-- MODAL FOR UPDATE PRODUCT DETAIL -->
     <div class="modal fade" id="modal_update_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -124,7 +130,7 @@ if(!$_SESSION['user']) {
                                 <label for="message-text" class="col-form-label">Selling Price:</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon3">₱</span>
-                                    <input type="number" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price" min="0">
+                                    <input type="number" step="0.01" min="0" oninput="validity.valid || (value='')" class="form-control" id="txt_selling_price" max="1000000">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -148,7 +154,7 @@ if(!$_SESSION['user']) {
                                     <select name="" id="slc_status" class="form-control">
                                         <option value="" selected="true" disabled>Select Status</option>
                                         <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="0">Deactivate</option>
                                     </select>
                                 </div>
                             </div>
@@ -163,6 +169,14 @@ if(!$_SESSION['user']) {
                                     </select>
                                 </div>
                             </div>
+                            <!-- <div class="form-group">
+                                    <label for="txt_location" class="form-label">Location  </label>
+                                    <span class="required" style="color:red;"> *</span>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon3"><i class="bi bi-upc-scan"></i></span>
+                                        <input type="text" class="form-control" id="txt_location">
+                                    </div>
+                                </div>  -->
                     </form>
                 </div>
                 <div class="modal-footer">
